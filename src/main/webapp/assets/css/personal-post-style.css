@@ -1,0 +1,10 @@
+#image-logo {
+    width: 100%;
+}
+.navbar-contain {
+    margin-top: 90px;
+    margin-left: 30px;
+}
+a:hover {
+    text-decoration: none;
+}

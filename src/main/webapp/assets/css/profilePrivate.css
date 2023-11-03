@@ -1,0 +1,29 @@
+
+.btn-content {
+    background-color: #84A98C;
+    border-color: #84A98C;
+}
+.btn-primary:hover{
+    background-color:#354F52;
+    border-color: #52796F;
+}
+
+.card-header {
+    background-color: #CAD2C5;
+    
+}
+.red-star {
+    color: red;
+}
+.input-group-text {
+    background-color: #CAD2C5;
+}
+.form-select{
+    height: 40px;
+    border-radius: 4px;
+    border-color: #ced4da;
+}
+svg:not(:root) {
+    overflow: hidden;
+    background-color: white;
+}

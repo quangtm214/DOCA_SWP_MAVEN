@@ -1,0 +1,59 @@
+.product img{
+    width: 150px;
+
+}
+#product {
+    background-color: rgb(242, 240, 240);
+    width: 100%;
+}
+
+.font{
+    font-size: 20px;
+}
+
+.post{
+    display: flex;
+
+}
+.font{
+    color: black;
+    margin-left: 12px;
+    text-decoration: none;
+}
+
+.btn-success{
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+.btn-success:hover{
+    cursor: pointer;
+    background-color: gray;
+}
+.sell{
+    margin: 0;
+    padding: 30px;
+
+    border-color: rgb(253, 71, 5);
+}
+.black-button {
+    background-color: rgb(71, 60, 60);
+    color: white;
+
+}
+.product-post{
+    background-color: rgba(235, 233, 233, 0.289);
+}
+
+
+body {
+    padding: 120px 0px 0px 0px;
+    z-index: 0;
+    min-height: 100%;
+    background-color: #ffffff;
+
+}
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> css mới*/
+a.sell.d-flex {
+    background-color: white;
+}

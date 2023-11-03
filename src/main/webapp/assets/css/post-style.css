@@ -1,0 +1,20 @@
+/* content */
+
+.modal-post {
+    background-color: white;
+    color: black;
+}
+
+/* css cho cái địa chỉ */
+button.btn.btn-primary.form-control {
+    color: black;
+    background-color: white;
+    border: 1px solid rgb(206, 212, 218);
+}
+
+/* css cho nút post */
+
+button.submit.mt-5.mb-5.btn.btn-primary.form-control {
+    background-color: #3A5A40;
+    color: black;
+}

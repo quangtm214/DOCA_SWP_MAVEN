@@ -1,0 +1,285 @@
+html {
+    height: 100%;
+}
+
+body {
+    padding: 120px 0px 0px 0px;
+    z-index: 0;
+    min-height: 100%;
+    background-color: #ffffff;
+
+}
+
+
+
+.btn {
+    background-color: #dad7cd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .nav-link {
+    background-color: rgb(232, 113, 97);
+    color: white;
+} */
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: rgb(203, 203, 203);
+
+}
+
+.img-avatar {
+    width: 20%;
+}
+
+.row {
+    margin-right: 10px;
+}
+
+header {
+    margin-bottom: -8px;
+}
+
+.barheader {
+    margin-bottom: 100px;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+    justify-content: center;
+}
+
+.page {
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.page:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+.createpost {
+    margin-top: 20px;
+    background-color: rgb(230, 114, 98);
+    border-radius: 100px;
+    margin-left: 30px;
+
+}
+
+.btn-createpost {
+    background-color: rgb(235, 222, 222);
+    color: black;
+    font-size: larger;
+    border-radius: 20px;
+    border-style: none;
+    box-shadow: #555;
+    text-align: start;
+}
+
+.img-avatar-small {
+    width: 70%;
+    margin: 10px;
+}
+
+.left-sidebar-main {
+   border-right-style: solid ;
+   border-right-color:brown ;
+   margin-right:20px;
+}
+.navbar-left {
+    width:200px;
+    height: 400px;
+    margin-left: 30px;
+}
+.card {
+    margin: 20px;
+}
+
+.navbar-contain {
+    margin-top: 90px;
+    margin-left: 30px;
+}
+
+.font{
+    color: black;
+}
+
+
+/* forum moi */
+.profile-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* This ensures the image is fully contained within the defined dimensions */
+    border-radius: 50%; /* This will make the image a circle */
+}
+/* .post-header{
+    margin-bottom: 30px;
+    margin-left: 20px;
+} */
+.post-body{
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.post-footer{
+    margin-top: 20px;
+    
+}
+.post-footer button {
+    flex-grow: 1;
+    font-size: 14px; 
+}
+/* .post-time {
+    font-size: 14px;
+    margin-left: 70px; 
+} */
+.post-container {
+    width: 50%;
+    margin-top: 20px; 
+}
+.post{
+    margin: 0; 
+    padding: 30px;
+    
+    border-color: rgb(253, 71, 5);
+}
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+}
+.comment-form{
+    margin-top: 20px;
+}
+.username{
+    font-size: 20px;
+}
+
+
+
+.menu{
+    
+}
+
+/*bai viet */
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-details .username {
+    font-weight: bold;
+}
+
+.options-button button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+}
+
+.options-button .options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    display: none;
+}
+
+.options-button .options a {
+    display: block;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+.options-button .options a:hover {
+    background-color: #f0f0f0;
+}
+
+.profile-info img {
+    width: 50px; /* Điều chỉnh kích thước hình ảnh */
+    height: 50px; /* Điều chỉnh kích thước hình ảnh */
+    border-radius: 50%;
+    margin-right: 15px; /* Tăng khoảng cách giữa ảnh và tên người dùng */
+}
+
+.post-time {
+    font-size: 1.2em; /* Điều chỉnh kích thước thời gian */
+}
+/* dang bai */
+.create-post-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-post-card .card-body {
+    padding: 10px 20px; /* Thay đổi khoảng cách giữa ảnh và nút */
+}
+
+.profile-image-container {
+    width: 50px;
+    height: 50px;
+    overflow: hidden; /* Tránh ảnh bị tràn ra ngoài khung */
+}
+
+.profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Hiển thị hình ảnh tỉ lệ đúng và không bị méo */
+}
+
+.create-post-card .btn-primary {
+    background-color: rgb(253, 71, 5);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+}
+
+.create-post-card .btn-primary i {
+    margin-right: 10px;
+}
+
+.create-post-card .btn-primary:focus {
+    box-shadow: none;
+}
+

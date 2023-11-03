@@ -1,0 +1,42 @@
+.header{
+    background-color: #588157;
+    
+}
+.button_in_header {
+    background-color: #dad7cd;
+} 
+
+.button-search {
+    background-color: #dad7cd;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: black !important;
+    background-color: #f0f2f5;
+    position: relative;
+}
+.main-content{
+    margin-top: 126px;
+}
+.header .profile-image {
+    width: 25px;
+    height: 25px;
+    object-fit: cover; /* This ensures the image is fully contained within the defined dimensions */
+    border-radius: 50%; /* This will make the image a circle */
+}
+/* body {
+    padding: 120px 0px 0px 0px;
+    z-index: 0;
+    min-height: 100%;
+    background-color: #ffffff;
+
+} */
+
+
+
+/* import css này ở mọi html */
+/* chỉnh css cái nào đồng bộ ở nhiều div thì ae hẵng css nha còn ko
+ thì xài bootstrap hoặc style thẳng lên div đó luôn */
+
+
+

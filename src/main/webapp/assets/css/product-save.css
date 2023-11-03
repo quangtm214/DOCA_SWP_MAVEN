@@ -1,0 +1,22 @@
+.image {
+    height: 200px;
+}
+
+.price {
+    color: rgb(242, 106, 106);
+}
+
+.row {
+    margin-right: 90px;
+}
+
+section {
+    background-color: #eee;
+}
+#product{
+    background-color: rgba(218, 212, 212, 0.395);
+    margin-left: 50px;
+}
+.card{
+    border-radius: 7px;
+}
