@@ -52,6 +52,7 @@
     <body>
         <c:set var="ListOfConversation" value="${sessionScope.ListOfConversation}"/>
         <c:set var="ListOfProductInConversation" value="${sessionScope.ListOfProductInConversation}"/>
+        <c:set var="ListOfPartner" value="${sessionScope.ListOfPartner}"/>
         <c:set var="ListOfMessage" value="${requestScope.ListOfMessage}"/>
         <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
         <jsp:include page="header.jsp" />
@@ -65,65 +66,66 @@
                                 <c:set var="conversationHavedShow" value="false"/>
                                 <c:forEach items="${ListOfProductInConversation}" var="Product">
                                     <c:if test="${conversationHavedShow==false}">
-                                        <c:if test="${Product.productId == conversation.product_id }">
-                                            <c:set var="conversationHavedShow" value="true"/>
-                                            <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1" 
-                                                style="background-color: #A3B18A">
-                                                <c:if test="${conversation.seller_id==Owner.user_ID}">
-                                                    <c:set var="AnotherUserID" value="${conversation.buyer_id}"/>
-                                                </c:if>
-                                                <c:if test="${conversation.buyer_id==Owner.user_ID}">
-                                                    <c:set var="AnotherUserID" value="${conversation.seller_id}"/>
-                                                </c:if>
-                                                <a class="text-white Conversation-name"
-                                                   onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">
-                                                    ${Product.title}</a>
-                                                <!--                                                just buyer can feedback -->
-                                                <c:if test="${conversation.buyer_id == Owner.user_ID}"> 
-                                                    <a  onclick="openFeedbackForm(${conversation.conversation_id})">
-                                                        <p style="color: yellow">
-                                                            <small>Ðánh giá người bán</small>
-                                                        </p>
-                                                    </a>
+                                        <c:if test="${Product.productId == conversation.product_id}">
+                                          
+                                                    <c:set var="conversationHavedShow" value="true"/>
+                                                    <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1" 
+                                                        style="background-color: #A3B18A">
+                                                        <c:if test="${conversation.seller_id==Owner.user_ID}">
+                                                            <c:set var="AnotherUserID" value="${conversation.buyer_id}"/>
+                                                        </c:if>
+                                                        <c:if test="${conversation.buyer_id==Owner.user_ID}">
+                                                            <c:set var="AnotherUserID" value="${conversation.seller_id}"/>
+                                                        </c:if>
+                                                        <a class="text-white Conversation-name"
+                                                           onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">
+                                                            ${Product.title}</a>
+                                                        <!--                                                just buyer can feedback -->
+                                                        <c:if test="${conversation.buyer_id == Owner.user_ID}"> 
+                                                            <a  onclick="openFeedbackForm(${conversation.conversation_id})">
+                                                                <p style="color: yellow">
+                                                                    <small>Ðánh giá người bán</small>
+                                                                </p>
+                                                            </a>
+                                                        </c:if>
+                                                    </li>
+                                                    <div class="modal fade" id="ratingModal${conversation.conversation_id}" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <form action="CreateFeedbackServlet" method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="ratingModalLabel">Đánh giá người bán </h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
 
-                                                </c:if>
-                                            </li>
-                                            <div class="modal fade" id="ratingModal${conversation.conversation_id}" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <form action="CreateFeedbackServlet" method="post">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="ratingModalLabel">Đánh giá người bán </h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-
-                                                                <div class="form-group">
-                                                                    <label for="rating">Đánh giá:</label>
-                                                                    <select name="rate" class="form-control" id="rating">
-                                                                        <option value="5">5 sao</option>
-                                                                        <option value="4">4 sao</option>
-                                                                        <option value="3">3 sao</option>
-                                                                        <option value="2">2 sao</option>
-                                                                        <option value="1">1 sao</option>
-                                                                    </select>
+                                                                        <div class="form-group">
+                                                                            <label for="rating">Đánh giá:</label>
+                                                                            <select name="rate" class="form-control" id="rating">
+                                                                                <option value="5">5 sao</option>
+                                                                                <option value="4">4 sao</option>
+                                                                                <option value="3">3 sao</option>
+                                                                                <option value="2">2 sao</option>
+                                                                                <option value="1">1 sao</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="comment">Bình luận:</label>
+                                                                            <textarea name="feedback_content" class="form-control" id="comment"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="seller_id" value="${Product.userId}" />
+                                                                        <input type="hidden" name="product_id" value="${conversation.product_id}" />
+                                                                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label for="comment">Bình luận:</label>
-                                                                    <textarea name="feedback_content" class="form-control" id="comment"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <input type="hidden" name="seller_id" value="${Product.userId}" />
-                                                                <input type="hidden" name="product_id" value="${conversation.product_id}" />
-                                                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-                                                            </div>
+                                                            </form>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                            </div>
+                                                    </div>
+                                               
                                         </c:if>
                                     </c:if>
                                 </c:forEach>
@@ -147,17 +149,19 @@
                                 <p>Chat để kết nối - Cùng nhau làm nên giao dịch tốt nhất!</p>
                             </div>
                         </div>
-                        <form id="message_input">
-                            <div class="row ">
-                                <div class="col-10 pl-1">
-                                    <input type="text" class="form-control p-0" placeholder="" 
-                                           style="width: 420px">
+                        <div > 
+                            <form id="message_input" style="display: none;">
+                                <div class="row ">
+                                    <div class="col-10 pl-1">
+                                        <input type="text" class="form-control p-0" placeholder="" 
+                                               style="width: 420px">
+                                    </div>
+                                    <div class="col-2 p-0">
+                                        <button class="btn btn-primary">Send</button>
+                                    </div>
                                 </div>
-                                <div class="col-2 p-0">
-                                    <button class="btn btn-primary">Send</button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -193,11 +197,13 @@
                             liElement.classList.remove('active') : (liElement.classList.add('active'), FirstRender = true);
                     //put active for conversation have been choosed
                 }
+                const message_input = document.getElementById('message_input');
                 const fetchAndRenderMessages = () => {
                     fetch('getMessageInConversation?conversationID=' + currentConversationID)
                             .then(response => response.json())
                             .then(data => {
                                 renderMessages(data);
+                                message_input.style.display = 'block';
                             });
                 };
                 const fetchAndRenderOtherProfile = () => {

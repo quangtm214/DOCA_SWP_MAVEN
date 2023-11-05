@@ -6,6 +6,7 @@ package com.mycompany.doca_java.Controller.Chat;
 
 import com.mycompany.doca_java.DAO.ConversationDAO;
 import com.mycompany.doca_java.DAO.ProductDAO;
+import com.mycompany.doca_java.DAO.userDAO;
 import com.mycompany.doca_java.DTO.ConversationDTO;
 import com.mycompany.doca_java.DTO.ProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
@@ -54,16 +55,29 @@ public class getConversationServlet extends HttpServlet {
                 dao.getListTheConversationByUserID(account.getUser_ID());
                 List<ConversationDTO> ListOfConversation = dao.getListOfConversation();
                 List<ProductDTO> ListOfProductInConversation = new ArrayList<>();
+                List<userDTO> ListOfPartner = new ArrayList<>();
                 ProductDAO productDao = new ProductDAO();
+                userDAO uDao = new userDAO();
                 if (ListOfConversation != null) {
                     session.setAttribute("ListOfConversation", ListOfConversation);
                     request.setAttribute("stateConvers", 0);
                     for (ConversationDTO conversationDTO : ListOfConversation) {
                         ProductDTO product = productDao.getProductById(conversationDTO.getProduct_id());
                         ListOfProductInConversation.add(product);
+                        if (conversationDTO.getBuyer_id() == account.getUser_ID()) {
+                            userDTO partner = uDao.getUserbyUserID(conversationDTO.getSeller_id());
+                            ListOfPartner.add(partner);
+                        } else if (conversationDTO.getSeller_id() == account.getUser_ID()) {
+                            userDTO partner = uDao.getUserbyUserID(conversationDTO.getBuyer_id());
+                            ListOfPartner.add(partner);
+                        }
                     }
-                    if (ListOfProductInConversation != null) {
+
+                    if (ListOfPartner != null) {
                         session.setAttribute("ListOfProductInConversation", ListOfProductInConversation);
+                    }
+                    if (ListOfPartner != null) {
+                        session.setAttribute("ListOfPartner", ListOfPartner);
                     }
                 }
                 url = CHAT_PAGE;
