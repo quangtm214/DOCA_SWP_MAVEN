@@ -74,6 +74,10 @@ public class ProductDTO implements Serializable{
         return formattedTimeDifference;
     }
 
-   
+    public String productContentFormat() {
+
+        String formattedValue = this.description.replaceAll("\n", "<br>");
+        return formattedValue;
+    }
     
 }

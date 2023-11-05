@@ -66,8 +66,10 @@ Author : Admin
                         <hr class="mt-0 mb-4">
 
                         <div class="row">
-
-
+                            
+                                <c:if test="${Owner.getMobileNum() == 'null'}">
+                                    <p class="mb-0 ml-3">Để trải nghiệm tốt hơn, vui lòng cung cấp thông tin còn thiếu.</p>
+                                </c:if >
 
                             <div class="col-sm-12">
                                 <div class="row">
@@ -127,20 +129,19 @@ Author : Admin
                                                 <div class="mb-3">
                                                     <label class="small mb-1" for="inputPhone">Số điện thoại <span
                                                             class="red-star">*</span></label>
-                                                    <input class="form-control" id="inputPhone" type="tel"
+                                                    <input class="form-control" id="inputPhone" type="number"
                                                            placeholder="Enter your phone number" value="${Owner.mobileNum}" name="txtPhone" required="bắt buộc">
                                                 </div>
 
                                                 <!-- Form Address -->
 
                                                 <div class="mb-3">
-                                                    <label class="small mb-1">Giới tính</label><br>
-                                                    <input type="radio" id="male" name="gender" value="male">
-                                                    <label for="male">Nam</label>
-                                                    <input type="radio" id="female" name="gender" value="female">
-                                                    <label for="female">Nữ</label>
-                                                    <input type="radio" id="other" name="gender" value="other">
-                                                    <label for="other">Khác</label>
+                                                    <select id="gender" class="form-control" name="txtGender" required>
+                                                        <option value="" disabled selected>Chọn giới tính</option>
+                                                        <option value="male" ${Owner.gender == 'male'? 'selected' : ''}>Nam</option>
+                                                        <option value="female" ${Owner.gender == 'female'? 'selected' : ''}>Nữ</option>
+                                                        <option value="other" ${Owner.gender == 'other'? 'selected' : ''}>Khác</option>
+                                                    </select>
                                                 </div>
 
                                                 <!-- Form Row-->
@@ -220,23 +221,6 @@ Author : Admin
 
                                     </form>
                                 </div>    
-                                <script>
-                                    function validateForm() {
-                                        var username = document.getElementById("inputUsername").value;
-                                        var email = document.getElementById("inputEmail").value;
-                                        var phone = document.getElementById("inputPhone").value;
-                                        var genderMale = document.getElementsByName("gender")[0].checked;
-                                        var genderFemale = document.getElementsByName("gender")[1].checked;
-                                        var genderOther = document.getElementsByName("gender")[2].checked;
-
-                                        if (username === "" || email === "" || phone === "" || (!genderMale && !genderFemale && !genderOther)) {
-                                            alert("Vui lòng điền đầy đủ thông tin vào các trường bắt buộc");
-                                            return false; // Ngăn việc gửi form nếu có trường bị để trống hoặc không có giới tính được chọn
-                                        }
-
-                                        return true; // Cho phép gửi form nếu các trường đều đã được điền và giới tính đã được chọn
-                                    }
-                                </script>
 
                                 <div class="card mb-4">
                                     <div class="card-header">Liên kết mạng xã hội</div>
@@ -313,6 +297,10 @@ Author : Admin
             if (username === "" || email === "" || phone === "" || (!genderMale && !genderFemale && !genderOther)) {
                 alert("Vui lòng điền đầy đủ thông tin vào các trường bắt buộc");
                 return false; // Ngăn việc gửi form nếu có trường bị để trống hoặc không có giới tính được chọn
+            }
+            if (phone.length != 10) {
+                alert("Số điện thoại phải có độ dài 10 chữ số");
+                return false; // Ngăn việc gửi form nếu số điện thoại không đúng độ dài
             }
 
             if (!/^\d+$/.test(phone)) {

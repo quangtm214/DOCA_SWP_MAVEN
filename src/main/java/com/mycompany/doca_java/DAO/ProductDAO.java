@@ -298,6 +298,55 @@ public class ProductDAO {
         return productList;
     }
 
+    public List<ProductDTO> getProductsOtherUser(int userId) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> productList = new ArrayList<>();
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT product_id, user_id, category_id, title, description, product_image, is_free, price, address, timePosted, isPublic, status, reason "
+                        + "FROM product "
+                        + "WHERE user_id = ? "
+                        + "ORDER BY timePosted DESC";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userId);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productId = rs.getInt("product_id");
+                    int categoryId = rs.getInt("category_id");
+                    String title = rs.getString("title");
+                    String description = rs.getString("description");
+                    String productImage = rs.getString("product_image");
+                    boolean isFree = rs.getBoolean("is_free");
+                    float price = rs.getFloat("price");
+                    String address = rs.getString("address");
+                    Timestamp timePosted = rs.getTimestamp("timePosted");
+                    boolean isPublic = rs.getBoolean("isPublic");
+                    String status = rs.getString("status");
+                    String reason = rs.getString("reason");
+
+                    ProductDTO product = new ProductDTO(productId, userId, categoryId, title, description, productImage, isFree, price, address, timePosted, isPublic, status, reason);
+                    if (product.isPublic() && (product.getStatus().equals("approved"))) {
+                        productList.add(product);
+                    }
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return productList;
+    }
+
     public List<ProductDTO> searchByProductTitle(String title) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -329,9 +378,9 @@ public class ProductDAO {
                     String reason = rs.getString("reason");
                     ProductDTO product = new ProductDTO(productId, userId, categoryId, productTitle, description, productImage, isFree, price, address, timePosted, isPublic, status, reason);
                     if (product.isPublic() && (product.getStatus().equals("approved"))) {
-                         productList.add(product);
+                        productList.add(product);
                     }
-                   
+
                 }
             }
         } finally {

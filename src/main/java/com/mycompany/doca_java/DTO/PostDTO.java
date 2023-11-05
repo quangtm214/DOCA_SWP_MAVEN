@@ -45,9 +45,8 @@ public class PostDTO implements Serializable {
         this.status = status;
         this.reason = reason;
     }
-    
-    
-public String formatTimeDifference() {
+
+    public String formatTimeDifference() {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         long timeDifferenceMillis = currentTime.getTime() - timePosted.getTime();
 
@@ -76,5 +75,11 @@ public String formatTimeDifference() {
         this.timePosted = timePosted;
         this.status = status;
         this.reason = reason;
+    }
+
+    public String postContentFormat() {
+
+        String formattedValue = this.postContent.replaceAll("\n", "<br>");
+        return formattedValue;
     }
 }

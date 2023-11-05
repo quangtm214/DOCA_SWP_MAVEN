@@ -89,9 +89,16 @@
                             <div class="card mb-4 mb-lg-0">
                                 <div class="card-body p-0">
                                     <ul class="list-group list-group-flush rounded-3">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center p-2">
                                             <i class="fa fa-phone"></i>
-                                            <p class="mb-0">${OwnerProfile.mobileNum}</p>
+                                            <c:choose>
+                                                <c:when test="${OwnerProfile.getMobileNum() == 'null'}">
+                                                    <p class="mb-0 ml-3">Người dùng chưa cập nhật số điện thoại</p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p class="mb-0">${OwnerProfile.mobileNum}</p>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </li>
                                     </ul>
                                 </div>

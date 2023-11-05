@@ -57,7 +57,7 @@ public class userDAO {
 //                    result = true;
                     //map:get data from ResultSet & set data to property's DTO
                     int user_ID = rs.getInt("user_id");
-                    String Gender = rs.getString("Gender");
+                    String Gender = rs.getString("Gender").trim();
                     String email = rs.getString("email");
                     String phone = rs.getString("mobile_num");
                     boolean status = rs.getBoolean("status");
@@ -102,7 +102,7 @@ public class userDAO {
                     int user_ID = rs.getInt("user_id");
                     String userName = rs.getString("username");
                     String password = rs.getString("password");
-                    String Gender = rs.getString("Gender");
+                    String Gender = rs.getString("Gender").trim();
                     String email = rs.getString("email");
                     String phone = rs.getString("mobile_num");
                     boolean status = rs.getBoolean("status");
@@ -162,7 +162,7 @@ public class userDAO {
                     int user_ID = rs.getInt("user_id");
                     String userName = rs.getString("username");
                     String password = rs.getString("password");
-                    String Gender = rs.getString("Gender");
+                    String Gender = rs.getString("Gender").trim();
                     String email = rs.getString("email");
                     String phone = rs.getString("mobile_num");
                     boolean status = rs.getBoolean("status");
@@ -326,7 +326,7 @@ public class userDAO {
                     int user_ID = rs.getInt("user_id");
                     String userName = rs.getString("username");
                     String password = rs.getString("password");
-                    String Gender = rs.getString("Gender");
+                    String Gender = rs.getString("Gender").trim();
                     String email = rs.getString("email");
                     String phone = rs.getString("mobile_num");
                     boolean status = rs.getBoolean("status");
@@ -374,7 +374,7 @@ public class userDAO {
                     int user_ID = rs.getInt("user_id");
                     String userName = rs.getString("username");
                     String password = rs.getString("password");
-                    String Gender = rs.getString("Gender");
+                    String Gender = rs.getString("Gender").trim();
                     String email = rs.getString("email");
                     String phone = rs.getString("mobile_num");
                     boolean status = rs.getBoolean("status");

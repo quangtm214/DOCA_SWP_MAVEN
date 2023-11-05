@@ -40,7 +40,7 @@ import javax.naming.NamingException;
 public class PostPorductV2 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    public static final String postSucc = "postProductSucces.jsp";
+     public static final String postSucc = "postProductSucces.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -127,7 +127,7 @@ public class PostPorductV2 extends HttpServlet {
             boolean result = false;
             result = dao.createPostProduct(product);
             if (result == true) {
-                request.setAttribute("product", product);
+                session.setAttribute("newproduct", product);
                 url = postSucc;
             }
 
@@ -138,7 +138,7 @@ public class PostPorductV2 extends HttpServlet {
         } catch (NamingException ex) {
             Logger.getLogger(PostPorductV2.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect(url);
+           response.sendRedirect(url);
         }
     }
 

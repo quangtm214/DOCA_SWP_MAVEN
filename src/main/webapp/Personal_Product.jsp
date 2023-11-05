@@ -52,7 +52,7 @@
         <c:set var="message" value="${requestScope.Message}"/>
         <c:set var="IN" value="${sessionScope.IN}"/>
 
-        <div class="main-content">
+      
 
             <div class="main-content">
                 <div class="row row-content justify-content-center">
@@ -185,6 +185,6 @@
 
                 </div>
             </div>
-        </div>
+      
     </body>
 </html>

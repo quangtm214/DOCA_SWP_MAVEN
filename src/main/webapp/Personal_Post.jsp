@@ -45,115 +45,112 @@
         <jsp:include page="header.jsp" />
         <c:set var="listPostOfPersonal" value="${requestScope.listPostOfPersonal}"/>
         <c:set var="message" value="${requestScope.Message}"/>
-    
+
+
         <div class="main-content">
+            <div class="row row-content justify-content-center">
+                <div class="col-sm-8 ">
+                    <!-- viết code vào đây -->
+                    <div class="container mt-5 justify-content-center">
+                        <h1>Quản lý bài viết của bạn</h1>
 
-            <div class="main-content">
-                <div class="row row-content justify-content-center">
+                        <div class="row-content">
+                            <nav class="navbar navbar-light navbar-expand-lg container-fluid rounded-pill"
+                                 style="background-color: #CAD2C5;"
+                                 >
 
-                    <div class="col-sm-8 ">
+                                <div class="container justify-content-center">
 
-                        <!-- viết code vào đây -->
-                        <div class="container mt-5 justify-content-center">
-                            <h1>Quản lý bài viết của bạn</h1>
+                                    <ul class="nav nav-tabs border-0">
+                                        <li class="nav-item rounded-pill">
+                                            <a class="nav-link active rounded-pill mt-1" href="#display" role="tab"
+                                               data-toggle="tab"><strong style="color: black;">Đang hiển thị</strong></a>
+                                        </li>
+                                        <li class="nav-item rounded-pill">
+                                            <a class="nav-link rounded-pill mt-1" href="#denied" role="tab"
+                                               data-toggle="tab"><strong style="color: black;">Bị từ
+                                                    chối</strong></a>
+                                        </li>
+                                        <li class="nav-item rounded-pill">
+                                            <a class="nav-link rounded-pill mt-1" href="#waiting" role="tab"
+                                               data-toggle="tab"><strong style="color: black;">Chờ
+                                                    duyệt</strong></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
 
-                            <div class="row-content">
-                                <nav class="navbar navbar-light navbar-expand-lg container-fluid rounded-pill"
-                                     style="background-color: #CAD2C5;"
-                                     >
+                        </div>
+                        <!-- content -->
+                        <div class="tab-content mt-5 pb-5">
 
-                                    <div class="container justify-content-center">
-
-                                        <ul class="nav nav-tabs border-0">
-                                            <li class="nav-item rounded-pill">
-                                                <a class="nav-link active rounded-pill mt-1" href="#display" role="tab"
-                                                   data-toggle="tab"><strong style="color: black;">Đang hiển thị</strong></a>
-                                            </li>
-                                            <li class="nav-item rounded-pill">
-                                                <a class="nav-link rounded-pill mt-1" href="#denied" role="tab"
-                                                   data-toggle="tab"><strong style="color: black;">Bị từ
-                                                        chối</strong></a>
-                                            </li>
-                                            <li class="nav-item rounded-pill">
-                                                <a class="nav-link rounded-pill mt-1" href="#waiting" role="tab"
-                                                   data-toggle="tab"><strong style="color: black;">Chờ
-                                                        duyệt</strong></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </nav>
-
+                            <div role="tabpanel" class="tab-pane fade show active" id="display"> 
+                                <c:set var="countDisplay" value="0" />
+                                <c:forEach items="${listPostOfPersonal}" var="post">
+                                    <c:if test="${post.status eq 'approved'}">
+                                        <c:set var="countDisplay" value="${count + 1}" />
+                                        <img class="col-sm-6 image-content mt-5 img-fluid"
+                                             src="${post.postImage}" alt="Hình ảnh">
+                                        <div class="font">
+                                            <p>${post.postContent}</p>
+                                        </div>
+                                        <input type="submit" value="sửa bài viết">
+                                        <input type="submit" value="xoá bài viết">
+                                        <hr>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${countDisplay eq 0}">
+                                    <p>${message}</p>
+                                </c:if>
                             </div>
-                            <!-- content -->
-                            <div class="tab-content mt-5 pb-5">
 
-                                <div role="tabpanel" class="tab-pane fade show active" id="display"> 
-                                    <c:set var="countDisplay" value="0" />
-                                    <c:forEach items="${listPostOfPersonal}" var="post">
-                                        <c:if test="${post.status eq 'approved'}">
-                                            <c:set var="countDisplay" value="${count + 1}" />
-                                            <img class="col-sm-6 image-content mt-5 img-fluid"
-                                                 src="${post.postImage}" alt="Hình ảnh">
-                                            <div class="font">
-                                                <p>${post.postContent}</p>
-                                            </div>
-                                            <input type="submit" value="sửa bài viết">
-                                            <input type="submit" value="xoá bài viết">
-                                            <hr>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:if test="${countDisplay eq 0}">
-                                        <p>${message}</p>
+                            <div role="tabpanel" class="tab-pane fade " id="denied">
+                                <c:set var="countDenied" value="0" />
+                                <c:forEach items="${listPostOfPersonal}" var="post">
+                                    <c:if test="${post.status eq 'rejected'}">
+                                        <c:set var="countDenied" value="${count + 1}" />
+                                        <p>${post.reason}</p>
+                                        <img class="col-sm-6 image-content mt-5 img-fluid"
+                                             src="${post.postImage}" alt="Hình ảnh">
+                                        <div class="font">
+                                            <p>${post.postContent}</p>
+                                        </div>
+                                        <input type="submit" value="sửa bài viết">
+                                        <input type="submit" value="xoá bài viết">
+                                        <hr>
                                     </c:if>
-                                </div>
-
-                                <div role="tabpanel" class="tab-pane fade " id="denied">
-                                    <c:set var="countDenied" value="0" />
-                                    <c:forEach items="${listPostOfPersonal}" var="post">
-                                        <c:if test="${post.status eq 'rejected'}">
-                                            <c:set var="countDenied" value="${count + 1}" />
-                                            <p>${post.reason}</p>
-                                            <img class="col-sm-6 image-content mt-5 img-fluid"
-                                                 src="${post.postImage}" alt="Hình ảnh">
-                                            <div class="font">
-                                                <p>${post.postContent}</p>
-                                            </div>
-                                            <input type="submit" value="sửa bài viết">
-                                            <input type="submit" value="xoá bài viết">
-                                            <hr>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:if test="${countDenied eq 0}">
-                                        <p>${message}</p>
+                                </c:forEach>
+                                <c:if test="${countDenied eq 0}">
+                                    <p>${message}</p>
+                                </c:if>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade " id="waiting">
+                                <c:set var="countWaiting" value="0" />
+                                <c:forEach items="${listPostOfPersonal}" var="post">
+                                    <c:if test="${post.status eq 'pending'}">
+                                        <c:set var="countWaiting" value="${count + 1}" />
+                                        <c:set var="countDisplay" value="${count + 1}" />
+                                        <img class="col-sm-6 image-content mt-5 img-fluid"
+                                             src="${post.postImage}" alt="Hình ảnh">
+                                        <div class="font">
+                                            <p>${post.postContent}</p>
+                                        </div>
+                                        <input type="submit" value="sửa bài viết">
+                                        <input type="submit" value="xoá bài viết">
+                                        <hr>
                                     </c:if>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade " id="waiting">
-                                    <c:set var="countWaiting" value="0" />
-                                    <c:forEach items="${listPostOfPersonal}" var="post">
-                                        <c:if test="${post.status eq 'pending'}">
-                                            <c:set var="countWaiting" value="${count + 1}" />
-                                             <c:set var="countDisplay" value="${count + 1}" />
-                                            <img class="col-sm-6 image-content mt-5 img-fluid"
-                                                 src="${post.postImage}" alt="Hình ảnh">
-                                            <div class="font">
-                                                <p>${post.postContent}</p>
-                                            </div>
-                                            <input type="submit" value="sửa bài viết">
-                                            <input type="submit" value="xoá bài viết">
-                                            <hr>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:if test="${countWaiting eq 0}">
-                                        <p>${message}</p>
-                                    </c:if>
-                                </div>
+                                </c:forEach>
+                                <c:if test="${countWaiting eq 0}">
+                                    <p>${message}</p>
+                                </c:if>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
+
+
             </div>
         </div>
+
     </body>
 </html>

@@ -43,19 +43,17 @@
 
         <!-- Link CSS -->
 
-
+        <link rel="stylesheet" href="assets/css/adminshowpost.css"/>
         <link rel="stylesheet" href="assets/css/standar-style.css">
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
         <!-- Link JS -->
-
     </head>
     <body>
         <!--set var-->
         <c:set var="listPost" value="${requestScope.listofPost}"/>
+        <jsp:include page="headerAdmin.jsp" />
 
-        <div class="container">
-            <h1>Admin Page</h1>
-
+        <div class="container " style="margin-top: 150px;">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" href="AdminManageForumPostServlet">Forum</a>
@@ -66,57 +64,70 @@
                 </li>
             </ul>
 
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="forum">
-                    <div class="list-group">
-                        <c:forEach items="${listPost}" var="post">
-                            <div class="list-group-item list-group-item-action">
-                                <div class="post my-4 border rounded position-relative">
-                                    <div class="post-header">
-                                        <div class="profile-info">
-                                            <img src="assets/images/doge.jpeg" alt="Profile Image"
-                                                 class="rounded-circle profile-image">
-                                            <div class="profile-details">
-                                                <a href="#" class="username">${post.userId}</a>
-                                                <div class="post-time text-muted">${post.timePosted}</div>
+            <div class="tab-content ">
+                <div class=" tab-pane fade show active container" id="forum">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="list-group col-sm-8">
+                            <c:forEach items="${listPost}" var="post">
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="post my-4 border rounded position-relative">
+                                        <div class="post-header">
+                                            <div class="profile-info">
+                                                <img src="assets/images/doge.jpeg" alt="Profile Image"
+                                                     class="rounded-circle profile-image">
+                                                <div class="profile-details">
+                                                    <a href="#" class="username">${post.userId}</a>
+                                                    <div class="post-time text-muted">${post.timePosted}</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="post-body">
+                                            <p class="post-text">${post.postContent}</p>
+                                            <img src="${post.postImage}" alt="Post Img" class="d-flex mx-auto" style="max-width: 300px; max-height: 300px; border-radius: 2%;">
+                                        </div>
+                                        <div class="post-footer ">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <form action="ManagePostForumServlet">
+                                                            <input type="hidden" name="postId" value="${post.postId}" />
+                                                            <input type="hidden" name="postDes" value="${post. postContentFormat()}" />
+                                                            <button class="btn btn-success approval-button" name="status" value="approved"><i class="fa-solid fa-check"></i>Duyệt</button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-sm-5"></div>
+                                                    <div class="col-sm-4">
+                                                        <button class="btn btn-danger rejection-button" onclick="showForm(${post.postId})"><i class="fa-solid fa-xmark"></i>Không duyệt</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="post-body">
-                                        <p class="post-text">${post.postContent}</p>
-                                        <img src="${post.postImage}" alt="Post Img">
-                                    </div>
-                                    <div class="post-footer">
-                                        <form action="ManagePostForumServlet">
-                                            <input type="hidden" name="postId" value="${post.postId}" />
-                                            <input type="hidden" name="postDes" value="${post.postContent}" />
-                                            <button class="btn btn-danger" name="status" value="approved">Duyệt</button>
-                                        </form>
-                                        <button class="btn btn-danger" onclick="showForm(${post.postId})">Không duyệt</button>
-                                    </div>
-                                    <div id="reasonForm${post.postId}" style="display: none;">
-                                        <form action="ManagePostForumServlet">
-                                            <div class="form-group">
-                                                <label for="reasonSelect">Lí do: </label>
-                                                <select class="form-control" id="reasonSelect" name="reasonSelect">
-                                                    <option value="">Chọn lý do</option>
-                                                    <option>Spam nội dung</option>
-                                                    <option>Phỉ báng, công kích cá nhân</option>
-                                                    <option>Lạm dụng quyền riêng tư</option>
-                                                    <option>Giả mạo thông tin</option>
-                                                    <option>Phát tán thông tin sai lệch</option>
-                                                </select>
-                                            </div>
-                                            <input type="hidden" name="status" value="rejected" />
-                                            <input type="hidden" name="postDes" value="${post.postContent}" />
-                                            <input type="hidden" name="postId" value="${post.postId}" />
-                                            <input type="submit" name="" value="Gửi" />
-                                        </form>
+                                        <div id="reasonForm${post.postId}" style="display: none;">
+                                            <form action="ManagePostForumServlet">
+                                                <div class="form-group">
+                                                    <label for="reasonSelect">Lí do: </label>
+                                                    <select class="form-control" id="reasonSelect" name="reasonSelect">
+                                                        <option value="">Chọn lý do</option>
+                                                        <option>Spam nội dung</option>
+                                                        <option>Phỉ báng, công kích cá nhân</option>
+                                                        <option>Lạm dụng quyền riêng tư</option>
+                                                        <option>Giả mạo thông tin</option>
+                                                        <option>Phát tán thông tin sai lệch</option>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="status" value="rejected" />
+                                                <input type="hidden" name="postDes" value="${post.postContent}" />
+                                                <input type="hidden" name="postId" value="${post.postId}" />
+                                                <input type="submit" name="" value="Gửi" />
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
+                        <div class="col-sm-2"></div>
                     </div>
                 </div>
             </div>
@@ -158,101 +169,7 @@
                 }
             </script>
 
-            <!--                <div class="tab-pane fade" id="product">
-                                <div class="list-group">
-            <c:forEach items="${Products}" var="product">
-                <form action="ManagePostProductServlet">
-                <div class="list-group-item list-group-item-action">
-                    <div class="post my-4 border rounded position-relative">
-                        <div class="post-header">
-                            <div class="profile-info">
-                                <img src="assets/images/doge.jpeg" alt="Profile Image"
-                                     class="rounded-circle profile-image">
-                                <div class="profile-details">
-                                    <a href="#" class="username">${product.userId}</a>
-                                    <div class="post-time text-muted">${product.timePosted}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-body row" style="width: 80%">
-                <c:set var="img" value="ImgUploadByUser/${product.productImage}"/>
-                <div class="col-md-6"> <img class="image" src=${img} alt="Hình ảnh"></div>
-                <div class="font col-md-6">
-                    <h5><strong>${title}</strong></h5>
-                    <h6 style="color:rgb(242, 106, 106);">Tiền: ${product.price}</h6>
-                    <br>
-                    <h6 style="font-size: 15px; opacity: 0.5;">Ðịa chỉ: ${product.address}</h6>
-                    <p>${product.description}</p>
-                </div>
-            </div>
 
-
-
-            <div class="post-footer">
-                <form action="ManagePostProductServlet">
-                    <input type="hidden" name="productId" value="${product.productId}" />
-                    <button class="btn btn-danger" name="status" value="approve">Duyệt</button>
-                </form>
-                <button class="btn btn-danger" onclick="showForm(${product.productId})">Không duyệt</button>
-            </div>
-            <div id="reasonForm${product.productId}" style="display: none;">
-                <form action="ManagePostProductServlet">
-                    <div class="form-group">
-                        <label for="reasonSelect">Lí do: </label>
-                        <select class="form-control" id="reasonSelect" name="reasonSelect">
-                            <option value="">Chọn lý do</option>
-                            <option >Vi phạm quy định</option>
-                            <option >Không đáng tin cậy</option>
-                            <option >Không phù hợp với mục đích</option>
-                            <option >Không đủ chất lượng</option>
-                            <option >Vi phạm bản quyền</option>
-                            <option >Không phù hợp với đạo đức</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="status" value="reject" />
-                    <input type="hidden" name="productId" value="${product.productId}" />
-                    <input type="submit" name="" value="Gửi" />
-                </form>
-            </div>
         </div>
-    </div>
-    </form>
-    <script>
-        function showForm(productID) {
-            var reasonForm = document.getElementById("reasonForm" + productID);
-            reasonForm.style.display = "block";
-        }
-
-        function hideForm() {
-            var reasonForm = document.getElementById("reasonForm");
-            reasonForm.style.display = "none";
-        }
-
-        function rejectAction() {
-            showForm();
-        }
-
-        function approveAction() {
-            hideForm();
-        }
-
-        function submitReason() {
-            var reasonInput = document.getElementById("reasonInput").value;
-            // Thực hiện xử lý với reasonInput ở đây (ví dụ: gửi dữ liệu lên máy chủ)
-            // Sau khi hoàn thành xử lý, bạn có thể ẩn form đi bằng cách sử dụng:
-            // hideForm();
-        }
-        function submitReason() {
-            var reasonSelect = document.getElementById("reasonSelect").value;
-            var rejectManageProductPost = document.getElementById("RejectManagePostForum").href;
-            rejectManageProductPost += "?reasonSelect=" + encodeURIComponent(reasonSelect);
-            document.getElementById("RejectManagePostForum").href = rejectManageProductPost;
-        }
-    </script>
-            </c:forEach>
-        </div>
-    </div>-->
-        </div>
-
     </body>
 </html>

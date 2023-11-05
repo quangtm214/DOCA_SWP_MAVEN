@@ -44,9 +44,9 @@ public class Profilemember extends HttpServlet {
         int userID = Integer.parseInt(request.getParameter("userId"));
         try {
             ProductDAO productdao = new ProductDAO();
-            List<ProductDTO> productlist = productdao.getProductsByUserId(userID);
+            List<ProductDTO> productlist = productdao.getProductsOtherUser(userID);
             PostDAO postdao = new PostDAO();
-            List<PostDTO> postlist = postdao.getPostsByUserID(userID);
+            List<PostDTO> postlist = postdao.getPostsByOtherUser(userID);
             //get user by userID
             userDAO uDAO = new userDAO();
             userDTO OwnerProfile = uDAO.getUserbyUserID(userID);

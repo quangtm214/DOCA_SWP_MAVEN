@@ -208,15 +208,15 @@
                                                             };
                                                         }
 
-                                                            function displayAddress() {
-                                                                var selectedCity = cities.value;
-                                                                var selectedDistrict = districts.value;
-                                                                var selectedWard = wards.value;
+                                                        function displayAddress() {
+                                                            var selectedCity = cities.value;
+                                                            var selectedDistrict = districts.value;
+                                                            var selectedWard = wards.value;
 
-                                                                var address = selectedCity + " - " + selectedDistrict + " - " + selectedWard;
-                                                                document.getElementById("addressResult").textContent = address;
-                                                                document.getElementById("hiddenAddress").value = address;
-                                                            }
+                                                            var address = selectedCity + " - " + selectedDistrict + " - " + selectedWard;
+                                                            document.getElementById("addressResult").textContent = address;
+                                                            document.getElementById("hiddenAddress").value = address;
+                                                        }
     </script>
     <script>
         $(document).ready(function () {
@@ -235,7 +235,7 @@
                 }
             });
         });
-         const inputFee = document.getElementById('input-fee');
+        const inputFee = document.getElementById('input-fee');
         inputFee.addEventListener('input', formatCurrency);
         function formatCurrency() {
             let value = inputFee.value;
@@ -244,12 +244,12 @@
                 value = parseFloat(value);
                 inputFee.value = value.toLocaleString('en-VN', {
                     style: 'currency',
-                    currency: 'VND' 
+                    currency: 'VND'
                 });
             } else {
                 inputFee.value = '0';
             }
         }
-        
+
     </script>
 </html>

@@ -104,7 +104,14 @@
                     <div class="card create-post-card">
                         <div class="card-body d-flex align-items-center">
                             <div class="profile-image-container">
-                                <img src="${Owner.avatar}" alt="Profile Image" class="rounded-circle profile-image">
+                                <c:choose>
+                                    <c:when test="${not empty Owner.avatar}">
+                                        <img src="${Owner.avatar}" alt="Profile Image" class="rounded-circle profile-image">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="https://res.cloudinary.com/dy2t6fuqj/image/upload/v1699194944/UserAvatar/ylnn4ipr2xaiql9q8b31.png" alt="Default Image" class="rounded-circle profile-image">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <button type="button" class="btn btn-light btn-createpost btn-block p-0 ml-2 rounded-pill "
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -288,8 +295,6 @@
 
 
                 </div>
-
-
             </div>
 
         </div>

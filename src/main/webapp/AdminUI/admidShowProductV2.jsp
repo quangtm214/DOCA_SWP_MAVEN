@@ -42,7 +42,7 @@
 
         <!-- Link CSS -->
 
-
+        <link rel="stylesheet" href="assets/css/adminshowpost.css"/>
         <link rel="stylesheet" href="assets/css/standar-style.css">
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
         <!-- Link JS -->
@@ -54,11 +54,10 @@
         <!--set var-->
         <c:set var="Products" value="${requestScope.listOfProduct}"/>
 
+        <jsp:include page="headerAdmin.jsp" />
 
-
-        <div class="container">
-            <h1>Admin Page</h1>
-
+        <div class="container"  style="margin-top: 150px;">
+           
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
                     <a class="nav-link " data-bs-toggle="tab" onclick="redirectToPostServlet()">Forum</a>
@@ -69,98 +68,121 @@
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="product">
-                    <div class="list-group">
-                        <c:forEach items="${Products}" var="product">
-                            <!--<form action="ManagePostProductServlet">-->
-                            <div class="list-group-item list-group-item-action">
-                                <div class="post my-4 border rounded position-relative">
-                                    <div class="post-body row" style="width: 80%">
-                                        <c:set var="img" value="${product.productImage}"/>
-                                        <div class="col-md-6"> <img class="image" src=${img} alt="Hình ảnh"></div>
-                                        <div class="font col-md-6">
-                                            <h5><strong>${title}</strong></h5>
-                                            <h6 style="color:rgb(242, 106, 106);">Giá: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h6>
-                                            <br>
-                                            <h6 style="font-size: 15px; opacity: 0.5;">Ðịa chỉ: ${product.address}</h6>
-                                            <p>${product.description}</p>
+                <div class="tab-pane fade show active container" id="product">
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="list-group col-sm-10">
+                            <c:forEach items="${Products}" var="product">
+                                <!--<form action="ManagePostProductServlet">-->
+                                <div class="list-group-item list-group-item-action p-0">
+                                    <div class="post my-4 border rounded position-relative  p-0">
+                                        <div class="post-body row" >
+                                            <c:set var="img" value="${product.productImage}"/>
+                                            <div class="col-sm-4">
+                                                <img class="image" src=${img} alt="Hình ảnh" style="max-width: 250px; max-height: 250px; border-radius: 2%; object-fit: cover;"/>
+                                            </div>
+                                            <div class="font col-sm-8 ">
+                                                <h5><strong>${title}</strong></h5>
+
+                                                <c:if test="${!product.isFree()}">
+                                                    <h6 style="color:rgb(242, 106, 106);">Giá: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h6>
+                                                </c:if>
+                                                <c:if test="${product.isFree()}">
+                                                    <h6 style="color:rgb(242, 106, 106);">Miễn phí</h6>
+                                                </c:if>
+                                                <br>
+                                                <h6 style="font-size: 15px; opacity: 0.5;">Ðịa chỉ: ${product.address}</h6>
+                                                <p>${product.productContentFormat()}</p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="post-footer">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <form action="ManagePostProductServlet">
+                                                            <input type="hidden" name="productId" value="${product.productId}" />
+                                                            <input type="hidden" name="productTitle" value="${product.title}" />
+                                                            <button class="btn btn-success approval-button" name="status" value="approve"><i class="fa-solid fa-check"></i> Duyệt</button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-sm-6"></div>
+                                                    <div class="col-sm-3">
+                                                        <button class="btn btn-danger rejection-button" onclick="showForm(${product.productId})"><i class="fa-solid fa-xmark"></i> Không duyệt</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="reasonForm${product.productId}" style="display: none;">
+                                            <form action="ManagePostProductServlet">
+                                                <div class="form-group">
+                                                    <label for="reasonSelect">Lí do: </label>
+                                                    <select class="form-control" id="reasonSelect" name="reasonSelect">
+                                                        <option value="">Chọn lý do</option>
+                                                        <option >Vi phạm quy định</option>
+                                                        <option >Không đáng tin cậy</option>
+                                                        <option >Không phù hợp với mục đích</option>
+                                                        <option >Không đủ chất lượng</option>
+                                                        <option >Vi phạm bản quyền</option>
+                                                        <option >Giá cả không hợp lý</option>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="status" value="reject" />
+                                                <input type="hidden" name="productTitle" value="${product.title}" />
+                                                <input type="hidden" name="productId" value="${product.productId}" />
+                                                <input type="submit" name="" value="Gửi" />
+                                            </form>
                                         </div>
                                     </div>
-
-
-
-                                    <div class="post-footer">
-                                        <form action="ManagePostProductServlet">
-                                            <input type="hidden" name="productId" value="${product.productId}" />
-                                            <input type="hidden" name="productTitle" value="${product.title}" />
-                                            <button class="btn btn-danger" name="status" value="approve">Duyệt</button>
-                                        </form>
-                                        <button class="btn btn-danger" onclick="showForm(${product.productId})">Không duyệt</button>
-                                    </div>
-                                    <div id="reasonForm${product.productId}" style="display: none;">
-                                        <form action="ManagePostProductServlet">
-                                            <div class="form-group">
-                                                <label for="reasonSelect">Lí do: </label>
-                                                <select class="form-control" id="reasonSelect" name="reasonSelect">
-                                                    <option value="">Chọn lý do</option>
-                                                    <option >Vi phạm quy định</option>
-                                                    <option >Không đáng tin cậy</option>
-                                                    <option >Không phù hợp với mục đích</option>
-                                                    <option >Không đủ chất lượng</option>
-                                                    <option >Vi phạm bản quyền</option>
-                                                    <option >Giá cả không hợp lý</option>
-                                                </select>
-                                            </div>
-                                            <input type="hidden" name="status" value="reject" />
-                                            <input type="hidden" name="productTitle" value="${product.title}" />
-                                            <input type="hidden" name="productId" value="${product.productId}" />
-                                            <input type="submit" name="" value="Gửi" />
-                                        </form>
-                                    </div>
                                 </div>
-                            </div>
-                            <script>
-                                function redirectToPostServlet() {
-                                    window.location.href = "AdminManageForumPostServlet";
-                                }
-                            </script>
-                            <!--</form>-->
-                            <script>
-                                function showForm(productID) {
-                                    var reasonForm = document.getElementById("reasonForm" + productID);
-                                    reasonForm.style.display = "block";
-                                }
+                                <script>
+                                    function redirectToPostServlet() {
+                                        window.location.href = "AdminManageForumPostServlet";
+                                    }
+                                </script>
+                                <!--</form>-->
+                                <script>
+                                    function showForm(productID) {
+                                        var reasonForm = document.getElementById("reasonForm" + productID);
+                                        reasonForm.style.display = "block";
+                                    }
 
-                                function hideForm() {
-                                    var reasonForm = document.getElementById("reasonForm");
-                                    reasonForm.style.display = "none";
-                                }
+                                    function hideForm() {
+                                        var reasonForm = document.getElementById("reasonForm");
+                                        reasonForm.style.display = "none";
+                                    }
 
-                                function rejectAction() {
-                                    showForm();
-                                }
+                                    function rejectAction() {
+                                        showForm();
+                                    }
 
-                                function approveAction() {
-                                    hideForm();
-                                }
+                                    function approveAction() {
+                                        hideForm();
+                                    }
 
-                                function submitReason() {
-                                    var reasonInput = document.getElementById("reasonInput").value;
-                                    // Thực hiện xử lý với reasonInput ở đây (ví dụ: gửi dữ liệu lên máy chủ)
-                                    // Sau khi hoàn thành xử lý, bạn có thể ẩn form đi bằng cách sử dụng:
-                                    // hideForm();
-                                }
-                                function submitReason() {
-                                    var reasonSelect = document.getElementById("reasonSelect").value;
-                                    var rejectManageProductPost = document.getElementById("RejectManageProductPost").href;
-                                    rejectManageProductPost += "?reasonSelect=" + encodeURIComponent(reasonSelect);
-                                    document.getElementById("RejectManageProductPost").href = rejectManageProductPost;
-                                }
-                            </script>
-                        </c:forEach>
+                                    function submitReason() {
+                                        var reasonInput = document.getElementById("reasonInput").value;
+                                        // Thực hiện xử lý với reasonInput ở đây (ví dụ: gửi dữ liệu lên máy chủ)
+                                        // Sau khi hoàn thành xử lý, bạn có thể ẩn form đi bằng cách sử dụng:
+                                        // hideForm();
+                                    }
+                                    function submitReason() {
+                                        var reasonSelect = document.getElementById("reasonSelect").value;
+                                        var rejectManageProductPost = document.getElementById("RejectManageProductPost").href;
+                                        rejectManageProductPost += "?reasonSelect=" + encodeURIComponent(reasonSelect);
+                                        document.getElementById("RejectManageProductPost").href = rejectManageProductPost;
+                                    }
+                                </script>
+                            </c:forEach>
+                        </div>
+                        <div class="col-sm-1"></div>
                     </div>
                 </div>
             </div>
+        </div>
+
 
 
     </body>

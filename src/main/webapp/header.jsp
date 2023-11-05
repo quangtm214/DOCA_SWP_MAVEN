@@ -118,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:128px; position: absolute;">
+        <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute;">
             <div class="card">
                 <h5 class="menu-title">Thông báo của bạn</h5>
                 <div class="notifications-wrapper" id="notificationsWrapper">
@@ -245,6 +245,50 @@
             var encodedSearchValue = encodeURIComponent(searchValue);
             var searchUrl = href + "&searchValue=" + encodedSearchValue;
             searchButton.setAttribute("href", searchUrl);
+        }
+    });
+</script>
+<script>
+    var currentPage = "<%= request.getRequestURI() %>";
+    var searchInput = document.querySelector('input[name="search"]');
+    var searchButton = document.getElementById("searchButton");
+
+    if (currentPage.includes("forum.jsp")) {
+        searchInput.placeholder = "Tìm kiếm bài viết";
+        searchButton.setAttribute("href", "DispatchServlet?btAction=searchForum");
+    } else if (currentPage.includes("market.jsp")) {
+        searchInput.placeholder = "Tìm kiếm sản phẩm";
+        searchButton.setAttribute("href", "DispatchServlet?btAction=searchMarket");
+    } else {
+        // Nếu không ở trang "forum.jsp" hoặc "market.jsp", vô hiệu hóa khả năng tìm kiếm
+        searchInput.disabled = true;
+        searchButton.disabled = true;
+    }
+
+//    searchButton.addEventListener("click", function () {
+//        var searchValue = searchInput.value;
+//        var href = searchButton.getAttribute("href");
+//
+//
+//        if (searchValue) {
+//            var encodedSearchValue = encodeURIComponent(searchValue);
+//            var searchUrl = href + "&searchValue=" + encodedSearchValue;
+//            searchButton.setAttribute("href", searchUrl);
+//        }
+//    });
+    searchButton.addEventListener("click", function (event) {
+        if (searchInput.disabled) {
+            // Ngăn chặn tìm kiếm khi nút bị vô hiệu hóa
+            event.preventDefault();
+        } else {
+            var searchValue = searchInput.value;
+            var href = searchButton.getAttribute("href");
+
+            if (searchValue) {
+                var encodedSearchValue = encodeURIComponent(searchValue);
+                var searchUrl = href + "&searchValue=" + encodedSearchValue;
+                searchButton.setAttribute("href", searchUrl);
+            }
         }
     });
 </script>

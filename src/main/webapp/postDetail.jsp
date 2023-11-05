@@ -145,67 +145,75 @@
 
         <jsp:include page="header.jsp" />
 
-        <div class="post main-content my-4 border rounded position-relative">
-            <div class="post-header"style="margin-top:85px">
-                <div class="profile-info">
+        <div class="main-content">
+            <div class="row row-content justify-content-center">
+                <div class="col-sm-8 ">
+                    <div class="post main-content my-4 border rounded position-relative">
+                        <div class="post-header">
+                            <div class="profile-info">
 
-                    <img src="${owner.avatar}"
-                         alt="Profile Image"
-                         class="rounded-circle profile-image">
-                    <div class="profile-details">
+                                <img src="${owner.avatar}"
+                                     alt="Profile Image"
+                                     class="rounded-circle profile-image">
+                                <div class="profile-details">
 
-                        <a href="#" class="username">${owner.userName}</a>
-                        <div class="post-time text-muted">Ngày đăng bài: ${post.formatTimeDifference()}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="post-body ">
-                <p class="post-text">${post.postContent}</p>
-                <img class="img-content col-sm-7 "src="${post.postImage}" alt="Post Image">
-                <p class="like-count">số lượt like của bài viết này: ${likeCount}</p>
-            </div>
-            <button id="shareButton">Chia sẻ</button>
-            <div class="popup" id="sharePopup">
-                <div class="popup-content">
-                    <span onclick="closePopup()" style="float: right; cursor: pointer;">&times;</span>
-                    <p id="shareURL">URL bài viết: </p>
-                    <button id="copyButton">Copy Link</button>
-                </div>
-            </div>
-            <c:forEach items="${listOfComment}" var="comment">
-                <c:if test="${comment.postId==post.postId}">
-                    <div class="comment mt-5">
-                        <c:forEach items="${ListOfUser}" var="user">
-                            <c:if test="${user.user_ID==comment.userId}">
-                                <c:set var="userName" value="${user.userName}"/>
-                                <c:set var="userAvatar" value="${user.avatar}"/>
-                            </c:if>
-                        </c:forEach>
-                        <div class="user-info-container">
-                            <img src=${userAvatar} alt="Avatar" class="profile-image">
-                            <p class="comment-username">${userName}</p>
-                        </div>
-                        <div class="comment-wrapper mt-3 d-inline-block">
-                            <div class="comment-details mt-3">
-                                <p class="comment-content">${comment.commentDes}</p>
+                                    <a href="#" class="username">${owner.userName}</a>
+                                    <div class="post-time text-muted">Ngày đăng bài: ${post.formatTimeDifference()}</div>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="post-body ">
+                            <div class="d-flex justify-content-center">
+                                <p class="post-text">
+                                    ${post.postContentFormat()}
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <img class="img-content"src="${post.postImage}" alt="Post Image"  style=" object-fit: cover;
+                                     border-radius: 10%;">
+                            </div>
+                            <p class="like-count">số lượt like của bài viết này: ${likeCount}</p>
+                        </div>
+                        <button id="shareButton">Chia sẻ</button>
+                        <div class="popup" id="sharePopup">
+                            <div class="popup-content">
+                                <span onclick="closePopup()" style="float: right; cursor: pointer;">&times;</span>
+                                <p id="shareURL">URL bài viết: </p>
+                                <button id="copyButton">Copy Link</button>
+                            </div>
+                        </div>
+                        <c:forEach items="${listOfComment}" var="comment">
+                            <c:if test="${comment.postId==post.postId}">
+                                <div class="comment mt-5">
+                                    <c:forEach items="${ListOfUser}" var="user">
+                                        <c:if test="${user.user_ID==comment.userId}">
+                                            <c:set var="userName" value="${user.userName}"/>
+                                            <c:set var="userAvatar" value="${user.avatar}"/>
+                                        </c:if>
+                                    </c:forEach>
+                                    <div class="user-info-container">
+                                        <img src=${userAvatar} alt="Avatar" class="profile-image">
+                                        <p class="comment-username">${userName}</p>
+                                    </div>
+                                    <div class="comment-wrapper mt-3 d-inline-block">
+                                        <div class="comment-details mt-3">
+                                            <p class="comment-content">${comment.commentDes}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--xoá comment-->
+                                <c:if test="${OwnerComment.user_ID==comment.userId}">
+                                    <a href="deleteCommentServlet?commentId=${comment.commentId}&postId=${post.postId}">Xoá comment</a>
+                                </c:if>
+                            </c:if>
+
+                        </c:forEach>
+
                     </div>
-                    <!--xoá comment-->
-                    <c:if test="${OwnerComment.user_ID==comment.userId}">
-                        <a href="deleteCommentServlet?commentId=${comment.commentId}&postId=${post.postId}">Xoá comment</a>
-                    </c:if>
-                </c:if>
-
-            </c:forEach>
-
+                </div>
+            </div>
         </div>
-
-
-
-
-
 
     </body>
     <script>

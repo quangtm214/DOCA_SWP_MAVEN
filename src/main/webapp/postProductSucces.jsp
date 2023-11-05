@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -54,8 +55,8 @@
         </script>
     </head>
     <body>
-        <c:set var="productPost" value="${requestScope.product}"/>
-         <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
+        <c:set var="productPost" value="${sessionScope.newproduct}"/>
+        <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
 
         <div id="header"></div>
 
@@ -65,34 +66,46 @@
                     <div class="container pt-5">
                         <div class="row">
                             <div class="col">
-                              
-                                  <img class="col-sm-6 image-content mt-5 img-fluid" 
-                                       src="${productPost.productImage}"alt="Hình ảnh">
-                                
-                                  <!--<img style="width: 100px" src="" src="C:/Users/Admin/Desktop/V3DocaProject/Doca_javaV2/Doca_java/Doca_java/src/main/webapp/ImgUploadByUser/2023-10-16_10-49-39.jpg" alt="">-->
-                                  
+                                <h2>Bạn đã hoàn tất đăng sản phẩm</h2>
+                                <h4>Doca đang tiến hành duyệt sản phẩm của bạn.</h4>
+                                <img class="col-sm-6 image-content mt-5 img-fluid" 
+                                     src="${productPost.productImage}"alt="Hình ảnh">
+
+                                <!--<img style="width: 100px" src="" src="C:/Users/Admin/Desktop/V3DocaProject/Doca_javaV2/Doca_java/Doca_java/src/main/webapp/ImgUploadByUser/2023-10-16_10-49-39.jpg" alt="">-->
+
                                 <div class="product_info">
                                     <c:set var="title" value="${productPost.title}"/>
                                     <h2 class="title">${title}</h2>
                                     <c:set var="price" value="${productPost.price}"/>
-                                    <h4 class="price text-danger">${price}</h4>
-                                    <p class="product_des">${productPost.description}</p>
-                                    <h4 class="text-secondary">Local</h4>
+                                    <h4 class="price text-danger">
+                                        <fmt:formatNumber value="${price}" type="currency" currencyCode="VND" /></h4>
+                                    <p class="product_des">${productPost.productContentFormat()}</p>
+                                    <h4 class="text-secondary">Khu Vực</h4>
                                     <p class="product_address">
                                         <i class="fa fa-location-dot"></i>
-                                        ${product.address}
+                                        ${productPost.address}
                                     </p>
-                                    <h5 class="text-secondary">Product Type</h5>
-                                    <p>${category.categoryName}</p>
+                                    <h5 class="text-secondary">loại sản phẩm</h5>
+                                    <c:choose>
+                                        <c:when test="${productPost.categoryId eq 1}">
+                                            <p>Phụ kiện</p>
+                                        </c:when>
+                                        <c:when test="${productPost.categoryId eq 2}">
+                                            <p>Thức Ăn</p>
+                                        </c:when>
+                                        <c:when test="${productPost.categoryId eq 3}">
+                                            <p>Chuồng động Vật</p>
+                                        </c:when>
+                                        <c:when test="${productPost.categoryId eq 4}">
+                                            <p>Khác</p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p>Không xác định</p>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
-                                <a href="profileMemberOther.html">
-                                    <div class="profile-image-container">
-                                        <img src="${Owner.avatar}" alt="Profile Image" class="rounded-circle profile-image">
-                                    </div>
-                                    <h6 class="userName mt-2">${Owner.userName}</h6>
-                                </a>
                             </div>
-                            
+
 
                         </div>
 

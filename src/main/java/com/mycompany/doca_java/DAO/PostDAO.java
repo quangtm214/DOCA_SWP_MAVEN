@@ -257,6 +257,70 @@ public class PostDAO {
         return listOfPosts;
     }
 
+    public List<PostDTO> getPostsByOtherUser(int userID)
+            throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<PostDTO> listOfPosts = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+
+            if (con != null) {
+                // Create SQL query
+                String sql = "SELECT [post_id]\n"
+                        + "      ,[user_id]\n"
+                        + "      ,[post_content]\n"
+                        + "      ,[post_image]\n"
+                        + "      ,[isPublic]\n"
+                        + "      ,[timePosted]\n"
+                        + "      ,[status]\n"
+                        + "      ,[reason]\n"
+                        + "  FROM [dbo].[post]"
+                        + " WHERE user_id = ?"
+                        + " ORDER BY timePosted DESC";
+                // Create prepared statement
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+                // Execute query
+                rs = stm.executeQuery();
+                // Process the result set
+
+                while (rs.next()) {
+                    int postId = rs.getInt("post_id");
+                    int userId = rs.getInt("user_id");
+                    String postContent = rs.getString("post_content");
+                    String postImage = rs.getString("post_image");
+                    boolean isPublic = rs.getBoolean("isPublic");
+                    Timestamp timePosted = rs.getTimestamp("timePosted");
+                    String status = rs.getString("status");
+                    String reason = rs.getString("reason");
+                    PostDAO daoCategory = new PostDAO();
+                    List<Integer> categorys = daoCategory.categorys(postId);
+                    PostDTO post = new PostDTO(postId, categorys, userId, postContent, postImage, isPublic, timePosted, status, reason);
+                    if (post.isPublic() && post.getStatus().equals("approved")) {
+                        listOfPosts.add(post);
+                    }
+                }
+
+            }
+        } finally {
+            // Close resources in the finally block
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return listOfPosts;
+    }
+
     public List<PostDTO> searchPostsByDescription(String postDescription)
             throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
