@@ -78,7 +78,7 @@ Author : Admin
                                 </div>
                                 <!-- Account details card-->
                                 <div id="accountInfo" >
-                                    <form action="DispatchServlet" method="post"  onsubmit="return validateForm()">
+                                    <form action="DispatchServlet" method="post"  onsubmit="return validateForm()" enctype="multipart/form-data" >
 
                                         <div class="card mb-4">
                                             <div class="card-header">Thông tin tài khoản</div>

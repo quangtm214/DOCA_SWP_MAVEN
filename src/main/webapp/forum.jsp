@@ -104,7 +104,7 @@
                     <div class="card create-post-card">
                         <div class="card-body d-flex align-items-center">
                             <div class="profile-image-container">
-                                <img src="assets/images/spa.jpg" alt="Profile Image" class="rounded-circle profile-image">
+                                <img src="${Owner.avatar}" alt="Profile Image" class="rounded-circle profile-image">
                             </div>
                             <button type="button" class="btn btn-light btn-createpost btn-block p-0 ml-2 rounded-pill "
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">

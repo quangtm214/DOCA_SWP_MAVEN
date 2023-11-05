@@ -10,6 +10,7 @@ import com.mycompany.doca_java.DTO.userDTO;
 import com.mycompany.doca_java.ProcessDetails.ProcessImg;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import javax.naming.NamingException;
  * @author Admin
  */
 @WebServlet(name = "UpdateAccountServlet", urlPatterns = {"/UpdateAccountServlet"})
+@MultipartConfig
 public class UpdateAccountServlet extends HttpServlet {
 
     /**
@@ -78,8 +80,7 @@ public class UpdateAccountServlet extends HttpServlet {
                 if (updateSuccessful) {
                     session.setAttribute("USER_NAME", account);
                     // Redirect to a success page or display a success message
-                    request.getRequestDispatcher(url).forward(request, response);
-
+                    response.sendRedirect(url);
                 } else {
                     // Handle the case where the update was not successful
                     response.sendRedirect("error.jsp");

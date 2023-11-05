@@ -145,7 +145,7 @@
                                         <a class="fa fa-heart border-0 p-0" 
                                            href="${saveProductLink}"
                                            style="color: ${isSaved=="true"? "red":"gray"}; cursor: pointer; position: absolute; bottom: 30px; right: 40px;">
-
+                                            
                                         </a>
                                     </span>
                                 </div>

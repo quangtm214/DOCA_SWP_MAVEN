@@ -58,93 +58,123 @@
         <jsp:include page="header.jsp" />
         <div class="menu d-flex justify-content-center " style="margin: 50px 0 0 50px;">
 
-            <div class="product col-sm-7 " >
+            <div class="product col-sm-9 " >
                 <div class="row container p-0">
-                    <div class="listConversation col-sm-4 " style="background-color: #A3B18A; height: 520px; overflow: scroll;" >
+                    <div class="listConversation col-sm-4 " style="background-color: #A3B18A; height: 590px; overflow: scroll;" >
                         <ul class="list-group">
                             <c:forEach items="${ListOfConversation}" var="conversation">
                                 <c:set var="conversationHavedShow" value="false"/>
                                 <c:forEach items="${ListOfProductInConversation}" var="Product">
                                     <c:if test="${conversationHavedShow==false}">
                                         <c:if test="${Product.productId == conversation.product_id}">
-                                          
-                                                    <c:set var="conversationHavedShow" value="true"/>
-                                                    <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1" 
-                                                        style="background-color: #A3B18A">
-                                                        <c:if test="${conversation.seller_id==Owner.user_ID}">
-                                                            <c:set var="AnotherUserID" value="${conversation.buyer_id}"/>
-                                                        </c:if>
-                                                        <c:if test="${conversation.buyer_id==Owner.user_ID}">
-                                                            <c:set var="AnotherUserID" value="${conversation.seller_id}"/>
-                                                        </c:if>
-                                                        <a class="text-white Conversation-name"
-                                                           onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">
-                                                            ${Product.title}</a>
-                                                        <!--                                                just buyer can feedback -->
-                                                        <c:if test="${conversation.buyer_id == Owner.user_ID}"> 
-                                                            <a  onclick="openFeedbackForm(${conversation.conversation_id})">
-                                                                <p style="color: yellow">
-                                                                    <small>Ðánh giá người bán</small>
-                                                                </p>
-                                                            </a>
-                                                        </c:if>
-                                                    </li>
-                                                    <div class="modal fade" id="ratingModal${conversation.conversation_id}" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <form action="CreateFeedbackServlet" method="post">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="ratingModalLabel">Đánh giá người bán </h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
+                                            <c:set var="conversationHavedShow" value="true"/>
+                                            <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1" 
+                                                style="background-color: #A3B18A">
+                                                <c:if test="${conversation.seller_id==Owner.user_ID}">
+                                                    <c:set var="AnotherUserID" value="${conversation.buyer_id}"/>
+                                                </c:if>
+                                                <c:if test="${conversation.buyer_id==Owner.user_ID}">
+                                                    <c:set var="AnotherUserID" value="${conversation.seller_id}"/>
+                                                </c:if>
+                                                <c:set var="partnerhaveShow" value="false"/>
+                                                <c:forEach items="${ListOfPartner}" var="partner">
+                                                    <c:if test="${partnerhaveShow==false}">
+                                                        <c:if test="${partner.user_ID == conversation.buyer_id || partner.user_ID == conversation.seller_id}">
+                                                            <c:set var="partnerhaveShow" value="true"/>
+                                                            <div class="container p-0">
+                                                                <div class="row" >
+                                                                    <div class="col-sm-3 p-0">
+                                                                        <img src="${partner.avatar}"
+                                                                             alt="Profile Image"
+                                                                             class="rounded-circle profile-image" style=" object-fit: cover;
+                                                                             border-radius: 50%;  width: 46px;
+                                                                             height: 46px;">
                                                                     </div>
-                                                                    <div class="modal-body">
+                                                                    <div class="col-sm-6 p-0">
+                                                                        <p class="mb-1">${partner.userName}</p>
 
-                                                                        <div class="form-group">
-                                                                            <label for="rating">Đánh giá:</label>
-                                                                            <select name="rate" class="form-control" id="rating">
-                                                                                <option value="5">5 sao</option>
-                                                                                <option value="4">4 sao</option>
-                                                                                <option value="3">3 sao</option>
-                                                                                <option value="2">2 sao</option>
-                                                                                <option value="1">1 sao</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="comment">Bình luận:</label>
-                                                                            <textarea name="feedback_content" class="form-control" id="comment"></textarea>
-                                                                        </div>
+                                                                        <a class=" Conversation-name"
+                                                                           onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">  
+                                                                            <small class="text-muted"> ${Product.title}</small>
+                                                                        </a>
                                                                     </div>
-                                                                    <div class="modal-footer">
-                                                                        <input type="hidden" name="seller_id" value="${Product.userId}" />
-                                                                        <input type="hidden" name="product_id" value="${conversation.product_id}" />
-                                                                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                                                    <div class="col-sm-3 p-0">
+                                                                        <img src="${Product.productImage}"
+                                                                             alt="Product Image"
+                                                                             class="Product-image ml-1 " style=" object-fit: cover;
+                                                                             border-radius: 10%;  width: 60px;
+                                                                             height: 60px;">
                                                                     </div>
                                                                 </div>
-                                                            </form>
+                                                            </div>
+
+                                                        </c:if>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <!-- just buyer can feedback -->
+                                                <c:if test="${conversation.buyer_id == Owner.user_ID}"> 
+                                                    <a  onclick="openFeedbackForm(${conversation.conversation_id})">
+                                                        <p style="color: yellow">
+                                                            <small>Ðánh giá người bán</small>
+                                                        </p>
+                                                    </a>
+                                                </c:if>
+                                            </li>
+                                            <div class="modal fade" id="ratingModal${conversation.conversation_id}" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <form action="CreateFeedbackServlet" method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="ratingModalLabel">Đánh giá người bán </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <div class="form-group">
+                                                                    <label for="rating">Đánh giá:</label>
+                                                                    <select name="rate" class="form-control" id="rating">
+                                                                        <option value="5">5 sao</option>
+                                                                        <option value="4">4 sao</option>
+                                                                        <option value="3">3 sao</option>
+                                                                        <option value="2">2 sao</option>
+                                                                        <option value="1">1 sao</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="comment">Bình luận:</label>
+                                                                    <textarea name="feedback_content" class="form-control" id="comment"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="seller_id" value="${Product.userId}" />
+                                                                <input type="hidden" name="product_id" value="${conversation.product_id}" />
+                                                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                               
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </c:if>
                                     </c:if>
                                 </c:forEach>
                             </c:forEach>
                         </ul>
                     </div>
-                    <div class="listMessage col-sm-8 pr-0 " style=" height: 520px;background-color: #DAD7CD; " >
-                        <div style="height: 60px; " >
-                            <div class="row profile-seller-info" style="display: none;">
+                    <div class="listMessage col-sm-8 pr-0 " style=" height: 590px;background-color: #DAD7CD; " >
+                        <div style="height: 56px; " >
+                            <div class="row profile-seller-info mt-2" style="display: none;">
                                 <img src=""
                                      alt="Profile Image"
-                                     class="rounded-circle profile-image" style=" object-fit: cover;
+                                     class="rounded-circle profile-image ml-2" style=" object-fit: cover;
                                      border-radius: 50%;  width: 50px;
                                      height: 50px;">
                                 <a id="profileLink" href="" class="username"></a>
                             </div>
                         </div>
                         <!-- Message list content goes here -->
-                        <div id="messageContainer" style="height: 420px; overflow:scroll;">
+                        <div id="messageContainer" style="height: 490px; overflow:scroll;">
                             <div id="slogan" class="chat-message d-flex justify-content-center align-items-center" style=" height: 400px;">
                                 <p>Chat để kết nối - Cùng nhau làm nên giao dịch tốt nhất!</p>
                             </div>

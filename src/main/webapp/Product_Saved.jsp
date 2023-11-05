@@ -75,9 +75,13 @@
                                         <img class="image" src="${porduct.productImage}" alt="Hình ảnh">
                                         <div class="card-body">
                                             <div class="font">
-                                                <h5><strong>
-                                                        ${porduct.title}
-                                                    </strong></h5>
+                                                <a href="productDetailServlet?productId=${porduct.productId}">
+                                                    <h5>
+                                                        <strong>
+                                                            ${porduct.title}
+                                                        </strong>
+                                                    </h5>
+                                                </a>
                                                 <h6 style="color:rgb(242, 106, 106);"><fmt:formatNumber value="${porduct.price}" type="currency" currencyCode="VND" /></h6>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>

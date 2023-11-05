@@ -28,7 +28,7 @@ import javax.naming.NamingException;
  * @author Admin
  */
 @WebServlet(name = "CreateNewAccountServlet", urlPatterns = {"/CreateNewAccountServlet"})
-
+@MultipartConfig
 public class CreateNewAccountServlet extends HttpServlet {
 
     /**
