@@ -164,7 +164,7 @@
                             </ul>
                         </div>
                         <div class="listMessage col-sm-8 pr-0 " style=" height: 590px;background-color: #DAD7CD; " >
-                            <div style="height: 56px; " >
+                            <div style="height: 50px; " >
                                 <div class="row profile-seller-info mt-2" style="display: none;">
                                     <img src=""
                                          alt="Profile Image"
@@ -182,13 +182,15 @@
                             </div>
                             <div > 
                                 <form id="message_input" style="display: none;">
-                                    <div class="row ">
-                                        <div class="col-10 pl-1">
+                                    <div class="row d-flex justify-content-between m-0">
+                                        <div class=" pl-0 flex-grow-1">
                                             <input type="text" class="form-control p-0" placeholder="" 
-                                                   style="width: 420px">
+                                                   style="width: 100%">
                                         </div>
-                                        <div class="col-2 p-0">
-                                            <button class="btn btn-primary">Send</button>
+                                        <div class="mr-3">
+                                            <button class="btn btn-primary">
+                                                <i class="fa fa-paper-plane"></i>
+                                                Send</button>
                                         </div>
                                     </div>
                                 </form>

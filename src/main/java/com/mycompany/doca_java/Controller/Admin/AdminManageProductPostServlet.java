@@ -51,9 +51,8 @@ public class AdminManageProductPostServlet extends HttpServlet {
             List<ProductDTO> listProductByStatus = dao.getListProductByStatus();
             if (listProductByStatus != null) {
                 request.setAttribute("listOfProduct", listProductByStatus);
-                url = adminShowProduct;
             }
-
+            url = adminShowProduct;
         } catch (SQLException ex) {
             Logger.getLogger(AdminManageProductPostServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

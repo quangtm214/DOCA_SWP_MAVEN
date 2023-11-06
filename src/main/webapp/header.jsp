@@ -118,10 +118,10 @@
                 </div>
             </div>
         </div>
-        <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute;">
+        <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute; max-width: 400px; ">
             <div class="card">
                 <h5 class="menu-title">Thông báo của bạn</h5>
-                <div class="notifications-wrapper" id="notificationsWrapper">
+                <div class="notifications-wrapper" id="notificationsWrapper" style="overflow: scroll; height: 490px;">
                     <!-- Dữ liệu từ server sẽ được render vào đây -->
                 </div>
             </div>
@@ -159,7 +159,6 @@
         data.forEach(notify => {
             const itemWrapper = document.createElement('a');
             itemWrapper.classList.add('content');
-            itemWrapper.href = '#';
 
             const notificationItem = document.createElement('div');
             notificationItem.classList.add('notification-item');
@@ -175,7 +174,7 @@
             itemInfo1.textContent = notify.notification_value.split('-')[0];
 
             const itemInfo2 = document.createElement('p');
-            itemInfo2.classList.add('item-info', 'col-7');
+            itemInfo2.classList.add('item-info');
             itemInfo2.textContent = notify.notification_value.split('-')[1];
 
             notificationItem.appendChild(itemTitle);
@@ -184,6 +183,7 @@
 
             itemWrapper.appendChild(notificationItem);
             notificationsWrapper.appendChild(itemWrapper);
+            notificationsWrapper.appendChild(document.createElement('hr'));
         });
     };
 

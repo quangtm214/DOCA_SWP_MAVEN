@@ -105,6 +105,7 @@
                                                         <form action="ManagePostProductServlet">
                                                             <input type="hidden" name="productId" value="${product.productId}" />
                                                             <input type="hidden" name="productTitle" value="${product.title}" />
+                                                            <input type="hidden" name="userId" value="${product.userId}" />
                                                             <button class="btn btn-success approval-button" name="status" value="approve"><i class="fa-solid fa-check"></i> Duyệt</button>
                                                         </form>
                                                     </div>
@@ -132,6 +133,7 @@
                                                 <input type="hidden" name="status" value="reject" />
                                                 <input type="hidden" name="productTitle" value="${product.title}" />
                                                 <input type="hidden" name="productId" value="${product.productId}" />
+                                                <input type="hidden" name="userId" value="${product.userId}" />
                                                 <input type="submit" name="" value="Gửi" />
                                             </form>
                                         </div>

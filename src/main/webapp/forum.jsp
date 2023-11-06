@@ -235,7 +235,7 @@
                                         </div>
 
                                         <div class="post-body">
-                                            <p class="post-text" data-toggle="modal" data-target="#modalID${post.postId}">${post.postContent}</p>
+                                            <p class="post-text" data-toggle="modal" data-target="#modalID${post.postId}">${post.postContentFormat()}</p>
 
                                             <a href="postDetailServlet?postId=${post.postId}" class="sell d-flex">
                                                 <img class="img-content col-sm-7" data-toggle="modal" 
@@ -263,7 +263,7 @@
                                         </div>
                                         <div id="commentForm${post.postId}" class="comment-form2" style="display: none;">
                                             <form action="DispatchServlet" method="post">
-                                                <input type="text" name="commentDes" value="" placeholder="Write a comment..."/>
+                                                <input type="text" name="commentDes" value="" placeholder="Write a comment..." required/>
                                                 <input type="submit" name="btAction" value="send" />
                                                 <input type="hidden" name="postID" value="${post.postId}" />
                                                 <input type="hidden" name="slectedCategoryID" value="${indexcategoryID}" />

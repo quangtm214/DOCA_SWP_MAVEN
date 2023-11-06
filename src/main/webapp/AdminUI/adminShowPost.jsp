@@ -94,6 +94,7 @@
                                                         <form action="ManagePostForumServlet">
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <input type="hidden" name="postDes" value="${post. postContentFormat()}" />
+                                                            <input type="hidden" name="userId" value="${post.userId}" />
                                                             <button class="btn btn-success approval-button" name="status" value="approved"><i class="fa-solid fa-check"></i>Duyệt</button>
                                                         </form>
                                                     </div>
@@ -119,6 +120,7 @@
                                                 </div>
                                                 <input type="hidden" name="status" value="rejected" />
                                                 <input type="hidden" name="postDes" value="${post.postContent}" />
+                                                <input type="hidden" name="userId" value="${post.userId}" />
                                                 <input type="hidden" name="postId" value="${post.postId}" />
                                                 <input type="submit" name="" value="Gửi" />
                                             </form>
