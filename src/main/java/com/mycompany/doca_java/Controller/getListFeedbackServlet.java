@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
@@ -56,8 +57,11 @@ public class getListFeedbackServlet extends HttpServlet {
                 feedbackWithBuyerList.add(feedbackWithUser);
             }
             userDTO seller=uDao.getUserbyUserID(seller_id);
-            
+            double averageRate = dao.getAverageRateBySellerId(seller_id);
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            String formattedAverageRate = decimalFormat.format(averageRate);
             if (feedbackWithBuyerList != null) {
+                request.setAttribute("averageRate", formattedAverageRate);
                 request.setAttribute("feedbackWithBuyerList", feedbackWithBuyerList);
                 request.setAttribute("seller", seller);
                 url = VIEW_FEEDBACK_PAGE;

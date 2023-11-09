@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -55,9 +56,27 @@
                                  class="rounded-circle profile-image" style=" object-fit: cover;
                                  border-radius: 50%;  width: 80px;
                                  height: 80px;">
-                            <a id="profileLink" href="Profilemember?userId=${seller.user_ID}" class="username ml-2 mt-2 text-dark">
-                                ${seller.userName}</a>
-
+                            <div>
+                                <a id="profileLink" href="Profilemember?userId=${seller.user_ID}" class="username ml-2 mt-2 text-dark">
+                                    ${seller.userName}</a>
+                                <c:if test="${averageRate > 0.0}">
+                                    <div class="row ml-1 ">
+                                        <p class="mr-2 mb-1">Điểm đánh giá: ${averageRate}/5</p> 
+                                    </div>
+                                    <div class="row ml-1 ">
+                                        <c:set var="averageRateStr" value="${averageRate}" />
+                                        <c:set var="firstDigit" value="${fn:substring(averageRateStr, 0, 1)}" />
+                                        <div class="stars-rating">
+                                            <c:forEach begin="1" end="${firstDigit}">
+                                                <i class="fa fa-star"></i>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <c:if test="${averageRate == 0.0}">
+                                    <p>không có đánh giá</p>
+                                </c:if>
+                            </div>
                         </div> 
                         <hr>
                         <div class=" container feedbackList p-0">

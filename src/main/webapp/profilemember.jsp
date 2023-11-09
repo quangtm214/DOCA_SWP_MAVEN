@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -76,8 +77,17 @@
                                 <div>
                                     <c:if test="${averageRate > 0.0}">
                                         <div class="row ml-1 ">
-                                            <p class="mr-2">điểm trung bình:  ${averageRate}/5</p>
+                                            <p class="mr-2 mb-1">Điểm đánh giá: ${averageRate}/5</p>
                                             <a href="getListFeedbackServlet?seller_id=${OwnerProfile.user_ID}" >(${feedbackCount} đánh giá)</a>
+                                        </div>
+                                        <div class="row ml-1 ">
+                                            <c:set var="averageRateStr" value="${averageRate}" />
+                                            <c:set var="firstDigit" value="${fn:substring(averageRateStr, 0, 1)}" />
+                                            <div class="stars-rating">
+                                                <c:forEach begin="1" end="${firstDigit}">
+                                                    <i class="fa fa-star"></i>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </c:if>
                                     <c:if test="${averageRate == 0.0}">
@@ -146,20 +156,18 @@
 
 
                                 <div id="post" class="tab-pane fade">
-                                    <div class="card-group container justify-content-center product">
+                                    <div class="card-group container justify-content-center post">
                                         <div class="row">
                                             <c:forEach items="${postList}" var="post">
                                                 <div class="col-sm-6  mt-1" >
-                                                    <div class="card" style="height: 100%;">
-                                                        <div class="card-body">
-                                                            <a href="postDetailServlet?postId=${post.postId}">
-                                                                <h5>
-                                                                    <fmt:formatDate pattern="yyyy-MM-dd" value="${post.timePosted}" />
-                                                                </h5>
-                                                                <h5 class="card-title post-content">${post.postContent}</h5>
-                                                                <img class="card-img" src="${post.postImage}" alt="alt" />
-                                                            </a>
-                                                        </div>
+                                                    <div class="card" style="height: 100%; min-height:363px ; min-width:256px ;">
+                                                        <a href="postDetailServlet?postId=${post.postId}">
+                                                            <h5>
+                                                                <fmt:formatDate pattern="yyyy-MM-dd" value="${post.timePosted}" />
+                                                            </h5>
+                                                            <h5 class="card-title post-content">${post.postContent}</h5>
+                                                            <img class="card-img" src="${post.postImage}" alt="alt" />
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </c:forEach>
