@@ -40,24 +40,4 @@ public class NotificationDTO implements Serializable {
         this.timeNotification = timeNotification;
     }
 
-//    public String formatTimeDifference() {
-//        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-//        long timeDifferenceMillis = currentTime.getTime() - timeNotification.getTime();
-//
-//        long days = TimeUnit.MILLISECONDS.toDays(timeDifferenceMillis);
-//        long hours = TimeUnit.MILLISECONDS.toHours(timeDifferenceMillis) % 24;
-//        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifferenceMillis) % 60;
-//
-//        String formattedTimeDifference;
-//        if (days > 0) {
-//            formattedTimeDifference = days + " ngày trước";
-//        } else if (hours > 0) {
-//            formattedTimeDifference = hours + " giờ trước";
-//        } else {
-//            formattedTimeDifference = minutes + " phút trước";
-//        }
-//
-//        return formattedTimeDifference;
-//    }
-
 }

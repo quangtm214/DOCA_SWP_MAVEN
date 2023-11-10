@@ -4,7 +4,10 @@
  */
 package com.mycompany.doca_java.Controller.like;
 
+import com.mycompany.doca_java.DAO.NotificationDAO;
+import com.mycompany.doca_java.DAO.PostDAO;
 import com.mycompany.doca_java.DAO.likeDAO;
+import com.mycompany.doca_java.DTO.PostDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.naming.NamingException;
 
 /**
@@ -48,7 +53,7 @@ public class UpdateLike extends HttpServlet {
         String url = "";
         try {
             if (account != null) {
-                 likeDAO dao = new likeDAO();
+                likeDAO dao = new likeDAO();
                 if (isLiked) {
                     boolean result = dao.deleteLike(account.getUser_ID(), postID);
                     if (result) {
@@ -58,6 +63,17 @@ public class UpdateLike extends HttpServlet {
                     }
                 } else {
                     boolean result = dao.insertLike(account.getUser_ID(), postID);
+                    PostDAO pDao = new PostDAO();
+                    PostDTO postSelect= pDao.getPostById(postID);
+                    int OwnerPost_ID = postSelect.getUserId();
+                    NotificationDAO notiDao = new NotificationDAO();
+                    LocalDateTime currentDateTime = LocalDateTime.now();
+                    Timestamp timeNotification = Timestamp.valueOf(currentDateTime);
+                    String postDes= postSelect.getPostContent();
+                    String first80Chars = postDes.substring(0, Math.min(postDes.length(), 80));
+                    String noDes = account.getUserName()+ " đã thích bài viết " + "-" + first80Chars + "...";
+                    boolean resultInsNotifi;
+                    resultInsNotifi = notiDao.insertNotification(OwnerPost_ID, noDes, timeNotification);
                     if (result) {
                         url = "forumServlet"
                                 + "?categoryID=" + category

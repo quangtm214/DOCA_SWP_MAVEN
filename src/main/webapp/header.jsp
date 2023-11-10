@@ -121,8 +121,8 @@
         </div>
         <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute; max-width: 380px; ">
             <div class="card">
-                <h5 class="menu-title">Thông báo của bạn</h5>
-                <div class="notifications-wrapper" id="notificationsWrapper" style="overflow: scroll; height: 490px;">
+                <h4 class="menu-title">Thông báo </h4>
+                <div class="notifications-wrapper" id="notificationsWrapper" style="overflow: scroll; max-height:490px; height: 100%;">
                     <!-- Dữ liệu từ server sẽ được render vào đây -->
                 </div>
             </div>
@@ -167,7 +167,8 @@
             const itemTitle = document.createElement('p');
             itemTitle.classList.add('item-title');
             itemTitle.style.color = 'gray';
-//            itemTitle.textContent = notify.formatTimeDifference();
+              itemTitle.textContent = notify.timeNotification;
+            
 
             const itemInfo1 = document.createElement('h5');
             itemInfo1.classList.add('item-info');
@@ -187,26 +188,7 @@
             notificationsWrapper.appendChild(document.createElement('hr'));
         });
     };
-
-    function formatTimeDifference(timeNotification) {
-        var currentTime = new Date();
-        var timeDifferenceMillis = currentTime.getTime() - timeNotification.getTime();
-
-        var days = Math.floor(timeDifferenceMillis / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((timeDifferenceMillis / (1000 * 60 * 60)) % 24);
-        var minutes = Math.floor((timeDifferenceMillis / (1000 * 60)) % 60);
-
-        var formattedTimeDifference;
-        if (days > 0) {
-            formattedTimeDifference = days + " ngày trước";
-        } else if (hours > 0) {
-            formattedTimeDifference = hours + " giờ trước";
-        } else {
-            formattedTimeDifference = minutes + " phút trước";
-        }
-
-        return formattedTimeDifference;
-    }
+    
 
 
 

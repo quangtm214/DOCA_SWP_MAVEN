@@ -25,18 +25,16 @@ public class NotificationDAO {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        List<NotificationDTO> listOfPosts = new ArrayList<>();
+        List<NotificationDTO> listOfNoti= new ArrayList<>();
 
         try {
             con = DBconnect.makeConnection();
             if (con != null) {
                 // Create SQL query
-                String sql = "SELECT [notification_id]\n"
-                        + "      ,[user_id]\n"
-                        + "      ,[notification_value]\n"
-                        + "      ,[time]\n"
-                        + "  FROM [dbo].[notification] "
-                        + " Where user_id = ? ";
+                String sql ="SELECT [notification_id], [user_id], [notification_value], [time] " +
+                         "FROM [dbo].[notification] " +
+                         "WHERE user_id = ? " +
+                         "ORDER BY [time] DESC";
                 // Create prepared statement
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userId);
@@ -45,9 +43,9 @@ public class NotificationDAO {
                 // Process the result set
                 while (rs.next()) {
                     NotificationDTO dto = new NotificationDTO(rs.getInt("user_id"), rs.getString("notification_value"), rs.getTimestamp("time"));
-                    listOfPosts.add(dto);
+                    listOfNoti.add(dto);
                 }
-                return listOfPosts;
+                return listOfNoti;
             }
         } finally {
             // Close resources in the finally block
@@ -62,7 +60,7 @@ public class NotificationDAO {
             }
         }
 
-        return listOfPosts;
+        return listOfNoti;
     }
 
     public boolean insertNotification(int userId, String notificationValue, Timestamp time) throws SQLException, ClassNotFoundException, NamingException {
