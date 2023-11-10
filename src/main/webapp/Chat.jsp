@@ -91,15 +91,17 @@
                                                                                  border-radius: 50%;  width: 46px;
                                                                                  height: 46px;">
                                                                         </div>
-                                                                        <div class="col-sm-6 p-0">
+                                                                        <div class="col-lg-6 p-0">
                                                                             <p class="mb-1">${partner.userName}</p>
 
-                                                                            <a class=" Conversation-name"
+
+                                                                            <a class=" Conversation-name "
                                                                                onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">  
-                                                                                <small class="text-muted"> ${Product.title}</small>
+                                                                                <small  style="color: #D1F0E8 ;"> ${Product.title}</small>
                                                                             </a>
+
                                                                         </div>
-                                                                        <div class="col-sm-3 p-0">
+                                                                        <div class="col-lg-3 p-0">
                                                                             <img src="${Product.productImage}"
                                                                                  alt="Product Image"
                                                                                  class="Product-image ml-1 " style=" object-fit: cover;
