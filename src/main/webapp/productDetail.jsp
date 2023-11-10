@@ -92,7 +92,7 @@
                             <div class="col">
 
                                 <c:set var="img" value="${product.productImage}"/>
-                                <img class="product-image" src=${img} alt="">
+                                <img class="product-image" src=${img} alt="" style="max-width: 100%;  object-fit: cover;">
                                 <div class="product_info">
                                     <c:set var="title" value="${product.title}"/>
                                     <h2 class="title">${title}</h2>

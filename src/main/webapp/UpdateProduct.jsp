@@ -157,7 +157,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button  type="submit" class="submit mt-5 mb-5 btn btn-primary form-control" value="UpdateProduct">xác nhận sửa nội dung bài bán</button>
+                             <p class=" m-0 text-warning">Xác nhận cập nhật sẽ đưa sản phẩm của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là phù hợp</p>
+                        <button  type="submit" class="submit mt-5 mb-5 btn btn-primary form-control" value="UpdateProduct">xác nhận sửa sản phẩm</button>
 
                     </form>
                 </div>

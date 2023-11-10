@@ -171,7 +171,7 @@
                             </div>
                             <div class="d-flex justify-content-center">
                                 <img class="img-content"src="${post.postImage}" alt="Post Image"  style=" object-fit: cover;
-                                     border-radius: 10%;">
+                                     border-radius: 10%; max-width: 100%;">
                             </div>
                             <p class="like-count">số lượt like của bài viết này: ${likeCount}</p>
                         </div>

@@ -115,7 +115,6 @@
                         <li class="list-group-item"><a href="ListProductSaved" style="color: black;">sản phẩm đã lưu</a></li>
                         <li class="list-group-item"> <a href="LogOutServlet" style="color: black;">logout</a></li>
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -193,14 +192,13 @@
         const currentTime = new Date();
         const notificationTime = new Date(timeNotification);
         const timeDifference = currentTime - notificationTime;
-
+        //console.log(timeDifference);
         const millisecondsInSecond = 1000;
         const millisecondsInMinute = millisecondsInSecond * 60;
         const millisecondsInHour = millisecondsInMinute * 60;
         const millisecondsInDay = millisecondsInHour * 24;
         const millisecondsInMonth = millisecondsInDay * 30;
         const millisecondsInYear = millisecondsInMonth * 12;
-
         if (timeDifference < millisecondsInMinute) {
             const seconds = Math.floor(timeDifference / millisecondsInSecond);
             return seconds + `giây trước`;
@@ -209,7 +207,10 @@
 
             return minutes + ` phút trước`;
         } else if (timeDifference < millisecondsInDay) {
+            
             const hours = Math.floor(timeDifference / millisecondsInHour);
+//            console.log(millisecondsInHour);
+//            console.log(hours);
             return hours + ` giờ trước`;
         } else if (timeDifference < millisecondsInMonth) {
             const days = Math.floor(timeDifference / millisecondsInDay);
@@ -217,6 +218,7 @@
         } else if (timeDifference < millisecondsInYear) {
             const months = Math.floor(timeDifference / millisecondsInMonth);
             return months + ` tháng trước`;
+            
         } else {
             const years = Math.floor(timeDifference / millisecondsInYear);
             return years + ` năm trước`;
@@ -228,10 +230,10 @@
 
 </script>
 <script>
-    // Lấy URL hiện tại
+
     var currentURL = window.location.href;
 
-    // Lấy phần tử có id là "currentPageName"
+   
     var currentPageName = document.getElementById("currentPageName");
 
     // Kiểm tra URL và đặt nội dung cho phần tử <span>

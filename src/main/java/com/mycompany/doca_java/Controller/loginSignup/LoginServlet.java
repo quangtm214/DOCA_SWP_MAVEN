@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
 
     private final String Market_Controller = "marketServlet";
     private final String Admin_page = "AdminManageForumPostServlet";
-   
+    private final String Erro = "login.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,19 +52,32 @@ public class LoginServlet extends HttpServlet {
             userDAO dao = new userDAO();
             userDTO account = dao.checkLogin(username, password);
             if (account != null) {
-                if (account.isRoleID()) {
-                    url = Market_Controller;
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("USER_NAME", account);
+                if (account.isStatus() == true) {
+                    if (account.isRoleID()) {
+                        url = Market_Controller;
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("USER_NAME", account);
 //                Cookie cookies = new Cookie(username, password);
 //                cookies.setMaxAge(60*10);
 //                response.addCookie(cookies);
+                    }
+                    if (!account.isRoleID()) {
+                        url = Admin_page;
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("USER_NAME", account);
+                    }
+                } else {
+                    request.setAttribute("errorMessage", "Tài khoản đã hết hiệu lực .");
+                    url = Erro;
+                    RequestDispatcher rd = request.getRequestDispatcher(url);
+                    rd.forward(request, response);
                 }
-                if(!account.isRoleID()){
-                    url = Admin_page;
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("USER_NAME", account);
-                }
+            } else {
+                // Thông báo khi nhập sai tài khoản hoặc mật khẩu
+                request.setAttribute("errorMessage", "Sai tài khoản hoặc mật khẩu, xin hãy thử lại.");
+                url = Erro;
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
             }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();

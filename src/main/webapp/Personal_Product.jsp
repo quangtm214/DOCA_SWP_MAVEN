@@ -111,10 +111,9 @@
                                                     </span>
                                                 </p>
                                             </div>
-                                            <a class="btn btn-primary" href="goUpdateProduct?ProductID=${product.productId}&IN=display" >sửa bài bán</a>
-                                            <a class="btn btn-danger" href="DeleteProduct?ProductID=${product.productId}&IN=display">xoá bài bán</a>
+                                            <a class="btn btn-primary" href="goUpdateProduct?ProductID=${product.productId}&IN=display" >sửa sản phẩm</a>
                                             <a class="btn btn-secondary" href="SetIsPublic?ProductID=${product.productId}&isPublic=${product.isPublic()}&IN=display">
-                                                ${product.isPublic() ? "Ẩn bài bán" : "Hiện bài bán"}
+                                                ${product.isPublic() ? "Ẩn sản phẩm" : "Hiện sản phẩm"}
                                             </a>
                                             <hr>
                                         </c:if>
@@ -135,11 +134,11 @@
                                                 <h5>${product.title}</h5>
                                                 <h6>giá tiền: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h6>
                                                 <p>${product.address}</p>
-                                                <p>lí do từ chối: ${product.reason}</p>
-
+                                                <p>Lí do từ chối: ${product.reason}</p>
+                                                <p>Tin đăng này không được sửa. Vui lòng đăng tin khác</p>
                                             </div>
-                                            <a class="btn btn-primary" href="goUpdateProduct?ProductID=${product.productId}&IN=denied" >sửa bài bán</a>
-                                            <a class="btn btn-danger" href="DeleteProduct?ProductID=${product.productId}&IN=denied">xoá bài bán</a>
+                                                
+                                            <a class="btn btn-success" href="UpdateProduct.jsp">Đăng sản phẩm mới</a>
                                             <hr>
                                         </c:if>
                                     </c:forEach>
@@ -158,19 +157,10 @@
                                                 <h5>${product.title}</h5>
                                                 <h6>giá tiền: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h6>
                                                 <p>${product.address}</p>
-                                                <p>
-                                                    Sản phẩm đang ở chế độ:
-                                                    <span class="${product.isPublic() ? 'text-success' : 'text-danger'}">
-                                                        ${product.isPublic() ? 'Công khai' : 'Ẩn'}
-                                                    </span>
-                                                </p>
-                                                <p>đang chờ </p>     
+                                                <p>Đang chờ </p>     
                                             </div>
-                                            <a class="btn btn-primary" href="goUpdateProduct?ProductID=${product.productId}&IN=waiting" >sửa bài bán</a>
-                                            <a class="btn btn-danger" href="DeleteProduct?ProductID=${product.productId}&IN=waiting">xoá bài bán</a>
-                                            <a class="btn btn-secondary" href="SetIsPublic?ProductID=${product.productId}&isPublic=${product.isPublic()}&IN=waiting">
-                                                ${product.isPublic() ? "Ẩn bài bán" : "Hiện bài bán"}
-                                            </a>
+                                            <a class="btn btn-primary" href="goUpdateProduct?ProductID=${product.productId}&IN=waiting" >sửa sản phẩm</a>
+                                            
                                             <hr> 
                                         </c:if>
                                     </c:forEach>

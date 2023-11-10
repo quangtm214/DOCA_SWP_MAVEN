@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html >
     <head>
@@ -50,7 +51,7 @@
                             <p class="mb-4">Platform for dog and cat lovers.</p>
                             <h3>Login to <strong>Doca</strong></h3>
 
-                            <form action="DispatchServlet">
+                            <form action="DispatchServlet" method="post">
                                 <div class="form-group first">
                                     <label for="username">Username</label>
                                     <input type="text"  name="username" id="username" class="form-control" placeholder="Enter your username" id="username">
@@ -72,6 +73,8 @@
                                     <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
                                 </div>
 
+                                <p style="color: red;">  ${errorMessage} </p>
+
                                 <input type="submit" value="Log In" name="btAction" class="btn btn-block btn-primary">
                                 <p class="footer">Chưa có tài khoản ? đăng kí<a href="signup.jsp"> tại đây </a></p>
                             </form>
@@ -79,8 +82,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
 

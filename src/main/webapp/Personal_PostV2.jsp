@@ -118,11 +118,20 @@
                                         <div class="font">
                                             <p>${post.postContent}</p>
                                         </div>
+                                        <p>
+                                            Bài viết đang ở chế độ:
+                                            <span class="${post.isPublic() ? 'text-success' : 'text-danger'}">
+                                                ${post.isPublic() ? 'Công khai' : 'Ẩn'}
+                                            </span>
+                                        </p>
                                         <button class="btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
-                                        <form action="DeletePostByUserServlet">
-                                            <input type="hidden" name="postId" value="${post.postId}" />
-                                            <input type="submit" value="xoá bài viết">
-                                        </form>
+                                        <!--                                        <form action="DeletePostByUserServlet">
+                                                                                    <input type="hidden" name="postId" value="${post.postId}" />
+                                                                                    <input type="submit" value="xoá bài viết">
+                                                                                </form>-->
+                                        <a class="btn btn-secondary" href="SetIsPublicPost?postId=${post.postId}&isPublic=${post.isPublic()}">
+                                            ${post.isPublic() ? "Ẩn bài viết" : "Hiện bài viết"}
+                                        </a>
                                         <!-- Popup Form -->
                                         <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                              aria-hidden="true">
@@ -188,15 +197,18 @@
                                                                  src="${post.postImage}" alt="Hình ảnh">
                                                             <div class="mb-3">
                                                                 <label for="formFile" class="form-label"><i class="fa fa-picture-o"></i>
-                                                                    Chọn ảnh: </label>
+                                                                    Chọn ảnh mới: </label>
                                                                 <input class="form-control" type="file" id="formFile" name="file"  multiple>
                                                                 <input type="hidden" name="OldImg" value="${post.postImage}" />
                                                                 <img id="previewImage" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
+                                                        <div class="modal-footer container">
                                                             <input type="hidden" name="postId" value="${post.postId}" />
-                                                            <button type="submit" class="btn btn-primary" >Cập nhật</button>
+                                                            <div class="row">
+                                                                <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
+                                                                <button type="submit" class="btn btn-primary col-sm-2 p-0" >Cập nhật</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>  
@@ -216,17 +228,14 @@
                                 <c:forEach items="${listPostOfPersonal}" var="post">
                                     <c:if test="${post.status eq 'rejected'}">
                                         <c:set var="countDenied" value="${count + 1}" />
-                                        <p>${post.reason}</p>
+
                                         <img class="col-sm-6 image-content mt-5 img-fluid"
                                              src="${post.postImage}" alt="Hình ảnh">
                                         <div class="font">
                                             <p>${post.postContent}</p>
                                         </div>
+                                        <p>Lí do từ chối: ${post.reason}</p>
                                         <button class="btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
-                                        <form action="DeletePostByUserServlet">
-                                            <input type="hidden" name="postId" value="${post.postId}" />
-                                            <input type="submit" value="xoá bài viết">
-                                        </form>
                                         <!-- Popup Form -->
                                         <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                              aria-hidden="true">
@@ -292,15 +301,18 @@
                                                                  src="${post.postImage}" alt="Hình ảnh">
                                                             <div class="mb-3">
                                                                 <label for="formFile" class="form-label"><i class="fa fa-picture-o"></i>
-                                                                    Chọn ảnh: </label>
+                                                                    Chọn ảnh mới: </label>
                                                                 <input class="form-control" type="file" id="formFile" name="file"  multiple>
                                                                 <input type="hidden" name="OldImg" value="${post.postImage}" />
                                                                 <img id="previewImage" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
+                                                       <div class="modal-footer container">
                                                             <input type="hidden" name="postId" value="${post.postId}" />
-                                                            <button type="submit" class="btn btn-primary" >Cập nhật</button>
+                                                            <div class="row">
+                                                                <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
+                                                                <button type="submit" class="btn btn-primary col-sm-2 p-0" >Cập nhật</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>  
@@ -327,10 +339,6 @@
                                             <p>${post.postContent}</p>
                                         </div>
                                         <button class="btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
-                                        <form action="DeletePostByUserServlet">
-                                            <input type="hidden" name="postId" value="${post.postId}" />
-                                            <input type="submit" value="xoá bài viết">
-                                        </form>
                                         <!-- Popup Form -->
                                         <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                              aria-hidden="true">
@@ -396,15 +404,18 @@
                                                                  src="${post.postImage}" alt="Hình ảnh">
                                                             <div class="mb-3">
                                                                 <label for="formFile" class="form-label"><i class="fa fa-picture-o"></i>
-                                                                    Chọn ảnh: </label>
+                                                                    Chọn ảnh mới: </label>
                                                                 <input class="form-control" type="file" id="formFile" name="file"  multiple>
                                                                 <input type="hidden" name="OldImg" value="${post.postImage}" />
                                                                 <img id="previewImage" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
+                                                        <div class="modal-footer container">
                                                             <input type="hidden" name="postId" value="${post.postId}" />
-                                                            <button type="submit" class="btn btn-primary" >Cập nhật</button>
+                                                            <div class="row">
+                                                                <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
+                                                                <button type="submit" class="btn btn-primary col-sm-2 p-0" >Cập nhật</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>  

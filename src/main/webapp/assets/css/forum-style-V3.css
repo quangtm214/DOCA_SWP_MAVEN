@@ -188,11 +188,11 @@ p.post-text {
     margin-left: 60px;
     margin-right: 60px;
 }
-a.sell.d-flex {
+/*a.sell.d-flex {
     width: 120%;
-}
+}*/
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>> css moi postdetail.jsp*/
-img.img-content.col-sm-7 {
+img.img-content.col-sm-8 {
     margin-left: 290px;
     border-radius: 5%;
     padding: 0;

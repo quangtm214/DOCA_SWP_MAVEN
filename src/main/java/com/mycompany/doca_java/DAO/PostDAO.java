@@ -580,51 +580,7 @@ public class PostDAO {
 
     }
 
-    public boolean delPost(String postId) throws SQLException, ClassNotFoundException, NamingException {
-        Connection con = null;
-        PreparedStatement stmCategory = null;
-        PreparedStatement stmPost = null;
-        boolean result = false;
-        try {
-            //1. make connection 
-            con = DBconnect.makeConnection();
-            if (con != null) {
-                //2.create sql String
-                String sqlDelCategory = "DELETE FROM [dbo].[categoryLinkpost]\n"
-                        + "      WHERE post_id = ?";
-                //3.create stm obj
-                stmCategory = con.prepareStatement(sqlDelCategory);
-                stmCategory.setString(1, postId);
-                //4.execute
-                int effectRowsCategory = stmCategory.executeUpdate();
-                //5.Process
-                if (effectRowsCategory <= 0) {
-                    return result;
-                }
-                String sqlDelPost = "DELETE FROM [dbo].[post]\n"
-                        + "      WHERE post_id = ?";
-                stmPost = con.prepareStatement(sqlDelPost);
-                stmPost.setString(1, postId);
-                int effectRowsPost = stmPost.executeUpdate();
-                if (effectRowsPost > 0) {
-                    result = true;
-                }
-
-            }
-        } finally {
-
-            if (stmCategory != null) {
-                stmCategory.close();
-            }
-            if (stmPost != null) {
-                stmPost.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return result;
-    }
+    
 
     public List<Integer> categorys(int postId) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
@@ -696,7 +652,7 @@ public class PostDAO {
                         }
                     }
 
-                    String updatePost = "Update post Set post_content = ? , post_image = ? where post_id = ? ";
+                    String updatePost = "Update post Set post_content = ? , post_image = ? , status = 'pending' where post_id = ? ";
                     stmUpdate = con.prepareStatement(updatePost);
                     stmUpdate.setString(1, updateContent);
                     stmUpdate.setString(2, updateImg);
@@ -726,5 +682,28 @@ public class PostDAO {
         return result;
     }
 
-
+    public void updatePostIsPublic(int postId, boolean isPublic) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                // Create SQL string
+                String sql = "UPDATE [dbo].[post] SET isPublic = ? WHERE post_id = ?";
+                // Create statement object
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, isPublic);
+                stm.setInt(2, postId);
+                // Execute update
+                stm.executeUpdate();
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }

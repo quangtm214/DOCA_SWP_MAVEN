@@ -138,38 +138,7 @@ public class saveProductDAO {
     return result;
 }
     
-    public boolean deleteSaveProductByProductID(int productId)
-            throws SQLException, ClassNotFoundException, NamingException {
-    Connection con = null;
-    PreparedStatement stm = null;
-    boolean result = false;
-    try {
-        con = DBconnect.makeConnection();
-        if (con != null) {
-            // Create SQL statement
-            String sql = "DELETE FROM saveProduct WHERE product_id = ?";
-            // Create prepared statement
-            stm = con.prepareStatement(sql);
-            stm.setInt(1, productId);
-            // Execute the deletion
-            int effectRows = stm.executeUpdate();
-            // Process the result
-            if (effectRows > 0) {
-                result = true;
-            }
-        }
-    } finally {
-        // Close the statement and connection
-        if (stm != null) {
-            stm.close();
-        }
-        if (con != null) {
-            con.close();
-        }
-    }
-    return result;
-}
-    
+   
     
     public List<saveProductDTO> getAllSaveProduct() throws SQLException, ClassNotFoundException, NamingException {
     Connection con = null;

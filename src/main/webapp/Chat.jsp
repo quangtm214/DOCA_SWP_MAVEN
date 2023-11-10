@@ -192,7 +192,7 @@
                                         <div class="mr-3">
                                             <button class="btn btn-primary">
                                                 <i class="fa fa-paper-plane"></i>
-                                                Send</button>
+                                                </button>
                                         </div>
                                     </div>
                                 </form>

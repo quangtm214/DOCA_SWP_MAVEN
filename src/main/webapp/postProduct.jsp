@@ -122,7 +122,7 @@
                                     data-target="#myModal">
                                 Địa chỉ
                             </button>
-
+                            <div id="addressResult"></div>
                             <!--Modal--> 
                             <div class="modal" id="myModal">
                                 <div class="modal-dialog">
@@ -157,7 +157,7 @@
                                             <button type="submit" class="btn btn-secondary"
                                                     data-dismiss="modal">Đóng</button>
                                             <button type="submit" class="btn btn-secondary"
-                                                    data-dismiss="modal">Xong</button>
+                                                    data-dismiss="modal" onclick="displayAddress()">Xong</button>
 
                                         </div>
                                     </div>
@@ -174,46 +174,56 @@
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
-                                var cities = document.getElementById("city");
-                                var districts = document.getElementById("district");
-                                var wards = document.getElementById("ward");
-                                var Parameter = {
-                                    url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                                    method: "GET",
-                                    responseType: "application/json"
-                                };
-                                var promise = axios(Parameter);
-                                promise.then(function (result) {
-                                    renderCity(result.data);
-                                });
+                                                        var cities = document.getElementById("city");
+                                                        var districts = document.getElementById("district");
+                                                        var wards = document.getElementById("ward");
+                                                        var Parameter = {
+                                                            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                                                            method: "GET",
+                                                            responseType: "application/json"
+                                                        };
+                                                        var promise = axios(Parameter);
+                                                        promise.then(function (result) {
+                                                            renderCity(result.data);
+                                                        });
 
-                                function renderCity(data) {
-                                    for (const city of data) {
-                                        cities.options[cities.options.length] = new Option(city.Name, city.Name);
-                                    }
-                                    cities.onchange = function () {
-                                        districts.length = 1;
-                                        wards.length = 1;
-                                        if (this.value !== "") {
-                                            const selectedCity = data.find(city => city.Name === this.value);
+                                                        function renderCity(data) {
+                                                            for (const city of data) {
+                                                                cities.options[cities.options.length] = new Option(city.Name, city.Name);
+                                                            }
+                                                            cities.onchange = function () {
+                                                                districts.length = 1;
+                                                                wards.length = 1;
+                                                                if (this.value !== "") {
+                                                                    const selectedCity = data.find(city => city.Name === this.value);
 
-                                            for (const district of selectedCity.Districts) {
-                                                districts.options[districts.options.length] = new Option(district.Name, district.Name);
-                                            }
-                                        }
-                                    };
-                                    districts.onchange = function () {
-                                        wards.length = 1;
-                                        const selectedCity = data.find(city => city.Name === cities.value);
-                                        if (this.value !== "") {
-                                            const selectedDistrict = selectedCity.Districts.find(district => district.Name === this.value);
+                                                                    for (const district of selectedCity.Districts) {
+                                                                        districts.options[districts.options.length] = new Option(district.Name, district.Name);
+                                                                    }
+                                                                }
+                                                            };
+                                                            districts.onchange = function () {
+                                                                wards.length = 1;
+                                                                const selectedCity = data.find(city => city.Name === cities.value);
+                                                                if (this.value !== "") {
+                                                                    const selectedDistrict = selectedCity.Districts.find(district => district.Name === this.value);
 
-                                            for (const ward of selectedDistrict.Wards) {
-                                                wards.options[wards.options.length] = new Option(ward.Name, ward.Name);
-                                            }
-                                        }
-                                    };
-                                }
+                                                                    for (const ward of selectedDistrict.Wards) {
+                                                                        wards.options[wards.options.length] = new Option(ward.Name, ward.Name);
+                                                                    }
+                                                                }
+                                                            };
+                                                        }
+
+                                                        function displayAddress() {
+                                                            var selectedCity = cities.value;
+                                                            var selectedDistrict = districts.value;
+                                                            var selectedWard = wards.value;
+
+                                                            var address = selectedCity + " - " + selectedDistrict + " - " + selectedWard;
+                                                            document.getElementById("addressResult").textContent = address;
+                                                            document.getElementById("hiddenAddress").value = address;
+                                                        }
     </script>
     <script>
         $(document).ready(function () {
@@ -233,7 +243,7 @@
             });
         });
 
-       
+
         const inputFee = document.getElementById('input-fee');
         inputFee.addEventListener('input', formatCurrency);
         function formatCurrency() {
@@ -243,7 +253,7 @@
                 value = parseFloat(value);
                 inputFee.value = value.toLocaleString('en-VN', {
                     style: 'currency',
-                    currency: 'VND' 
+                    currency: 'VND'
                 });
             } else {
                 inputFee.value = '0';

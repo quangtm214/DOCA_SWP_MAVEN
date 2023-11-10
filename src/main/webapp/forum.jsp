@@ -40,7 +40,7 @@
         <!-- Link CSS -->
         <link rel="stylesheet" href="assets/css/standar-style.css">
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
-        <style>
+<!--        <style>
             a.username {
                 color: #050505;
             }
@@ -55,9 +55,9 @@
                 margin-left: 60px;
                 margin-right: 60px;
             }
-            a.sell.d-flex {
+/*            a.sell.d-flex {
                 width: 120%;
-            }
+            }*/
             /*>>>>>>>>>>>>>>>>>>>>>>>>>>> css moi postdetail.jsp*/
             img.img-content.col-sm-7 {
                 margin-left: 290px;
@@ -86,7 +86,7 @@
             .delete-comment:hover {
                 background-color: #E64222; /* Thay đổi màu nền khi di chuột vào nút */
             }
-        </style>
+        </style>-->
     </head>
 
     <body>
@@ -142,7 +142,7 @@
                                                     <div class="form-check form-check-inline">
                                                         <input name="category" class="form-check-input" type="checkbox" id="inlineCheckbox2"
                                                                value="6">
-                                                        <label class="form-check-label" for="inlineCheckbox2">Mẹo huấn luyệnn</label>
+                                                        <label class="form-check-label" for="inlineCheckbox2">Mẹo huấn luyện</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input name="category" class="form-check-input" type="checkbox" id="inlineCheckbox3"
@@ -234,12 +234,14 @@
                                             </div>
                                         </div>
 
-                                        <div class="post-body">
-                                            <p class="post-text" data-toggle="modal" data-target="#modalID${post.postId}">${post.postContentFormat()}</p>
+                                        <div class="post-body container p-0">
+                                            <p class="post-text row m-0" data-toggle="modal" data-target="#modalID${post.postId}">${post.postContentFormat()}</p>
 
-                                            <a href="postDetailServlet?postId=${post.postId}" class="sell d-flex">
-                                                <img class="img-content col-sm-7" data-toggle="modal" 
-                                                     style="margin-left: 130px;" data-target="#modalID${post.postId}" src="${post.postImage}" alt="Post Image">
+                                            <a href="postDetailServlet?postId=${post.postId}" class="sell d-flex row">
+                                                <div class="col-sm-2 p-0"></div>
+                                                <img class="img-content col-sm-8 m-0" data-toggle="modal" 
+                                                     style="" data-target="#modalID${post.postId}" src="${post.postImage}" alt="Post Image">
+                                                <div class="col-sm-2 p-0"></div>
                                             </a>
                                         </div>
                                         <div class="post-footer">
