@@ -88,18 +88,27 @@
                                          class="rounded-circle profile-image" style=" object-fit: cover;
                                          border-radius: 50%;  width: 32px;
                                          height: 32px;">
-                                    <a id="profileLink" href="" class="username text-dark">${feedbackWBuyer.getBuyer().getUserName()}</a>
+                                    <a id="profileLink" href="Profilemember?userId=${feedbackWBuyer.getBuyer().user_ID}" class="username text-dark">${feedbackWBuyer.getBuyer().getUserName()}</a>
                                 </div>
                                 <div class="row feedback_content">
                                     <p>${feedbackWBuyer.getFeedback().getFeedback_content()}</p>
                                 </div>
                                 <div class="row rate">
-                                    <p>đánh giá: ${feedbackWBuyer.getFeedback().getRate()}/5</p>
+
+
+                                    <c:set var="averageRateStr" value="${feedbackWBuyer.getFeedback().getRate()}" />
+                                    <c:set var="firstDigit" value="${fn:substring(averageRateStr, 0, 1)}" />
+                                    <div class="stars-rating">
+                                        <c:forEach begin="1" end="${firstDigit}">
+                                            <i class="fa fa-star"></i>
+                                        </c:forEach>
+                                    </div>
+
                                 </div>
                                 <div class="row product ">
                                     <c:forEach items="${listProduct}" var="product">
                                         <c:if test="${product.productId == feedbackWBuyer.getFeedback().getProduct_id()}">
-                                            <a href="productDetailServlet?productId=${product.productId}" class="row m-0" >
+                                            <a href="productDetailServlet?productId=${product.productId}" class="row m-0" style="width: 100%" >
                                                 <img src="${product.productImage}"
                                                      class="col-sm-4 p-0"
                                                      alt="product Image"
