@@ -83,67 +83,77 @@
         <c:set var="product" value="${requestScope.productDetail}" />
         <c:set var="category" value="${requestScope.category}" />
         <c:set var="OwnerAccount" value="${sessionScope.USER_NAME}"/>
+        <c:set var="MessageERRO" value="${requestScope.Message}"/>
         <jsp:include page="header.jsp" />
         <div class="main-content">
             <div class="row row-content justify-content-center">
                 <div class="col-sm-8 ">
                     <div class="container pt-5">
-                        <div class="row">
-                            <div class="col">
-
-                                <c:set var="img" value="${product.productImage}"/>
-                                <img class="product-image" src=${img} alt="" style="max-width: 100%;  object-fit: cover;">
-                                <div class="product_info">
-                                    <c:set var="title" value="${product.title}"/>
-                                    <h2 class="title">${title}</h2>
-                                    <c:if test="${!product.isFree()}">
-                                        <h4 class="price text-danger">Giá: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h4>
-                                    </c:if>
-                                    <c:if test="${product.isFree()}">
-                                        <h4 class="price text-danger">Miễn phí</h4>
-                                    </c:if>
-
-                                    <p class="product_des">${product.productContentFormat()}</p>
-                                    <h4 class="text-secondary">Khu Vực</h4>
-                                    <p class="product_address">
-                                        <i class="fa fa-location-dot"></i>
-                                        ${product.address}
-                                    </p>
-                                    <h5 class="text-secondary">Loại sản phẩm</h5>
-                                    <p>${category.categoryName}</p>
-                                </div>
-
+                        <c:if test="${empty product}">
+                            <div class="row  ml-0  d-flex justify-content-center" style="margin-top: 300px;">
+                                
+                                    <h3>Sản phẩm không còn tồn tại</h3>
+                                    <h4 >${MessageERRO}</h4>
+                                    <form action="DispatchServlet" >
+                                    <button class="btn btn-warning text-white" name="btAction" value="goTomarket">Về trang chợ</button>
+                                    </form>
                             </div>
-                            <div class="col">
-                                <div class="row">
-                                    <a href="Profilemember?userId=${owner.user_ID}">
-                                        <div class="profile-info">
-                                            <div class="profile-image-container">
-                                                <img src="${owner.avatar}" alt="Profile Image" class="rounded-circle profile-image">
+                        </c:if>
+                        <c:if test="${not empty product}">
+                            <div class="row">
+                                <div class="col">
+                                    <c:set var="img" value="${product.productImage}"/>
+                                    <img class="product-image" src=${img} alt="" style="max-width: 100%;  object-fit: cover;">
+                                    <div class="product_info">
+                                        <c:set var="title" value="${product.title}"/>
+                                        <h2 class="title">${title}</h2>
+                                        <c:if test="${!product.isFree()}">
+                                            <h4 class="price text-danger">Giá: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h4>
+                                        </c:if>
+                                        <c:if test="${product.isFree()}">
+                                            <h4 class="price text-danger">Miễn phí</h4>
+                                        </c:if>
+
+                                        <p class="product_des">${product.productContentFormat()}</p>
+                                        <h4 class="text-secondary">Khu Vực</h4>
+                                        <p class="product_address">
+                                            <i class="fa fa-location-dot"></i>
+                                            ${product.address}
+                                        </p>
+                                        <h5 class="text-secondary">Loại sản phẩm</h5>
+                                        <p>${category.categoryName}</p>
+                                    </div>
+
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <a href="Profilemember?userId=${owner.user_ID}">
+                                            <div class="profile-info">
+                                                <div class="profile-image-container">
+                                                    <img src="${owner.avatar}" alt="Profile Image" class="rounded-circle profile-image">
+                                                </div>
+
+                                                <h6 class="userName mt-2">${owner.userName}</h6>
                                             </div>
+                                        </a>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <button class="btn btn-outline-secondary bg-light btn-block text-success"
+                                                id="sellerPhone">hiện số người bán</button>
 
-                                            <h6 class="userName mt-2">${owner.userName}</h6>
-                                        </div>
-                                    </a>
+                                        <br>
+                                        <c:if test="${product.userId  != OwnerAccount.user_ID }">
+                                            <button class="btn btn-outline-secondary bg-light btn-block text-success mt-2">
+                                                <a href="CreateConversation?ProductID=${product.productId}&sellerID=${product.userId}" >
+                                                    <i class="fa fa-comments"></i> chat với người bán
+                                                </a>
+                                            </button>
+                                        </c:if>
+                                    </div>
+
                                 </div>
-                                <div class="row mt-5">
-                                    <button class="btn btn-outline-secondary bg-light btn-block text-success"
-                                            id="sellerPhone">hiện số người bán</button>
-
-                                    <br>
-                                    <c:if test="${product.userId  != OwnerAccount.user_ID }">
-                                        <button class="btn btn-outline-secondary bg-light btn-block text-success mt-2">
-                                            <a href="CreateConversation?ProductID=${product.productId}&sellerID=${product.userId}" >
-                                                <i class="fa fa-comments"></i> chat với người bán
-                                            </a>
-                                        </button>
-                                    </c:if>
-                                </div>
-
                             </div>
-
-                        </div>
-
+                        </c:if>
                     </div>
 
                 </div>

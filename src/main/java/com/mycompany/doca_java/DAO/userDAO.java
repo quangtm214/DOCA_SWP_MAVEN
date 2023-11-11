@@ -523,4 +523,176 @@ public class userDAO {
         return user;
     }
 
+    public List<userDTO> getUsersByRoleIdTrue() throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<userDTO> users = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [user_id], [username], [password], [Gender], [email], [mobile_num], [status], [role_id], [avatar] "
+                        + "FROM [DOCA_platform].[dbo].[users] "
+                        + "WHERE [role_id] = 1"; // Assuming 1 represents true for role_id
+
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int user_ID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String password = rs.getString("password");
+                    String Gender = rs.getString("Gender");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("mobile_num");
+                    boolean status = rs.getBoolean("status");
+                    boolean roleID = rs.getBoolean("role_id");
+                    String avatar = rs.getString("avatar");
+
+                    userDTO user = new userDTO(user_ID, userName, password, Gender, email, phone, status, roleID, avatar);
+                    users.add(user);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return users;
+    }
+
+    public boolean banUser(int userId) throws SQLException, NamingException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBconnect.makeConnection(); // Replace with your database connection method
+            if (con != null) {
+                String sql = "UPDATE users SET status = ? WHERE user_id = ?"; // Corrected SQL statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "false"); // Assuming "BANNED" is the status you want to set
+                stm.setInt(2, userId);
+                int rowsAffected = stm.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    // Update was successful
+                    return true;
+                } else {
+                    // No user found with the given user_id, or the update had no effect
+                    return false;
+                }
+            } else {
+                // Handle connection error
+                throw new SQLException("Database connection is not established.");
+            }
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public boolean unbanUser(int userId) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE users SET status = ? WHERE user_id = ?";
+                stm = con.prepareStatement(sql);
+
+                // Set status to true (unbanned)
+                stm.setBoolean(1, true);
+                stm.setInt(2, userId);
+
+                int rowsAffected = stm.executeUpdate();
+
+                return rowsAffected > 0;
+            } else {
+                throw new SQLException("Database connection is not established.");
+            }
+        } finally {
+            // Close resources
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public List<userDTO> searchByUsername(String username) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<userDTO> userList = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [user_id], [username], [password], [Gender], [email], [mobile_num], [status], [role_id], [avatar]\n"
+                        + "FROM [DOCA_platform].[dbo].[users]\n"
+                        + "WHERE [username] LIKE ?;";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + username + "%"); // Use '%' as a wildcard for a partial match
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int user_ID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String password = rs.getString("password");
+                    String Gender = rs.getString("Gender");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("mobile_num");
+                    boolean status = rs.getBoolean("status");
+                    boolean roleID = rs.getBoolean("role_id");
+                    String avatar = rs.getString("avatar");
+
+                    userDTO user = new userDTO(user_ID, userName, password, Gender, email, phone, status, roleID, avatar);
+
+                    if (this.ListOfUser == null) {
+                        this.ListOfUser = new ArrayList<>();
+                    }
+
+                    if (user.isRoleID()) {
+                        this.ListOfUser.add(user);
+                    }
+                }
+            }
+        } finally {
+            // Close resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return ListOfUser;
+    }
 }

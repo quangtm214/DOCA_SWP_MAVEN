@@ -1,38 +1,33 @@
+package com.mycompany.doca_java.Controller.Admin;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.doca_java.Controller;
-
-import com.mycompany.doca_java.DAO.FeedbackDAO;
-import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.userDAO;
-import com.mycompany.doca_java.DTO.FeedbackDTO;
-import com.mycompany.doca_java.DTO.FeedbackWithBuyer;
-import com.mycompany.doca_java.DTO.ProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.naming.NamingException;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "getListFeedbackServlet", urlPatterns = {"/getListFeedbackServlet"})
-public class getListFeedbackServlet extends HttpServlet {
-    
-    private final String VIEW_FEEDBACK_PAGE = "viewFeedback.jsp";
+@WebServlet(name = "AllUserServlet", urlPatterns = {"/AllUserServlet"})
+public class AllUserServlet extends HttpServlet {
+
+    private final String adminShowUser = "AdminUI/alluser.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,35 +41,17 @@ public class getListFeedbackServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int seller_id = Integer.parseInt(request.getParameter("seller_id"));
-        String url = "";
+        HttpSession session = request.getSession();
+        userDTO account = (userDTO) session.getAttribute("USER_NAME");
         try {
-            FeedbackDAO dao = new FeedbackDAO();
-            List<FeedbackDTO> ListOfFeedback = dao.getListFeedbackBySellerId(seller_id);
-            userDAO uDao= new userDAO();
-            List<FeedbackWithBuyer> feedbackWithBuyerList = new ArrayList<>();
-            for (FeedbackDTO feedbackDTO : ListOfFeedback) {
-                userDTO buyer= uDao.getUserbyUserID(feedbackDTO.getBuyer_id());
-                FeedbackWithBuyer feedbackWithUser= new FeedbackWithBuyer(feedbackDTO, buyer);
-                feedbackWithBuyerList.add(feedbackWithUser);
-            }
-            ProductDAO pdao= new ProductDAO();
-             List<ProductDTO> listProduct = new ArrayList<>();
-              for (FeedbackDTO feedbackDTO : ListOfFeedback) {
-                ProductDTO product= pdao.getProductById(feedbackDTO.getProduct_id());
-               
-                listProduct.add(product);
-            }
-            userDTO seller=uDao.getUserbyUserID(seller_id);
-            double averageRate = dao.getAverageRateBySellerId(seller_id);
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
-            String formattedAverageRate = decimalFormat.format(averageRate);
-            if (feedbackWithBuyerList != null) {
-                request.setAttribute("averageRate", formattedAverageRate);
-                request.setAttribute("feedbackWithBuyerList", feedbackWithBuyerList);
-                request.setAttribute("seller", seller);
-                request.setAttribute("listProduct", listProduct);
-                url = VIEW_FEEDBACK_PAGE;
+            if (!account.isRoleID()) {
+                // Gọi DAO để lấy danh sách người dùng có role_id = true
+                userDAO userDAO = new userDAO();
+                List<userDTO> userList = userDAO.getUsersByRoleIdTrue();
+                // Đặt danh sách người dùng vào thuộc tính của request
+                request.setAttribute("userList", userList);
+
+                // Chuyển hướng đến trang JSP để hiển thị thông tin người dùng
             }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -83,9 +60,10 @@ public class getListFeedbackServlet extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-             RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(adminShowUser);
+            dispatcher.forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

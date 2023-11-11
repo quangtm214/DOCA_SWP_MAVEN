@@ -116,7 +116,7 @@
                             <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
                         </div>
                         <!-- bat dau modal -->
-                        <div class="container mt-3">
+                        <div class="container mt-3 p-0">
                             <!--Button mở modal--> 
                             <button type="button" class="btn btn-primary form-control" data-toggle="modal"
                                     data-target="#myModal">

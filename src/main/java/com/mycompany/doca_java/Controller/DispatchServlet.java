@@ -31,6 +31,9 @@ public class DispatchServlet extends HttpServlet {
     private final String SEARCH_IN_MARKET = "searchInMarketServlet";
     private final String SEARCH_IN_FORUM = "SearchInForumServlet";
     private final String UPDATE_INFO_ACCOUNT = "UpdateAccountServlet";
+    private final String SEARCH_BY_USERNAME = "SearchByUserName";
+    private final String UPDATE_PASSWORD_SERVLET = "UpdatePassword";
+    private final String ADMIN_UPDATE_SERVLET = "UpdateUserServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -100,7 +103,7 @@ public class DispatchServlet extends HttpServlet {
                 url = SEARCH_IN_MARKET;
             }
             if (button.equals("searchForum")) {
-                 request.removeAttribute("listOfPost");
+                request.removeAttribute("listOfPost");
                 request.removeAttribute("indexcategoryID");
                 request.removeAttribute("listInPage");
                 request.removeAttribute("numberPage");
@@ -109,10 +112,19 @@ public class DispatchServlet extends HttpServlet {
                 session.removeAttribute("LastSearch");
                 url = SEARCH_IN_FORUM;
             }
-             if (button.equals("Thay đổi thông tin")) {
+            if (button.equals("Thay đổi thông tin")) {
                 url = UPDATE_INFO_ACCOUNT;
             }
-            
+            if (button.equals("Thay đổi mật khẩu")) {
+                url = UPDATE_PASSWORD_SERVLET;
+            }
+            if (button.equals("UpdateUser")) {
+                url = ADMIN_UPDATE_SERVLET;
+            }
+            if (button.equals("Search User")) {
+                url = SEARCH_BY_USERNAME;
+            }
+
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

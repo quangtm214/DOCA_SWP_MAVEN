@@ -46,6 +46,7 @@
         <jsp:include page="header.jsp" />
         <c:set var="feedbackList" value="${requestScope.feedbackWithBuyerList}" />
         <c:set var="seller" value="${requestScope.seller}" />
+        <c:set var="listProduct" value="${requestScope.listProduct}" />
         <div class="main-content">
             <div class="row row-content justify-content-center">
                 <div class="col-sm-8 ">
@@ -59,7 +60,7 @@
                             <div>
                                 <a id="profileLink" href="Profilemember?userId=${seller.user_ID}" class="username ml-2 mt-2 text-dark">
                                     ${seller.userName}</a>
-                                <c:if test="${averageRate > 0.0}">
+                                    <c:if test="${averageRate > 0.0}">
                                     <div class="row ml-1 ">
                                         <p class="mr-2 mb-1">Điểm đánh giá: ${averageRate}/5</p> 
                                     </div>
@@ -79,7 +80,7 @@
                             </div>
                         </div> 
                         <hr>
-                        <div class=" container feedbackList p-0">
+                        <div class="container feedbackList p-0">
                             <c:forEach items="${feedbackList}" var="feedbackWBuyer">
                                 <div class="row profile-seller-info mt-2">
                                     <img src="${feedbackWBuyer.getBuyer().getAvatar()}"
@@ -94,6 +95,21 @@
                                 </div>
                                 <div class="row rate">
                                     <p>đánh giá: ${feedbackWBuyer.getFeedback().getRate()}/5</p>
+                                </div>
+                                <div class="row product ">
+                                    <c:forEach items="${listProduct}" var="product">
+                                        <c:if test="${product.productId == feedbackWBuyer.getFeedback().getProduct_id()}">
+                                            <a href="productDetailServlet?productId=${product.productId}" class="row m-0" >
+                                                <img src="${product.productImage}"
+                                                     class="col-sm-4 p-0"
+                                                     alt="product Image"
+                                                     style=" object-fit: cover;
+                                                     border-radius: 10%;  max-width: 56px;
+                                                     max-height: 56px;">
+                                                <p class="col-sm-8">${product.title}</p>
+                                            </a>
+                                        </c:if>
+                                    </c:forEach>
                                 </div>
                                 <hr class="m-0">
                             </c:forEach>

@@ -101,12 +101,12 @@
                                                                             </a>
 
                                                                         </div>
-                                                                        <div class="col-lg-3 p-0">
+                                                                        <div class="col-xl-3 p-0">
                                                                             <img src="${Product.productImage}"
                                                                                  alt="Product Image"
                                                                                  class="Product-image ml-1 " style=" object-fit: cover;
-                                                                                 border-radius: 10%;  width: 60px;
-                                                                                 height: 60px;">
+                                                                                 border-radius: 10%;  max-width: 60px;
+                                                                                 max-height: 60px;">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -129,9 +129,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="ratingModalLabel">Đánh giá người bán </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
 
@@ -192,7 +190,7 @@
                                         <div class="mr-3">
                                             <button class="btn btn-primary">
                                                 <i class="fa fa-paper-plane"></i>
-                                                </button>
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

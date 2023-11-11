@@ -57,13 +57,16 @@
         <jsp:include page="headerAdmin.jsp" />
 
         <div class="container"  style="margin-top: 150px;">
-           
+
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
                     <a class="nav-link " data-bs-toggle="tab" onclick="redirectToPostServlet()">Forum</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" href="#product">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Manage User</a>
                 </li>
             </ul>
 
@@ -142,6 +145,9 @@
                                 <script>
                                     function redirectToPostServlet() {
                                         window.location.href = "AdminManageForumPostServlet";
+                                    }
+                                    function redirectToUserServlet() {
+                                        window.location.href = "AllUserServlet";
                                     }
                                 </script>
                                 <!--</form>-->

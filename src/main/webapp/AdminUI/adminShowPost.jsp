@@ -62,6 +62,9 @@
                     <a class="nav-link" data-bs-toggle="tab" 
                        onclick="redirectToProductServlet()">Product</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Manage User</a>
+                </li>
             </ul>
 
             <div class="tab-content ">
@@ -136,6 +139,9 @@
             <script>
                 function redirectToProductServlet() {
                     window.location.href = "AdminManageProductPostServlet";
+                }
+                  function redirectToUserServlet() {
+                    window.location.href = "AllUserServlet";
                 }
             </script>
             <script>

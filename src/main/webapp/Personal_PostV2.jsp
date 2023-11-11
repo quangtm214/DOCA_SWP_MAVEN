@@ -130,7 +130,14 @@
                                                                                     <input type="submit" value="xoá bài viết">
                                                                                 </form>-->
                                         <a class="btn btn-secondary" href="SetIsPublicPost?postId=${post.postId}&isPublic=${post.isPublic()}">
-                                            ${post.isPublic() ? "Ẩn bài viết" : "Hiện bài viết"}
+                                            <c:choose>
+                                                <c:when test="${post.isPublic()}">
+                                                    Ẩn bài viết <i class="fa fa-eye-slash"></i>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Hiện bài viết <i class="fa fa-eye"></i>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </a>
                                         <!-- Popup Form -->
                                         <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"

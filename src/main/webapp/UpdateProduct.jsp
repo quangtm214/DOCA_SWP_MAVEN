@@ -107,11 +107,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="content" class="form-label">Nội dung</label>
-                            <textarea class="form-control" id="content" name="content" rows="5" 
+                            <textarea class="form-control" id="content" name="content" rows="10" 
                                       >${Product.description}</textarea>
                         </div>
                         <!-- bat dau modal -->
-                        <div class="container mt-3">
+                        <div class="container mt-3 p-0">
                             <!--Button mở modal--> 
                             <button type="button" class="btn btn-primary form-control" data-toggle="modal"
                                     data-target="#myModal">
