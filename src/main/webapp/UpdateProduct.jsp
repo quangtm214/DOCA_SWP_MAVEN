@@ -70,7 +70,7 @@
 
                     <h1>Bài đăng bán của bạn</h1>
 
-                    <form action="UpDate_Product" method="post"  enctype="multipart/form-data">
+                    <form action="UpDate_Product" method="post"  onsubmit="return validateForm()"  enctype="multipart/form-data">
                         <input type="hidden" name="Productid" value="${Product.productId}" />
                         <h5>Danh mục đăng tin</h5>
                         <div class="dropdown mt-3 mb-3">
@@ -98,12 +98,15 @@
                             <div id="input-container" style="display: none;">
                                 <label for="input-fee">Giá:</label>
                                 <input type="text" name="input-fee" id="input-fee" class="form-control" value="${Product.price}">
+                                 <p id="ErrorFee" class="mb-0 text-danger"></p>
                                 <br>
                             </div>
                             <br>
 
                             <label for="radio-free">Miễn phí:</label>
+
                             <input type="radio" name="fee" value="free" id="radio-free" onclick="hideInput()" ${Product.isFree()?"checked":""}>
+                            <p id="ErrorRadio" class="mb-0 text-danger"></p>
                         </div>
                         <div class="mb-3">
                             <label for="content" class="form-label">Nội dung</label>
@@ -117,7 +120,8 @@
                                     data-target="#myModal">
                                 Địa chỉ
                             </button>
-                            <div id="addressResult">${Product.address}</div>
+                            <div id="addressResult" class="text-warning" >${Product.address}</div>
+
                             <input type="hidden" id="hiddenAddress" name="NewAddress">
                             <input type="hidden" name="OldAddress" value="${Product.address}">
                             <!--Modal--> 
@@ -157,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                             <p class=" m-0 text-warning">Xác nhận cập nhật sẽ đưa sản phẩm của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là phù hợp</p>
+                        <p class=" mb-0 mt-2 text-success">Xác nhận cập nhật sẽ đưa sản phẩm của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là phù hợp</p>
                         <button  type="submit" class="submit mt-5 mb-5 btn btn-primary form-control" value="UpdateProduct">xác nhận sửa sản phẩm</button>
 
                     </form>
@@ -252,5 +256,35 @@
             }
         }
 
+    </script>
+    <script>
+        function validateForm() {
+
+            var fee = document.querySelector('input[name="fee"]:checked');
+            var city = document.getElementById("city").value;
+            var district = document.getElementById("district").value;
+            var ward = document.getElementById("ward").value;
+            var errorFee = document.getElementById("ErrorFee");
+            var ErrorRadio = document.getElementById("ErrorRadio");
+            errorFee.innerHTML = "";
+
+            if (!fee) {
+                ErrorRadio.innerHTML = "Lựa chọn hình thức bán ";
+                return false;
+            }
+
+            if (fee.value == "fee" && (document.getElementById("input-fee").value == "0" || document.getElementById("input-fee").value == "₫0")) {
+
+                errorFee.innerHTML = "Vui lòng điền giá tiền";
+                ErrorRadio.innerHTML = "";
+                return false;
+            }
+
+            if (city == "" || district == "" || ward == "") {
+
+                document.getElementById("addressResult").textContent = "Vui lòng chọn địa chỉ đầy đủ";
+                return false;
+            }
+        }
     </script>
 </html>

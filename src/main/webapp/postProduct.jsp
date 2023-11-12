@@ -74,7 +74,7 @@
 
                     <h1>Bài đăng bán của bạn</h1>
 
-                    <form action="PostPorductV2" method="post" enctype="multipart/form-data"   >
+                    <form action="PostPorductV2" method="post" onsubmit="return validateForm()" enctype="multipart/form-data"   >
                         <h5>Danh mục đăng tin</h5>
                         <div class="dropdown mt-3 mb-3">
                             <select class="form-select" aria-label="Default select example" name="category_Product">
@@ -102,13 +102,14 @@
                                 <label for="input-fee">Giá:</label>
                                 <input type="text" name="input-fee" id="input-fee" class="form-control" value="0">
                                 <input type="hidden" name="input-fee-hiden" value="" />
+                                <p id="ErrorFee" class="mb-0 text-danger"></p>
                                 <br>
                             </div>
                             <br>
 
                             <label for="radio-free">Miễn phí:</label>
                             <input type="radio" name="fee" value="free" id="radio-free" onclick="hideInput()">
-
+                            <p id="ErrorRadio" class="mb-0 text-danger"></p>
 
                         </div>
                         <div class="mb-3">
@@ -122,29 +123,29 @@
                                     data-target="#myModal">
                                 Địa chỉ
                             </button>
-                            <div id="addressResult"></div>
+                            <div id="addressResult" class="text-warning"></div>
                             <!--Modal--> 
                             <div class="modal" id="myModal">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <!--Modal Header--> 
                                         <div class="modal-header" data-toggle="collapse" data-target="#categoryList">
-                                            <h4 class="modal-title">Địa chỉ</h4>
+                                            <h4 class="modal-title ">Địa chỉ</h4>
                                         </div>
 
                                         <!--Modal body--> 
 
                                         <div class="col-6">
 
-                                            <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm" name="city">
+                                            <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm" name="city" >
                                                 <option value="" selected>Chọn tỉnh thành</option>
                                             </select>
 
-                                            <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm" name="district">
+                                            <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm" name="district" >
                                                 <option value="" selected>Chọn quận huyện</option>
                                             </select>
 
-                                            <select class="form-select form-select-sm mb-3" id="ward" aria-label=".form-select-sm" name="ward">
+                                            <select class="form-select form-select-sm mb-3" id="ward" aria-label=".form-select-sm" name="ward" >
                                                 <option value="" selected>Chọn phường xã</option>
                                             </select>
 
@@ -260,6 +261,37 @@
             }
         }
 
+    </script>
+
+    <script>
+        function validateForm() {
+
+            var fee = document.querySelector('input[name="fee"]:checked');
+            var city = document.getElementById("city").value;
+            var district = document.getElementById("district").value;
+            var ward = document.getElementById("ward").value;
+            var errorFee = document.getElementById("ErrorFee");
+            var ErrorRadio = document.getElementById("ErrorRadio");
+            errorFee.innerHTML = "";
+
+            if (!fee) {
+                ErrorRadio.innerHTML = "Lựa chọn hình thức bán ";
+                return false;
+            }
+
+            if (fee.value == "fee" && (document.getElementById("input-fee").value == "0" ||document.getElementById("input-fee").value == "₫0" ) ) {
+
+                errorFee.innerHTML = "Vui lòng điền giá tiền";
+                 ErrorRadio.innerHTML = "";
+                return false;
+            }
+
+            if (city == "" || district == "" || ward == "") {
+             
+                 document.getElementById("addressResult").textContent = "Vui lòng chọn địa chỉ đầy đủ";
+                return false;
+            }
+        }
     </script>
 
 </html>
