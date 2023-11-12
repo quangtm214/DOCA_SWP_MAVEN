@@ -27,7 +27,7 @@
                     </a>
                 </nav>
                 <div class="container-fluid d-flex justify-content-between navbar-contain mt-5   ">
-                    <h1>Admin Page</h1>
+                    <h1>Trang quản lý </h1>
                     <div>
                         <a class="btn btn-light border-0 rounded-pill button_in_header" href="#" role="button" onclick="toggleMenuForm()">
                             <img src="${Owner.avatar}"

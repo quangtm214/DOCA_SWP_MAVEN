@@ -24,7 +24,9 @@ import javax.naming.NamingException;
  */
 @WebServlet(name = "SearchByUserName", urlPatterns = {"/SearchByUserName"})
 public class SearchByUserName extends HttpServlet {
-private final String adminShowUser = "AdminUI/alluser.jsp";
+
+    private final String adminShowUser = "AdminUI/alluser.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,17 +39,23 @@ private final String adminShowUser = "AdminUI/alluser.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SearchByUserName</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SearchByUserName at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String username = request.getParameter("txtSearch").trim();
+
+        try {
+            userDAO userDAO = new userDAO();
+            List<userDTO> userList = userDAO.searchByUsername(username);
+            if (userList != null) {
+                // Set the search results as a request attribute
+                request.setAttribute("userList", userList);
+            }else{
+                request.setAttribute("ErroMessage", "Không tìm thấy tài khoản có tên : ");
+            }
+
+            // Forward the request to the JSP page to display the results
+            RequestDispatcher dispatcher = request.getRequestDispatcher(adminShowUser);
+            dispatcher.forward(request, response);
+        } catch (SQLException | ClassNotFoundException | NamingException e) {
+            e.printStackTrace(); // Handle exceptions appropriately in a production environment
         }
     }
 
@@ -77,21 +85,7 @@ private final String adminShowUser = "AdminUI/alluser.jsp";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("txtSearch").trim();
-
-        try {
-            userDAO userDAO = new userDAO();
-            List<userDTO> userList = userDAO.searchByUsername(username);
-            
-            // Set the search results as a request attribute
-            request.setAttribute("userList", userList);
-
-            // Forward the request to the JSP page to display the results
-            RequestDispatcher dispatcher = request.getRequestDispatcher(adminShowUser);
-            dispatcher.forward(request, response);
-        } catch (SQLException | ClassNotFoundException | NamingException e) {
-            e.printStackTrace(); // Handle exceptions appropriately in a production environment
-        }
+        processRequest(request, response);
     }
 
     /**

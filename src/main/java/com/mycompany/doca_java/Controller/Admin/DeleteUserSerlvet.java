@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 
@@ -50,8 +51,10 @@ public class DeleteUserSerlvet extends HttpServlet {
             }
 
             if (result) {
-                response.sendRedirect("AllUserServlet");
-                
+                String txtSearch = request.getParameter("txtSearch");
+
+                response.sendRedirect("SearchByUserName?txtSearch=" + URLEncoder.encode(txtSearch, "UTF-8"));
+
 //                RequestDispatcher dispatcher = request.getRequestDispatcher("All");
 //                dispatcher.forward(request, response);
             } else {

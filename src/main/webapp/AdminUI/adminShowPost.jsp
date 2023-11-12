@@ -56,14 +56,14 @@
         <div class="container " style="margin-top: 150px;">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="AdminManageForumPostServlet">Forum</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="AdminManageForumPostServlet">Bài viết</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" 
-                       onclick="redirectToProductServlet()">Product</a>
+                       onclick="redirectToProductServlet()">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Manage User</a>
+                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Tài khoản</a>
                 </li>
             </ul>
 
@@ -77,17 +77,14 @@
                                     <div class="post my-4 border rounded position-relative">
                                         <div class="post-header">
                                             <div class="profile-info">
-                                                <img src="assets/images/doge.jpeg" alt="Profile Image"
-                                                     class="rounded-circle profile-image">
                                                 <div class="profile-details">
-                                                    <a href="#" class="username">${post.userId}</a>
                                                     <div class="post-time text-muted">${post.timePosted}</div>
                                                 </div>
                                             </div>
 
                                         </div>
                                         <div class="post-body">
-                                            <p class="post-text">${post.postContent}</p>
+                                            <p class="post-text ml-0">${post.postContent}</p>
                                             <img src="${post.postImage}" alt="Post Img" class="d-flex mx-auto" style="max-width: 300px; max-height: 300px; border-radius: 2%;">
                                         </div>
                                         <div class="post-footer ">

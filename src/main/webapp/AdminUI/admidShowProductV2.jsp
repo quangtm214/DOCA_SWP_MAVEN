@@ -60,13 +60,13 @@
 
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
-                    <a class="nav-link " data-bs-toggle="tab" onclick="redirectToPostServlet()">Forum</a>
+                    <a class="nav-link " data-bs-toggle="tab" onclick="redirectToPostServlet()">Bài viết</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#product">Product</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="#product">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Manage User</a>
+                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Tài khoản</a>
                 </li>
             </ul>
 

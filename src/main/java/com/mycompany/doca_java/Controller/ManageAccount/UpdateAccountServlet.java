@@ -77,7 +77,7 @@ public class UpdateAccountServlet extends HttpServlet {
             if (isUsernameTaken && isEmailTaken) {
                 account.setUserName(userName);
                 boolean updateSuccessful = userDao.updateAccount(account.getUser_ID(), userName, gender, email, mobileNum, avatar);
-                userDTO newCount = new userDTO(account.getUser_ID(), userName, avatar, gender, email, mobileNum, account.isStatus(),account.isRoleID(), avatar);
+                userDTO newCount = new userDTO(account.getUser_ID(), userName, account.getPassword(), gender, email, mobileNum, account.isStatus(),account.isRoleID(), avatar);
                 if (updateSuccessful) {
                     session.setAttribute("USER_NAME", newCount);
                     // Redirect to a success page or display a success message

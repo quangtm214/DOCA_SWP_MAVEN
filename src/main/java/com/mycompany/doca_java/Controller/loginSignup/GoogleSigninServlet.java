@@ -54,13 +54,13 @@ public class GoogleSigninServlet extends HttpServlet {
             String avatar = userToken.getPicture();
             userDAO dao = new userDAO();
             boolean isEmailAvailable = dao.isEmailAvailable(email);
-   //         boolean isUsernameAvailable = dao.isUsernameAvailable(username);
+            //         boolean isUsernameAvailable = dao.isUsernameAvailable(username);
 //                userDTO user = new userDTO(0, username, "123", "null", email, "null", true, true, avatar);
 //                boolean result = dao.createUser(user);
             String password = "";
             if (isEmailAvailable) {
                 userDTO user = new userDTO(username, "123", "null", email, "null", true, true, avatar);
-                password="123";
+                password = "123";
                 boolean result = dao.createUser(user);
             } else if (!isEmailAvailable) {
                 // Email already exists, retrieve user information
@@ -68,10 +68,10 @@ public class GoogleSigninServlet extends HttpServlet {
                 if (users != null) {
                     url = Market_Controller;
                     username = users.getUserName();
-                    password= users.getPassword();
+                    password = users.getPassword();
                 }
             }// Add checkLogin functionality
-            userDTO loginResult = dao.checkLogin(username,password);
+            userDTO loginResult = dao.checkLogin(username, password);
             if (loginResult != null) {
                 url = Market_Controller; // Change to the appropriate URL for the market controller
                 session.setAttribute("USER_NAME", loginResult);

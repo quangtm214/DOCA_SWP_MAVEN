@@ -51,27 +51,40 @@
     </head>
     <body>
         <jsp:include page="headerAdmin.jsp" />
-        <h1>User List</h1>
+
         <div class="container" style="margin-top: 150px;">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
-                    <a class="nav-link " data-bs-toggle="tab" onclick="redirectToPostServlet()">Forum</a>
+                    <a class="nav-link " data-bs-toggle="tab" onclick="redirectToPostServlet()">Bài viết</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" 
-                       onclick="redirectToProductServlet()">Product</a>
+                       onclick="redirectToProductServlet()">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab"  href="#">Manage User</a>
+                    <a class="nav-link active" data-bs-toggle="tab"  href="#">Tài khoản</a>
                 </li>
             </ul>
             <form action="DispatchServlet" method="POST" class="mb-3">
                 <div class="input-group">
-                    <input type="text" name="txtSearch" class="form-control" placeholder="Search by Username" value="${param.txtSearch}">
-                    <input type="submit" class="btn btn-primary" value="Search User" name="btAction">
+                    <input type="text" name="txtSearch" class="form-control" placeholder="Tìm kiếm tên tài khoản" value="${param.txtSearch}">
+                    <input type="hidden" class="btn btn-primary" value="Search User" name="btAction">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </div>
             </form>
             <div class="table-responsive">
+                <c:if test="${ not empty ErroMessage }">
+                    <div class="row">
+                        <div class="col-sm-auto pr-0">
+                            <p class="text-danger">${ErroMessage}</p>
+                        </div>
+                        <div class="col-sm-auto pl-1">
+                            <p class="text-warning">${param.txtSearch}</p>
+                        </div>
+                    </div>
+                </c:if>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -98,7 +111,7 @@
                             <td>${user.mobileNum}</td>
                             <td><c:choose>
                                     <c:when test="${user.status}">
-                                        <span class="badge bg-success">Unbanned</span>
+                                        <span class="badge bg-success">Ava</span>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="badge bg-danger">Banned</span>
@@ -108,14 +121,14 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${user.status}">
-                                        <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=ban" class="btn btn-danger">Ban Account</a>
+                                        <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=ban&txtSearch=${param.txtSearch}" 
+                                           class="btn btn-danger">Ban Account</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=unban" class="btn btn-success">Unban Account</a>
+                                        <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=unban&txtSearch=${param.txtSearch}" 
+                                           class="btn btn-success">Unban Account</a>
                                     </c:otherwise>
                                 </c:choose></td>
-
-
                         </form>
                         </tr>
                     </c:forEach>

@@ -44,7 +44,7 @@ public class UpdatePassword extends HttpServlet {
             String password = request.getParameter("txtPassword");
             String confirmPassword = request.getParameter("txtConfirm");
             userDAO userDao = new userDAO();
-
+            request.setAttribute("stateChangePass", true);
             if (account.getPassword().equals(curPassword)) {
                 if (password.equals(confirmPassword)) {
                     // Cập nhật mật khẩu
@@ -52,10 +52,15 @@ public class UpdatePassword extends HttpServlet {
 
                     if (updateSuccessful) {
                         // Hiển thị thông báo thành công bằng JavaScript
-                        String script = "alert('Cập nhật mật khẩu thành công');";
-                        request.setAttribute("javascript", script);
+                        userDTO newCount = new userDTO(account.getUser_ID(),
+                                account.getUserName(), password, account.getGender(), account.getEmail(),
+                                account.getMobileNum(), account.isStatus(), account.isRoleID(), account.getAvatar());
+                        session.setAttribute("USER_NAME", newCount);
+                        request.setAttribute("SucessMessage", "Sửa mật khẩu thành công");
+                               
                     } else {
                         // Handle the case where the update was not successful
+                        
                         response.sendRedirect("error.jsp");
                         return;
                     }
