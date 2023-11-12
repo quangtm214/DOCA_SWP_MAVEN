@@ -233,7 +233,6 @@ Author : Admin
 <!--                                <div class="card mb-4">
                                     <div class="card-header">Liên kết mạng xã hội</div>
                                     <div class="card-body">
-
                                         <button class="btn btn-primary btn-content" type="button"><svg width="20"
                                                                                                        height="20" viewBox="0 0 20 20" fill="none"
                                                                                                        xmlns="http://www.w3.org/2000/svg">
@@ -250,10 +249,8 @@ Author : Admin
                                                 d="M10.2043 4.63331C11.8857 4.63331 13.0199 5.34303 13.6666 5.93612L16.1937 3.525C14.6417 2.11528 12.6219 1.25 10.2043 1.25C6.70216 1.25 3.6776 3.21387 2.20514 6.07218L5.10034 8.26944C5.8267 6.15972 7.83642 4.63331 10.2043 4.63331Z"
                                                 fill="#EB4335"></path>
                                             </svg><a> Liên kết với google</a></button>
-
                                     </div>
                                 </div>-->
-
                             </div>
 
                         </div>
