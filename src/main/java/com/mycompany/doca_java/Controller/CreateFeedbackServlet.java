@@ -7,6 +7,7 @@ package com.mycompany.doca_java.Controller;
 import com.mycompany.doca_java.DAO.FeedbackDAO;
 import com.mycompany.doca_java.DTO.FeedbackDTO;
 import com.mycompany.doca_java.DTO.userDTO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -48,7 +49,10 @@ public class CreateFeedbackServlet extends HttpServlet {
             FeedbackDTO feedback= 
                     new FeedbackDTO(account.getUser_ID(), seller_id, rate, prduct_id, feedback_conttent);
             FeedbackDAO dao= new FeedbackDAO();
-            dao.createFeedback(feedback);
+            boolean result=dao.createFeedback(feedback);
+            if(result==false){
+                request.setAttribute("haveFeedback", "Bạn đã từng đánh giá sản phẩm này ");
+            }
             url="getListFeedbackServlet?seller_id="+seller_id;
         }catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -57,7 +61,8 @@ public class CreateFeedbackServlet extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally{
-            response.sendRedirect(url);
+             RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 

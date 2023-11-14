@@ -63,7 +63,7 @@ public class ManagePostForumServlet extends HttpServlet {
             String first80Chars = postDes.substring(0, Math.min(postDes.length(), 80));
             String noDes = "";
             //chi lay 15 ky tu tu chuoi
-            if (status.equals("approve")) {
+            if (status.equals("approved")) {
                 setStatus = statusApprove;
                 noDes = messageApprove + "-" + first80Chars + "...";
                 resultInsNotifi = notiDao.insertNotification(userId, noDes, timeNotification);

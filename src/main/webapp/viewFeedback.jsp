@@ -50,6 +50,7 @@
         <div class="main-content">
             <div class="row row-content justify-content-center">
                 <div class="col-sm-8 ">
+                    <p class="text-warning">${haveFeedback}</p>
                     <div class="container mt-5 justify-content-center">
                         <div class="row profile-seller-info mt-5 rounded-pill" style="background-color:#CAD2C5">
                             <img src="${seller.avatar}"

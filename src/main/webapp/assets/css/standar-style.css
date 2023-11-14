@@ -24,6 +24,9 @@ body{
     object-fit: cover; /* This ensures the image is fully contained within the defined dimensions */
     border-radius: 50%; /* This will make the image a circle */
 }
+img[src=""] {
+    display: none;
+}
 /* body {
     padding: 120px 0px 0px 0px;
     z-index: 0;

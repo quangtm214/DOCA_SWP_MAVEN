@@ -70,14 +70,16 @@ public class CreatePostServlet extends HttpServlet {
                 String content = request.getParameter("content");
 
                 // Get the uploaded image file from the request
-                Part filePart = request.getPart("file");
-                InputStream fileInputStream = filePart.getInputStream();
-
+                Part filePart = request.getPart("file"); 
+                String imageUrl="";
+                 if (filePart != null && filePart.getSize() > 0){
+                    InputStream fileInputStream = filePart.getInputStream();
                 // Upload the image to Cloudinary
                 // Process the image using the ImageProcessor class
                 ProcessImg imageProcessor = new ProcessImg();
-                String imageUrl = imageProcessor.uploadImageToFolder(fileInputStream, Folder_Up.FORUM_UP);
-
+                imageUrl = imageProcessor.uploadImageToFolder(fileInputStream, Folder_Up.FORUM_UP);
+                }
+               
                 PostDAO dao = new PostDAO();
                 PostDTO post;
                 if (categorys != null) {

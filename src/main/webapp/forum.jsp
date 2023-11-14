@@ -164,7 +164,7 @@
                                                 <div class="mb-3">
                                                     <label for="message-text" class="col-form-label">Nội dung:
                                                     </label>
-                                                    <textarea name="content" class="form-control" id="message-text" rows="7"></textarea>
+                                                    <textarea name="content" class="form-control" id="message-text" rows="7" required=""></textarea>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="formFile" class="form-label"><i class="fa fa-picture-o"></i>
