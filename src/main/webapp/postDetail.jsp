@@ -173,7 +173,7 @@
                                 <img class="img-content"src="${post.postImage}" alt="Post Image"  style=" object-fit: cover;
                                      border-radius: 10%; max-width: 100%;">
                             </div>
-                            <p class="like-count">số lượt like của bài viết này: ${likeCount}</p>
+                            <p class="like-count">Số lượt like của bài viết này: ${likeCount}</p>
                         </div>
                         <button id="shareButton">Chia sẻ</button>
                         <div class="popup" id="sharePopup">
@@ -214,7 +214,7 @@
                 </div>
             </div>
         </div>
-        <jsp:include page="footer.jsp" />  
+   
     </body>
     <script>
         document.getElementById('shareButton').addEventListener('click', function () {

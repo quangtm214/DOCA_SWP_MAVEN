@@ -200,7 +200,7 @@
                 </div>
             </div>
         </div>
-        <jsp:include page="footer.jsp" />
+        
         <script>
             function openFeedbackForm(conversationid) {
                 $('#ratingModal' + conversationid).modal('show');

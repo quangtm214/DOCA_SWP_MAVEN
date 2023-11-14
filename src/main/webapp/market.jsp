@@ -150,7 +150,7 @@
                                     </div>
                                 </c:forEach>
                                 <c:if test="${countDisplay eq 0}">
-                                    <p>Không có sản phẩm nào</p>
+                                    <p >Không có sản phẩm nào</p>
                                 </c:if>
                             </div>  
                         </div>
@@ -174,9 +174,6 @@
             </div>
         </div>
 
-        <footer>
-            <jsp:include page="footer.jsp" />  
-        </footer>
 
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>

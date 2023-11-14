@@ -76,7 +76,7 @@
                                     </div>
                                 </c:if>
                                 <c:if test="${averageRate == 0.0}">
-                                    <p>không có đánh giá</p>
+                                    <p class="ml-2">Không có đánh giá</p>
                                 </c:if>
                             </div>
                         </div> 
@@ -128,7 +128,7 @@
                 </div>
             </div>
         </div>
-                                    <jsp:include page="footer.jsp" />  
+                                 
     </body>
 </html>
 

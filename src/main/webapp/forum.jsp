@@ -275,7 +275,7 @@
                                 </div>
                             </c:forEach>
                             <c:if test="${count==0}">
-                                <p>không có nội dung bạn tìm kiếm</p>
+                                <p >không có nội dung bạn tìm kiếm</p>
                             </c:if>
 
                         </div>
@@ -298,9 +298,9 @@
 
                 </div>
             </div>
-            <jsp:include page="footer.jsp" />  
-        </div>
 
+        </div>
+  
         <script>
             function validateCheckBoxes() {
                 var checkboxes = document.getElementsByName('category');

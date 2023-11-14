@@ -1,10 +1,10 @@
 .header{
     background-color: #588157;
-    
+
 }
 .button_in_header {
     background-color: #dad7cd;
-} 
+}
 
 .button-search {
     background-color: #dad7cd;
@@ -26,6 +26,9 @@ body{
 }
 img[src=""] {
     display: none;
+}
+#footerPageDOCA{
+    margin-top: 150px !important;
 }
 /* body {
     padding: 120px 0px 0px 0px;

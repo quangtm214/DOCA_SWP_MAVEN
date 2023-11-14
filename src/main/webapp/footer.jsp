@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<div class="footer bg-secondary  text-center mt-3" style="background-color: #74c69d;">
+<div id="footerPageDOCA" class="footer bg-secondary  text-center mt-3" style="background-color: #74c69d;">
     <!-- Grid container -->
     <div class="container p-4 bg-secondary text-white text-center" style="background-color: #74c69d;">
         <!--Grid row-->

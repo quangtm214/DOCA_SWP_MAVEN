@@ -107,13 +107,13 @@
             <div class="card">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"> <a href="accountmanage.jsp" style="color: black;">quản lý tài khoản</a></li>
-                        <li class="list-group-item"><a href="getPersonalPost" style="color: black;">quản lý tin </a></li>
-                        <li class="list-group-item"><a href="getPersonalProduct" style="color: black;">quản lý sản phẩm</a>
+                        <li class="list-group-item"> <a href="accountmanage.jsp" style="color: black;">Quản lý tài khoản</a></li>
+                        <li class="list-group-item"><a href="getPersonalPost" style="color: black;">Quản lý tin </a></li>
+                        <li class="list-group-item"><a href="getPersonalProduct" style="color: black;">Quản lý sản phẩm</a>
                         </li>
-                        <li class="list-group-item"><a href="getListFeedbackServlet?seller_id=${Owner.user_ID}" style="color: black;">xem đánh giá của bạn</a></li>
-                        <li class="list-group-item"><a href="ListProductSaved" style="color: black;">sản phẩm đã lưu</a></li>
-                        <li class="list-group-item"> <a href="LogOutServlet" style="color: black;">logout</a></li>
+                        <li class="list-group-item"><a href="getListFeedbackServlet?seller_id=${Owner.user_ID}" style="color: black;">Xem đánh giá của bạn</a></li>
+                        <li class="list-group-item"><a href="ListProductSaved" style="color: black;">Sản phẩm đã lưu</a></li>
+                        <li class="list-group-item"> <a href="LogOutServlet" style="color: black;">Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>

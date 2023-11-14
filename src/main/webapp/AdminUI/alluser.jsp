@@ -88,15 +88,15 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>User ID</th>
-                            <th>Username</th>
+                            <th>ID Người dùng</th>
+                            <th>Tên người dùng</th>
 
-                            <th>Gender</th>
+                            <th>Giới tính</th>
                             <th>Email</th>
-                            <th>Mobile Number</th>
-                            <th>Status</th>
+                            <th>Số điện thoại</th>
+                            <th>Trạng thái</th>
 
-                            <th>Action</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,10 +111,10 @@
                             <td>${user.mobileNum}</td>
                             <td><c:choose>
                                     <c:when test="${user.status}">
-                                        <span class="badge bg-success">Ava</span>
+                                        <span class="badge bg-success">Kích hoạt</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span class="badge bg-danger">Banned</span>
+                                        <span class="badge bg-danger">Vô hiệu hóa</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -122,11 +122,11 @@
                                 <c:choose>
                                     <c:when test="${user.status}">
                                         <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=ban&txtSearch=${param.txtSearch}" 
-                                           class="btn btn-danger">Ban Account</a>
+                                           class="btn btn-danger">Vô hiệu hóa</a>
                                     </c:when>
                                     <c:otherwise>
                                         <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=unban&txtSearch=${param.txtSearch}" 
-                                           class="btn btn-success">Unban Account</a>
+                                           class="btn btn-success">Kích hoạt</a>
                                     </c:otherwise>
                                 </c:choose></td>
                         </form>

@@ -139,13 +139,13 @@
                                     </div>
                                     <div class="row mt-5">
                                         <button class="btn btn-outline-secondary bg-light btn-block text-success"
-                                                id="sellerPhone">hiện số người bán</button>
+                                                id="sellerPhone">Hiện số người bán</button>
 
                                         <br>
                                         <c:if test="${product.userId  != OwnerAccount.user_ID }">
                                             <button class="btn btn-outline-secondary bg-light btn-block text-success mt-2">
                                                 <a href="CreateConversation?ProductID=${product.productId}&sellerID=${product.userId}" >
-                                                    <i class="fa fa-comments"></i> chat với người bán
+                                                    <i class="fa fa-comments"></i> Chat với người bán
                                                 </a>
                                             </button>
                                         </c:if>
@@ -159,7 +159,6 @@
                 </div>
             </div>
         </div>
-<jsp:include page="footer.jsp" />  
 
 
 
