@@ -214,7 +214,7 @@
                 </div>
             </div>
         </div>
-
+        <jsp:include page="footer.jsp" />  
     </body>
     <script>
         document.getElementById('shareButton').addEventListener('click', function () {

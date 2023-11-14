@@ -442,6 +442,7 @@
 
             </div>
         </div>
+                                
         <script>
             function validateFormUpdate() {
                 var checkboxes = document.querySelectorAll('input[name="categoryInUpdate"]');
@@ -508,5 +509,6 @@
                 reader.readAsDataURL(file);
             });
         </script>
+        <jsp:include page="footer.jsp" />
     </body>
 </html>

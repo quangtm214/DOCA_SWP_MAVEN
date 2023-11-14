@@ -111,6 +111,7 @@
                 </div>
             </div>
         </div>
+        <jsp:include page="footer.jsp" />
     </body>
     <script>
         var likeButtons = document.querySelectorAll(".like-button");

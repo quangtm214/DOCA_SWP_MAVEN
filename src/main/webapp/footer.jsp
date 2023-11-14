@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<div class="footer bg-secondary  text-center" style="background-color: #74c69d;">
+<div class="footer bg-secondary  text-center mt-3" style="background-color: #74c69d;">
     <!-- Grid container -->
     <div class="container p-4 bg-secondary text-white text-center" style="background-color: #74c69d;">
         <!--Grid row-->
@@ -32,12 +32,25 @@
                     của
                     mình!
                 </p>
+                <div>Theo dõi chúng mình tại<a href="https://www.facebook.com/" class="text-white me-4">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/" class="text-white me-4">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/" class="text-white me-4">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.youtube.com/" class="text-white me-4">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://github.com/gkhanh07/DOCA_platform" class="text-white me-4">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
             </div>
 
-            <!--Grid column-->
-            <hr>
-            <!--Grid column-->
-            <!--Grid column-->
+
         </div>
         <!--Grid row-->
     </div>
@@ -46,6 +59,8 @@
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
         © 2023 Copyright:
-        <a class="text-white" href="#">Doca.com</a>
+        <a class="text-white" href="#">Doca</a>
     </div>
     <!-- Copyright -->
+</div>
+<!-- Copyright -->
