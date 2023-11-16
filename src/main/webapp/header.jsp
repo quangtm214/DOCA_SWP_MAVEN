@@ -118,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute; max-width: 380px; min-width: 300px; ">
+        <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute; max-width: 380px; min-width: 300px; z-index: 3;">
             <div class="card">
                 <h4 class="menu-title">Thông báo </h4>
                 <div class="notifications-wrapper" id="notificationsWrapper" style="overflow: scroll; max-height:490px; height: 100%; ">

@@ -638,4 +638,39 @@ public class ProductDAO {
         return result;
 
     }
+    
+    
+    
+    public boolean setStatusProduct(int productId, String status) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        boolean result = false;
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE product "
+                        + "SET status = ? "
+                        + "WHERE product_id = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, status);
+                stm.setInt(2, productId);
+                int effectRows = stm.executeUpdate();
+                //5.Process
+                if (effectRows > 0) {
+                    result = true;
+                }
+            }
+
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+
+    }
 }

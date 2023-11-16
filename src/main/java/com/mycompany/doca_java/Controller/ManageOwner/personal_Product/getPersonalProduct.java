@@ -5,7 +5,9 @@
 package com.mycompany.doca_java.Controller.ManageOwner.personal_Product;
 
 import com.mycompany.doca_java.DAO.ProductDAO;
+import com.mycompany.doca_java.DAO.saveProductDAO;
 import com.mycompany.doca_java.DTO.ProductDTO;
+import com.mycompany.doca_java.DTO.saveProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -18,6 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
 
@@ -28,8 +32,10 @@ import javax.naming.NamingException;
 @WebServlet(name = "getPersonalProduct", urlPatterns = {"/getPersonalProduct"})
 
 public class getPersonalProduct extends HttpServlet {
- private final String LOGIN_PAGE = "login.jsp";
-    private final String  PERSONAL_PRODUCT_PAGE= "Personal_Product.jsp";
+
+    private final String LOGIN_PAGE = "login.jsp";
+    private final String PERSONAL_PRODUCT_PAGE = "Personal_Product.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,35 +50,42 @@ public class getPersonalProduct extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
-      String  IN= (String) session.getAttribute("IN") !=null?(String) session.getAttribute("IN"):"display";
-      session.setAttribute("IN", IN);
-        String url="";
-        try  {
-             if (account != null) {
+        String IN = (String) session.getAttribute("IN") != null ? (String) session.getAttribute("IN") : "display";
+        session.setAttribute("IN", IN);
+        String url = "";
+        try {
+            if (account != null) {
                 ProductDAO dao = new ProductDAO();
                 List<ProductDTO> listOfProduct = dao.getProductsByUserId(account.getUser_ID());
-               
+
                 if (listOfProduct != null) {
+                    List<saveProductDTO> listOfSaveproduct = new ArrayList<>();
+                    saveProductDAO sdao = new saveProductDAO();
+                    for (ProductDTO productDTO : listOfProduct) {
+                        int count = sdao.getCountOfSave(productDTO.getProductId());
+                        saveProductDTO countSave
+                                = new saveProductDTO(productDTO.getProductId(), count);
+                        listOfSaveproduct.add(countSave);
+                    }
+                    request.setAttribute("listOfCountSaveproduct", listOfSaveproduct);
                     request.setAttribute("listProductOfPersonal", listOfProduct);
-                     request.setAttribute("Message", "không có sản phẩm nào");
+                    request.setAttribute("Message", "không có sản phẩm nào");
                     url = PERSONAL_PRODUCT_PAGE;
-                }else{
+                } else {
                     request.setAttribute("Message", "không có sản phẩm nào");
                     url = PERSONAL_PRODUCT_PAGE;
                 }
             } else {
                 url = LOGIN_PAGE;
             }
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } catch (NamingException ex) {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
-        finally{
-              RequestDispatcher rd = request.getRequestDispatcher(url);
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
     }

@@ -6,6 +6,7 @@ package com.mycompany.doca_java.Controller.MarketControll;
 
 import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.categoryDAO;
+import com.mycompany.doca_java.DAO.saveProductDAO;
 import com.mycompany.doca_java.DAO.userDAO;
 import com.mycompany.doca_java.DTO.ProductDTO;
 import com.mycompany.doca_java.DTO.categoryDTO;
@@ -54,12 +55,15 @@ public class productDetailServlet extends HttpServlet {
                 if (productDetail.isPublic() == true) {
                     HttpSession session = request.getSession(true);
                     request.setAttribute("productDetail", productDetail);
+                    saveProductDAO sDao= new saveProductDAO();
+                    int countSave= sDao.getCountOfSave(productID);
                     int categoryID = productDetail.getCategoryId();
                     categoryDAO daoCate = new categoryDAO();
                     categoryDTO category = daoCate.getCategoryById(categoryID);
                     request.setAttribute("category", category);
                     userDTO owner = ownerDao.getUserbyProductID(productID);
                     request.setAttribute("owner", owner);
+                    request.setAttribute("countSave", countSave);   
                     url = productdetail_Page;
                 } else {
                     request.setAttribute("Message", "Tin đăng này đã hết hạn hoặc đã ẩn/ đã bán. Hãy thử những tin đăng khác, bạn nhé.");

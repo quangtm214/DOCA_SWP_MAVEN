@@ -86,6 +86,11 @@
                                                 <strong style="color: black;">Chờ duyệt</strong>
                                             </a>
                                         </li>
+                                        <li class="nav-item rounded-pill">
+                                            <a class="nav-link ${IN eq 'saled' ? 'active' : ''} rounded-pill mt-1" href="#saled" role="tab" data-toggle="tab">
+                                                <strong style="color: black;">Đã bán</strong>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </nav>
@@ -110,6 +115,11 @@
                                                     ${product.isPublic() ? 'Công khai' : 'Ẩn'}
                                                 </span>
                                             </p>
+                                            <c:forEach items="${listOfCountSaveproduct}" var="countSave">
+                                                <c:if test="${countSave.productId== product.productId}">
+                                                    <a href="getListUserHavedSaveProduct?productId=${product.productId}">Sản phẩm có  ${countSave.countSave} lượt quan tâm</a>
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                         <a class="btn btn-primary" href="goUpdateProduct?ProductID=${product.productId}&IN=display" >sửa sản phẩm</a>
                                         <a class="btn btn-secondary" href="SetIsPublic?ProductID=${product.productId}&isPublic=${product.isPublic()}&IN=display">
@@ -176,6 +186,31 @@
                                     <p>${message}</p>
                                 </c:if>
                             </div>
+
+
+
+                            <div role="tabpanel" class="tab-pane fade  ${IN eq 'saled' ? 'show active' : ''}  " id="saled">
+                                <c:set var="countsaled" value="0" />
+                                <c:forEach items="${listProductOfPersonal}" var="product">
+                                    <c:if test="${product.status eq 'saled'}">
+                                        <c:set var="countsaled" value="${count + 1}" />
+                                        <img class="col-sm-6 image-content mt-5 img-fluid"
+                                             src="${product.productImage}" alt="Hình ảnh">
+                                        <div class="font">
+                                            <h5>${product.title}</h5>
+                                            <h6>giá tiền: <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" /></h6>
+                                            <p>${product.address}</p>
+                                            <p>Đã bán </p>     
+                                        </div>
+                                        <a class="btn btn-primary" href="resaledProduct?producID=${product.productId}" >Bán lại sản phẩm</a>
+
+                                        <hr> 
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${countsaled eq 0}">
+                                    <p>${message}</p>
+                                </c:if>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,6 +218,6 @@
 
             </div>
         </div>
-      
+
     </body>
 </html>

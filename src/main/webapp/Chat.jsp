@@ -69,7 +69,8 @@
                                         <c:if test="${conversationHavedShow==false}">
                                             <c:if test="${Product.productId == conversation.product_id}">
                                                 <c:set var="conversationHavedShow" value="true"/>
-                                                <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1" 
+                                                <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1
+                                                    ${stayConversation.conversation_id == conversation.conversation_id ? 'active':''}" 
                                                     style="background-color: #A3B18A">
                                                     <c:if test="${conversation.seller_id==Owner.user_ID}">
                                                         <c:set var="AnotherUserID" value="${conversation.buyer_id}"/>
@@ -97,7 +98,7 @@
 
                                                                             <a class=" Conversation-name "
                                                                                onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">  
-                                                                                <small  style="color: #D1F0E8 ;"> ${Product.title}</small>
+                                                                                <small class="d-inline-block text-truncate"  style="color: #D1F0E8 ;max-width: 150px; max-height: 3em;"> ${Product.title}</small>
                                                                             </a>
 
                                                                         </div>
@@ -116,12 +117,59 @@
                                                     </c:forEach>
                                                     <!-- just buyer can feedback -->
                                                     <c:if test="${conversation.buyer_id == Owner.user_ID}"> 
-                                                        <a  onclick="openFeedbackForm(${conversation.conversation_id})">
-                                                            <p style="color: yellow">
-                                                                <small>Ðánh giá người bán</small>
-                                                            </p>
-                                                        </a>
+                                                        <c:if test="${conversation.status=='approve'}">
+                                                            <div class="row">
+                                                                <div class="col-md-6 p-0">
+                                                                    <p style="color: #0085A3;">Giao dịch hoàn tất</p> 
+                                                                </div>
+                                                                <div class="col-md-6 p-0">
+                                                                    <a onclick="openFeedbackForm(${conversation.conversation_id})">
+                                                                        <p style="color: yellow">
+                                                                            <small>Đánh giá người bán</small>
+                                                                        </p>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${Product.status=='saled'}">
+                                                            <c:if test="${conversation.status !='approve'}">
+                                                                <p><small style="color: #6330B7;">Rất tiếc: Sản phẩm đã bán cho người khác</small></p>
+                                                            </c:if>
+                                                        </c:if> 
                                                     </c:if>
+                                                    <c:if test="${conversation.seller_id == Owner.user_ID}">
+                                                        <c:if test="${conversation.status == 'approve'}">
+                                                            <div class="row m-0">
+                                                                <div class="col-md-7 pr-0">
+                                                                    <p style="color: #0085A3;">Giao dịch hoàn tất</p> 
+                                                                </div>
+                                                                <div class="col-md-5 p-0">
+                                                                    <button class="rounded-pill" style="background-color: #F63C13;" >
+                                                                        <a class="text-dark" href="">
+                                                                            Hủy giao dịch
+                                                                        </a>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${conversation.status == 'waiting'}">
+                                                            <c:if test="${Product.status=='saled'}">
+                                                                <p><small style="color: #F02100;">Sản phẩm đã giao dịch thành công với khách hàng khác</small></p>
+                                                            </c:if>
+                                                            <c:if test="${Product.status =='approved'}">
+                                                                <button class="rounded-pill" style="background-color: #7FD80E;" >
+                                                                    <a class="text-dark" href="confirmSave?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
+                                                                        Hoàn thành giao dịch
+                                                                    </a>
+                                                                </button>
+                                                            </c:if>
+                                                        </c:if>
+                                                    </c:if>
+
+
+
+
+
                                                 </li>
                                                 <div class="modal fade" id="ratingModal${conversation.conversation_id}" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -200,7 +248,7 @@
                 </div>
             </div>
         </div>
-        
+
         <script>
             function openFeedbackForm(conversationid) {
                 $('#ratingModal' + conversationid).modal('show');
@@ -330,6 +378,14 @@
                 input.value = '';
             }
         </script>
-        
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                var successMessage = "<c:out value='${MssSaledSuccess}' />";
+                if (successMessage) {
+                    alert(successMessage);
+                }
+            });
+        </script>
+
     </body>
 </html>

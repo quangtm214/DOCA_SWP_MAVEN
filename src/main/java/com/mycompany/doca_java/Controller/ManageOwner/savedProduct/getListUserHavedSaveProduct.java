@@ -2,10 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.doca_java.Controller.Chat;
+package com.mycompany.doca_java.Controller.ManageOwner.savedProduct;
 
+import com.google.gson.Gson;
 import com.mycompany.doca_java.DAO.ConversationDAO;
+import com.mycompany.doca_java.DAO.saveProductDAO;
+import com.mycompany.doca_java.DAO.userDAO;
 import com.mycompany.doca_java.DTO.ConversationDTO;
+import com.mycompany.doca_java.DTO.saveProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -15,20 +19,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
 
 /**
  *
- * @author ADMIN
+ * @author Admin
  */
-@WebServlet(name = "CreateConversation", urlPatterns = {"/CreateConversation"})
-public class CreateConversation extends HttpServlet {
-
-    private final String LOGIN_PAGE = "login.jsp";
-    private final String GET_CONVERSATIONLIST = "getConversationServlet";
+@WebServlet(name = "getListUserHavedSaveProduct", urlPatterns = {"/getListUserHavedSaveProduct"})
+public class getListUserHavedSaveProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,40 +43,25 @@ public class CreateConversation extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        int productID = Integer.parseInt(request.getParameter("productId"));
         String url = "";
-        HttpSession session = request.getSession();
-        int ProductID = Integer.parseInt(request.getParameter("ProductID"));
-        userDTO account = (userDTO) session.getAttribute("USER_NAME");
-
         try {
-            if (account != null) {
-                int sellerID;
-                int buyerID;
-                String sellerIDParameter = request.getParameter("sellerID");
-                String buyerIDParameter = request.getParameter("buyerID");
-                if (sellerIDParameter != null && !sellerIDParameter.isEmpty()) {
-                    sellerID = Integer.parseInt(sellerIDParameter);
-                } else {
-                    sellerID = account.getUser_ID();
-                }
-                if (buyerIDParameter != null && !buyerIDParameter.isEmpty()) {
-                    buyerID = Integer.parseInt(buyerIDParameter);
-                } else {
-                    buyerID = account.getUser_ID();
-                }
-
-                ConversationDTO NewConversation = new ConversationDTO(ProductID, buyerID, sellerID);
-                //check if the conversation have exited
-                ConversationDAO dao = new ConversationDAO();
-                boolean result = dao.insertConversation(NewConversation);
-                if (result == false) {
-                    ConversationDTO stayConversation = dao.getOldConversation(ProductID, buyerID, sellerID);
-                    request.setAttribute("stayConversation", stayConversation);
-                }
-                url = GET_CONVERSATIONLIST;
-            } else {
-                url = LOGIN_PAGE;
+            saveProductDAO sdao = new saveProductDAO();
+            userDAO uDao = new userDAO();
+            List<Integer> listuserID = sdao.getUserIDsByProductID(productID);
+            List<userDTO> listUser = new ArrayList<>();
+            for (Integer integer : listuserID) {
+                userDTO user = uDao.getUserbyUserID(integer);
+                listUser.add(user);
             }
+            ConversationDAO cdao = new ConversationDAO();
+            List<ConversationDTO> listConverOfProduct = cdao.getListTheConversationByProductID(productID);
+            if (listConverOfProduct != null) {
+                request.setAttribute("listConverOfProduct", listConverOfProduct);
+            }
+            request.setAttribute("listUserHaveSave", listUser);
+            request.setAttribute("productID", productID);
+            url = "listMemberHaveLikeProduct.jsp";
 
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -89,7 +75,7 @@ public class CreateConversation extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

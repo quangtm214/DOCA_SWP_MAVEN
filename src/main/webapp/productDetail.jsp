@@ -138,6 +138,7 @@
                                         </a>
                                     </div>
                                     <div class="row mt-5">
+                                        <p>Sản phẩm có  ${countSave} lượt quan tâm</p>
                                         <button class="btn btn-outline-secondary bg-light btn-block text-success"
                                                 id="sellerPhone">Hiện số người bán</button>
 

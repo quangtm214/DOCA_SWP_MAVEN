@@ -22,4 +22,16 @@ import lombok.ToString;
 @ToString
 public class saveProductDTO implements Serializable {
     private int productId;   
+    private int userID;
+     private int countSave;
+    public saveProductDTO(int productId) {
+        this.productId = productId;
+    }
+
+    public saveProductDTO(int productId, int countSave) {
+        this.productId = productId;
+        this.countSave = countSave;
+    }
+    
+    
 }

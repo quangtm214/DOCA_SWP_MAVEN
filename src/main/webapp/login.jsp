@@ -76,7 +76,7 @@
                                 <p style="color: red;">  ${errorMessage} </p>
 
                                 <input type="submit" value="Log In" name="btAction" class="btn btn-block btn-primary">
-                                <p class="footer">Chưa có tài khoản ? đăng kí<a href="signup.jsp"> tại đây </a></p>
+                                <p class="footer">Don't have account? signup<a href="signup.jsp"> here </a></p>
                             </form>
                         </div>
                     </div>

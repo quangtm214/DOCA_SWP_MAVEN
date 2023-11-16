@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.doca_java.Controller.Chat;
+package com.mycompany.doca_java.Controller.ManageOwner.savedProduct;
 
 import com.mycompany.doca_java.DAO.ConversationDAO;
-import com.mycompany.doca_java.DTO.ConversationDTO;
-import com.mycompany.doca_java.DTO.userDTO;
+import com.mycompany.doca_java.DAO.ProductDAO;
+import com.mycompany.doca_java.DAO.saveProductDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,19 +15,20 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.logging.Level;
 import javax.naming.NamingException;
 
 /**
  *
- * @author ADMIN
+ * @author Admin
  */
-@WebServlet(name = "CreateConversation", urlPatterns = {"/CreateConversation"})
-public class CreateConversation extends HttpServlet {
+@WebServlet(name = "confirmSave", urlPatterns = {"/confirmSave"})
+public class confirmSave extends HttpServlet {
 
-    private final String LOGIN_PAGE = "login.jsp";
+    private final String statusSaled = "saled";
+    private final String statusWating = "waiting";
+    private final String statusReject = "reject";
     private final String GET_CONVERSATIONLIST = "getConversationServlet";
 
     /**
@@ -43,38 +44,26 @@ public class CreateConversation extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "";
-        HttpSession session = request.getSession();
-        int ProductID = Integer.parseInt(request.getParameter("ProductID"));
-        userDTO account = (userDTO) session.getAttribute("USER_NAME");
-
         try {
-            if (account != null) {
-                int sellerID;
-                int buyerID;
-                String sellerIDParameter = request.getParameter("sellerID");
-                String buyerIDParameter = request.getParameter("buyerID");
-                if (sellerIDParameter != null && !sellerIDParameter.isEmpty()) {
-                    sellerID = Integer.parseInt(sellerIDParameter);
-                } else {
-                    sellerID = account.getUser_ID();
-                }
-                if (buyerIDParameter != null && !buyerIDParameter.isEmpty()) {
-                    buyerID = Integer.parseInt(buyerIDParameter);
-                } else {
-                    buyerID = account.getUser_ID();
-                }
-
-                ConversationDTO NewConversation = new ConversationDTO(ProductID, buyerID, sellerID);
-                //check if the conversation have exited
-                ConversationDAO dao = new ConversationDAO();
-                boolean result = dao.insertConversation(NewConversation);
-                if (result == false) {
-                    ConversationDTO stayConversation = dao.getOldConversation(ProductID, buyerID, sellerID);
-                    request.setAttribute("stayConversation", stayConversation);
-                }
-                url = GET_CONVERSATIONLIST;
+            response.setContentType("text/html;charset=UTF-8");
+            String buyerId = request.getParameter("buyerID");
+            String productId = request.getParameter("producID");
+            saveProductDAO dao = new saveProductDAO();
+            ProductDAO pdao = new ProductDAO();
+            ConversationDAO cdao= new ConversationDAO();
+            boolean result = false;
+            if (buyerId != null) {
+                result = dao.setMatchProduct(Integer.parseInt(buyerId), Integer.parseInt(productId), statusSaled);
+                dao.setRejectSaveProduct(Integer.parseInt(productId), statusWating, statusReject);
+                pdao.setStatusProduct(Integer.parseInt(productId), statusSaled);
+                cdao.updateStatusToApprove(Integer.parseInt(productId), Integer.parseInt(buyerId));
             } else {
-                url = LOGIN_PAGE;
+                result = dao.setRejectSaveProduct(Integer.parseInt(productId), statusWating, statusReject);
+                pdao.setStatusProduct(Integer.parseInt(productId), statusSaled);
+            }
+            if (result) {
+                request.setAttribute("MssSaledSuccess", "Xác nhận bán thành công");
+                url = GET_CONVERSATIONLIST;
             }
 
         } catch (ClassNotFoundException ex) {
@@ -89,7 +78,7 @@ public class CreateConversation extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

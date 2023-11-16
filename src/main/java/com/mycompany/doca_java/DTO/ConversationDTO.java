@@ -26,6 +26,7 @@ public class ConversationDTO implements Serializable {
     private int product_id;
     private int buyer_id;
     private int seller_id;
+    private String status;
 
     public ConversationDTO(int product_id, int buyer_id, int seller_id) {
         this.product_id = product_id;
