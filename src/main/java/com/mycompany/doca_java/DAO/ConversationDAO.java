@@ -176,7 +176,7 @@ public class ConversationDAO {
             if (con != null) {
                 String sql = "SELECT [conversation_id], [product_id], [buyer_id], [seller_id], [status]\n"
                         + "FROM [dbo].[conversation]\n"
-                        + "WHERE [product_id] = ? AND ([buyer_id] = ? OR [seller_id] = ?)";
+                        + "WHERE [product_id] = ? AND ([buyer_id] = ? AND [seller_id] = ?)";
 
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
@@ -216,6 +216,29 @@ public class ConversationDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 String updateSql = "UPDATE [dbo].[conversation] SET [status] = 'approve' WHERE [product_id] = ? AND [buyer_id] = ?";
+                stm = con.prepareStatement(updateSql);
+                stm.setInt(1, productID);
+                stm.setInt(2, buyerID);
+
+                stm.executeUpdate();
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public void updateConversationToReject(int productID, int buyerID) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String updateSql = "UPDATE [dbo].[conversation] SET [status] = 'reject' WHERE [product_id] = ? AND [buyer_id] = ?";
                 stm = con.prepareStatement(updateSql);
                 stm.setInt(1, productID);
                 stm.setInt(2, buyerID);

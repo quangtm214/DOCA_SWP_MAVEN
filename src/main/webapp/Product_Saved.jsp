@@ -47,8 +47,9 @@
 
     <body>
         <jsp:include page="header.jsp" />
-        <c:set var="listOfSaved" value="${requestScope.listOfSaved}"/>
+        <c:set var="listOfProduct" value="${requestScope.listOfProduct}"/>
         <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
+        <c:set var="listOfSaved" value="${requestScope.listOfSaved}"/>
         <c:set var="message" value="${requestScope.Message}"/>
         <div class="main-content">
             <div class="row row-content justify-content-center">
@@ -71,7 +72,7 @@
                             </div>
                             <div class="row justify-content-start" >
 
-                                <c:forEach items="${listOfSaved}" var="porduct">
+                                <c:forEach items="${listOfProduct}" var="porduct">
                                     <div class=" card col-3 justify-content-center ">
                                         <img class="image" src="${porduct.productImage}" alt="Hình ảnh">
                                         <div class="card-body">
@@ -84,16 +85,58 @@
                                                     </h5>
                                                 </a>
                                                 <h6 style="color:rgb(242, 106, 106);"><fmt:formatNumber value="${porduct.price}" type="currency" currencyCode="VND" /></h6>
-                                                <c:set var="countReject" value="0"/>
-                                                <c:forEach items="${listSaveHaveReject}" var="productHaveReject">
-                                                    <c:if test="${productHaveReject==porduct.productId}">
-                                                        <c:set var="countReject" value="1"/>
-                                                    </c:if>
-                                                </c:forEach>
 
-                                                <c:if test="${porduct.userId!=Owner.user_ID}">
-                                                    <c:choose>
-                                                        <c:when test="${countReject==0}">
+                                                <c:forEach items="${listOfSaved}" var="save">
+                                                    <c:if test="${save.productId==porduct.productId}">
+                                                        <c:if test="${porduct.userId!=Owner.user_ID}">
+                                                            <c:if test="${save.statusMatch=='waiting'}">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
+                                                                    <span class="like-icon">
+                                                                        <a href="DeleteSaveProduct_InSavePage?productID=${porduct.productId}&isSaved=${save.statusMatch}" class="like-button">
+                                                                            <i class="fa fa-heart" style="color: red;"></i>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                            </c:if>
+                                                            <c:if test="${save.statusMatch=='reject'}">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
+                                                                    <span class="like-icon">
+                                                                        <a href="DeleteSaveProduct_InSavePage?productID=${porduct.productId}&isSaved=${save.statusMatch}" class="like-button">
+                                                                            <i class="fa fa-heart-crack" style="color: #6B1F20;"></i>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                                <p>Sản phẩm này đã được bán cho người khác</p>
+                                                            </c:if>
+                                                            <c:if test="${save.statusMatch=='resale'}">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
+                                                                    <span class="like-icon">
+                                                                        <a href="DeleteSaveProduct_InSavePage?productID=${porduct.productId}&isSaved=${save.statusMatch}" class="like-button">
+                                                                             <i class="fa fa-heart" style="color: pink;"></i>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                                <p>Sản phẩm từng quan tâm</p>
+                                                            </c:if>    
+
+                                                            <c:if test="${save.statusMatch=='saled'}">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
+                                                                    <span class="like-icon">
+                                                                        <a href="DeleteSaveProduct_InSavePage?productID=${porduct.productId}" class="like-button">
+                                                                            <i class="fa fa-heart" style="color: red;"></i>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                                <p>Bạn đã mua sản phẩm này</p>
+                                                            </c:if>
+                                                        </c:if>
+
+
+                                                        <c:if test="${porduct.userId==Owner.user_ID}">
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
                                                                 <span class="like-icon">
@@ -102,35 +145,14 @@
                                                                     </a>
                                                                 </span>
                                                             </div>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
-                                                                <span class="like-icon">
-                                                                    <a href="DeleteSaveProduct_InSavePage?productID=${porduct.productId}" class="like-button">
-                                                                        <i class="fa fa-heart-crack" style="color: #6B1F20;"></i>
-                                                                    </a>
-                                                                </span>
-                                                            </div>
-                                                            <p>Sản phẩm này đã được bán cho người khác</p>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:if>
-                                                <c:if test="${porduct.userId==Owner.user_ID}">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <h6 style="font-size: 15px; opacity: 0.5;">${porduct.address}</h6>
-                                                        <span class="like-icon">
-                                                            <a href="DeleteSaveProduct_InSavePage?productID=${porduct.productId}" class="like-button">
-                                                                <i class="fa fa-heart" style="color: red;"></i>
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                    <c:if test="${porduct.status=='saled'}">
-                                                        <div>
-                                                            <p>Sản phẩm của bạn đã bán</p>
-                                                        </div>
-                                                    </c:if>        
-                                                </c:if>
+                                                            <c:if test="${porduct.status=='saled'}">
+                                                                <div>
+                                                                    <p>Sản phẩm của bạn đã bán</p>
+                                                                </div>
+                                                            </c:if>        
+                                                        </c:if>
+                                                    </c:if>
+                                                </c:forEach>
 
 
 

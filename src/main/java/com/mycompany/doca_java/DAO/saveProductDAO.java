@@ -83,8 +83,11 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 // Tạo câu truy vấn SQL để lấy danh sách user ID từ product ID
-                String sql = "SELECT u.user_id FROM saveProduct sp JOIN users u ON sp.user_id = u.user_id WHERE sp.product_id = ?";
-
+                String sql = "SELECT u.user_id\n"
+                        + "FROM saveProduct sp\n"
+                        + "JOIN users u ON sp.user_id = u.user_id\n"
+                        + "WHERE sp.product_id = ?\n"
+                        + "AND sp.statusMatch NOT IN ('resale', 'unfollow', 'ban')";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
 
@@ -120,7 +123,10 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 // Tạo câu truy vấn SQL để lấy số lượng lượt quan tâm
-                String sql = "SELECT COUNT(*) AS interest_count FROM saveProduct WHERE product_id = ?";
+                String sql = "SELECT COUNT(*) AS interest_count\n"
+                        + "FROM saveProduct\n"
+                        + "WHERE product_id = ?\n"
+                        + "AND statusMatch NOT IN ('resale', 'unfollow', 'ban', 'reject')";
 
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
@@ -154,13 +160,13 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 //2.create sql string
-                String sql = "INSERT INTO saveProduct (user_id, product_id)\n"
+                String sql = "INSERT INTO saveProduct (user_id, product_id, statusMatch)\n"
                         + "VALUES (?, ?, ?);";
                 //3.create stm obj
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userID);
                 stm.setInt(2, productId);
-                stm.setString(3, "wating");
+                stm.setString(3, "waiting");
                 //4.execute
                 int effectRows = stm.executeUpdate();
                 //5.process (Note: Luu y Khi SU DUNG IF/WHILE)
@@ -187,7 +193,7 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 // Create SQL statement
-                String sql = "DELETE FROM saveProduct WHERE user_id = ? AND product_id = ?";
+                String sql = "UPDATE saveProduct SET statusMatch = 'unfollow' WHERE user_id = ? AND product_id = ?";
                 // Create prepared statement
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userID);
@@ -283,46 +289,45 @@ public class saveProductDAO {
         return result;
     }
 
-    public List<Integer> getRejectedSaveProductsByUserID(int userID) throws SQLException, ClassNotFoundException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        List<Integer> rejectedProductIDs = new ArrayList<>();
-
-        try {
-            con = DBconnect.makeConnection();
-            if (con != null) {
-                String sql = "SELECT sp.product_id "
-                        + "FROM saveProduct sp "
-                        + "JOIN users u ON sp.user_id = u.user_id "
-                        + "WHERE u.user_id = ? AND sp.statusMatch = 'reject'"; // Thêm điều kiện statusMatch
-
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, userID);
-
-                rs = stm.executeQuery();
-
-                while (rs.next()) {
-                    int productId = rs.getInt("product_id");
-                    rejectedProductIDs.add(productId);
-                }
-            }
-        } finally {
-            // Đóng tất cả các resource
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return rejectedProductIDs;
-    }
-
-    public boolean setRejectSaveProduct(int productId, String statusNow, String setStatus) throws SQLException, ClassNotFoundException, NamingException {
+//    public List<Integer> getRejectedSaveProductsByUserID(int userID) throws SQLException, ClassNotFoundException, NamingException {
+//        Connection con = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        List<Integer> rejectedProductIDs = new ArrayList<>();
+//
+//        try {
+//            con = DBconnect.makeConnection();
+//            if (con != null) {
+//                String sql = "SELECT sp.product_id "
+//                        + "FROM saveProduct sp "
+//                        + "JOIN users u ON sp.user_id = u.user_id "
+//                        + "WHERE u.user_id = ? AND sp.statusMatch = 'reject'"; // Thêm điều kiện statusMatch
+//
+//                stm = con.prepareStatement(sql);
+//                stm.setInt(1, userID);
+//
+//                rs = stm.executeQuery();
+//
+//                while (rs.next()) {
+//                    int productId = rs.getInt("product_id");
+//                    rejectedProductIDs.add(productId);
+//                }
+//            }
+//        } finally {
+//            // Đóng tất cả các resource
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (con != null) {
+//                con.close();
+//            }
+//        }
+//        return rejectedProductIDs;
+//    }
+    public boolean setStatusSaveProduct(int productId, String statusNow, String setStatus) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         boolean result = false;
@@ -356,6 +361,126 @@ public class saveProductDAO {
             }
         }
         return result;
+    }
+
+    public boolean setStatusSaveProductByUID(int userID, int productID, String statusNow, String setStatus) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                // Tạo câu truy vấn SQL để cập nhật trạng thái của sản phẩm
+                String sql = "UPDATE [dbo].[saveProduct]\n"
+                        + "   SET \n"
+                        + "      [statusMatch] = ?\n"
+                        + " WHERE [user_id] = ? AND [product_id] = ? AND [statusMatch] = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setString(1, setStatus);
+                stm.setInt(2, userID);
+                stm.setInt(3, productID);
+                stm.setString(4, statusNow);
+
+                int effectRows = stm.executeUpdate();
+
+                if (effectRows > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return result;
+    }
+
+    public List<saveProductDTO> getListSaveProductDTO(int productID) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<saveProductDTO> saveProducts = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT sp.product_id, sp.user_id, sp.statusMatch "
+                        + "FROM saveProduct sp "
+                        + "WHERE sp.product_id = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, productID);
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    String statusMatch = rs.getString("statusMatch");
+
+                    saveProductDTO saveProductDTO = new saveProductDTO(productID, userId, statusMatch);
+                    saveProducts.add(saveProductDTO);
+                }
+            }
+        } finally {
+            // Close all resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return saveProducts;
+    }
+
+    public List<saveProductDTO> getListSaveProductDTOByUserID(int userID) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<saveProductDTO> saveProducts = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT sp.product_id, sp.user_id, sp.statusMatch "
+                        + "FROM saveProduct sp "
+                        + "WHERE sp.user_id = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int productId = rs.getInt("product_id");
+                    String statusMatch = rs.getString("statusMatch");
+
+                    saveProductDTO saveProductDTO = new saveProductDTO(productId, userID, statusMatch);
+                    saveProducts.add(saveProductDTO);
+                }
+            }
+        } finally {
+            // Close all resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return saveProducts;
     }
 
 }

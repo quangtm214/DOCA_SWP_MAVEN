@@ -45,6 +45,7 @@
 
     <body>
         <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
+        
         <jsp:include page="header.jsp" />
 
         <div class="main-content">
@@ -63,9 +64,13 @@
                                         </td>
 
                                         <c:set var="count" value="0" />
+                                        <c:set var="countApprove" value="0" />
                                         <c:forEach items="${listConverOfProduct}" var="conversation">
                                             <c:if test="${conversation.buyer_id == user.user_ID}">
                                                 <c:set var="count" value="${count + 1}" />
+                                                <c:if test="${conversation.status=='approve'}">
+                                                    <c:set var="countApprove" value="${countApprove +1 }" />
+                                                </c:if>
                                             </c:if>
                                         </c:forEach>
                                         <c:choose>
@@ -77,9 +82,20 @@
                                                 </td>
                                             </c:when>
                                             <c:otherwise>
-                                                <td>
-                                                    <button>Đang trò chuyện</button>
-                                                </td>
+                                                <c:if test="${countApprove==0}">
+                                                    <td>
+                                                        <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                            <button>Đang trò chuyện</button>
+                                                        </a>
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${countApprove!=0}">
+                                                    <td>
+                                                        <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                            <button>Đã giao dịch</button>
+                                                        </a>
+                                                    </td>
+                                                </c:if>
                                             </c:otherwise>
                                         </c:choose>
 

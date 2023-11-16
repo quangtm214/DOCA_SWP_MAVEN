@@ -71,8 +71,7 @@ public class marketServlet extends HttpServlet {
             if (user != null) {
                 saveProductDAO saveProductDao = new saveProductDAO();
                 int userID = user.getUser_ID();
-                saveProductDao.getSaveProductByuserID(userID);
-                List<saveProductDTO> listOfSaveProduct = saveProductDao.getListOfSaveProduct();
+                List<saveProductDTO> listOfSaveProduct = saveProductDao.getListSaveProductDTOByUserID(userID);
                 if (listOfSaveProduct != null) {
                     session.setAttribute("listOfSaveProduct", listOfSaveProduct);
                 }

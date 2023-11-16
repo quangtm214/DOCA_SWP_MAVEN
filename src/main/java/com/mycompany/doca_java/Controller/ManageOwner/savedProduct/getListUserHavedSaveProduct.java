@@ -48,6 +48,7 @@ public class getListUserHavedSaveProduct extends HttpServlet {
         try {
             saveProductDAO sdao = new saveProductDAO();
             userDAO uDao = new userDAO();
+            List<saveProductDTO> listSaveProduct= sdao.getListSaveProductDTO(productID);
             List<Integer> listuserID = sdao.getUserIDsByProductID(productID);
             List<userDTO> listUser = new ArrayList<>();
             for (Integer integer : listuserID) {
@@ -61,6 +62,7 @@ public class getListUserHavedSaveProduct extends HttpServlet {
             }
             request.setAttribute("listUserHaveSave", listUser);
             request.setAttribute("productID", productID);
+            request.setAttribute("listSaveProduct", listSaveProduct);
             url = "listMemberHaveLikeProduct.jsp";
 
         } catch (ClassNotFoundException ex) {

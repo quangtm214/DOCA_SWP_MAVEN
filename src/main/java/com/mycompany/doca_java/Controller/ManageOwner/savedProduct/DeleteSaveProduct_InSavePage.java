@@ -24,6 +24,13 @@ import javax.naming.NamingException;
 @WebServlet(name = "DeleteSaveProduct_InSavePage", urlPatterns = {"/DeleteSaveProduct_InSavePage"})
 public class DeleteSaveProduct_InSavePage extends HttpServlet {
 
+    private final String statusSaled = "saled";
+    private final String statusWating = "waiting";
+    private final String statusReject = "reject";
+    private final String statusBanned = "ban";
+    private final String statusUnfollow = "unfollow";
+    private final String statusResale = "resale";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,15 +46,28 @@ public class DeleteSaveProduct_InSavePage extends HttpServlet {
         HttpSession session = request.getSession(true);
         int productID = Integer.parseInt(request.getParameter("productID"));
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
-
+        String isSaved = request.getParameter("isSaved");
         String url = "";
         try {
             if (account != null) {
                 saveProductDAO dao = new saveProductDAO();
-                boolean result = dao.deleteSaveProduct(account.getUser_ID(), productID);//get userID form sessionScope
-                if (result) {
-                    url = "ListProductSaved";
+                if (isSaved.equals(statusWating)) {
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusUnfollow);//get userID form sessionScope
+                    if (result) {
+                        url = "ListProductSaved";
+                    }
+                } else if (isSaved.equals(statusReject)) {
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusUnfollow);//get userID form sessionScope
+                    if (result) {
+                        url = "ListProductSaved";
+                    }
+                }else if (isSaved.equals(statusResale)) {
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusWating);//get userID form sessionScope
+                    if (result) {
+                        url = "ListProductSaved";
+                    }
                 }
+
             }
 
         } catch (ClassNotFoundException ex) {

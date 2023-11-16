@@ -200,7 +200,7 @@ public class ProductDAO {
                 String sql = "SELECT p.[product_id], p.[user_id], p.[category_id], p.[title], p.[description], p.[product_image], p.[is_free], p.[price], p.[address], p.[timePosted], p.[isPublic], p.[status], p.[reason]\n"
                         + "FROM [DOCA_platform].[dbo].[product] p\n"
                         + "INNER JOIN [DOCA_platform].[dbo].[saveProduct] s ON p.[product_id] = s.[product_id]\n"
-                        + "WHERE s.[user_id] = ?";
+                        + "WHERE s.[user_id] = ? AND s.[statusMatch] NOT IN ('unfollow', 'ban')";
                 //3.create stm obj
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userID);
@@ -499,7 +499,6 @@ public class ProductDAO {
         return result;
     }
 
-  
     public boolean updateIsPublic(int productId, boolean isPublic) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -638,9 +637,7 @@ public class ProductDAO {
         return result;
 
     }
-    
-    
-    
+
     public boolean setStatusProduct(int productId, String status) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

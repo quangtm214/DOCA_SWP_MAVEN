@@ -24,6 +24,12 @@ import javax.naming.NamingException;
 @WebServlet(name = "updateSaveProductServlet", urlPatterns = {"/updateSaveProductServlet"})
 public class updateSaveProductServlet extends HttpServlet {
 
+    private final String statusSaled = "saled";
+    private final String statusWating = "waiting";
+    private final String statusReject = "reject";
+    private final String statusBanned = "ban";
+    private final String statusUnfollow = "unfollow";
+    private final String statusResale = "resale";
     private final String LOGIN_PAGE = "login.jsp";
 
     /**
@@ -40,24 +46,24 @@ public class updateSaveProductServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
 
-        String local = session.getAttribute("selectedLocal") != null ? 
-                (String) session.getAttribute("selectedLocal") : "";
-        float lowerPrice = session.getAttribute("selectedLowerPrice") != null ? 
-                (float) session.getAttribute("selectedLowerPrice") : 0.0f;
-        int category = session.getAttribute("selectedCategory") != null ? 
-                (int) session.getAttribute("selectedCategory") : 0;
+        String local = session.getAttribute("selectedLocal") != null
+                ? (String) session.getAttribute("selectedLocal") : "";
+        float lowerPrice = session.getAttribute("selectedLowerPrice") != null
+                ? (float) session.getAttribute("selectedLowerPrice") : 0.0f;
+        int category = session.getAttribute("selectedCategory") != null
+                ? (int) session.getAttribute("selectedCategory") : 0;
         int productID = Integer.parseInt(request.getParameter("productIDChangeSave"));
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
-        boolean isSaved = Boolean.parseBoolean(request.getParameter("isSaved"));
+        String isSaved = request.getParameter("isSaved");
 
-       int indexPage = session.getAttribute("indexPageMarket") != null ? 
-                (int) session.getAttribute("indexPageMarket") : 1;
+        int indexPage = session.getAttribute("indexPageMarket") != null
+                ? (int) session.getAttribute("indexPageMarket") : 1;
 
         String url = "";
         try {
             if (account != null) {
                 saveProductDAO dao = new saveProductDAO();
-                if (!isSaved) {
+                if (isSaved.equals("")) {
                     boolean result = dao.createSaveProduct(account.getUser_ID(), productID);//get userID form sessionScope
                     if (result) {
                         url = "filterProduct"
@@ -66,8 +72,26 @@ public class updateSaveProductServlet extends HttpServlet {
                                 + "&category=" + category
                                 + "&indexFromSaveProduct=" + indexPage;
                     }
-                } else {
-                    boolean result = dao.deleteSaveProduct(account.getUser_ID(), productID);//get userID form sessionScope
+                } else if (isSaved.equals(statusWating)) {
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(),productID, isSaved, statusUnfollow);//get userID form sessionScope
+                    if (result) {
+                        url = "filterProduct"
+                                + "?city=" + local
+                                + "&lowerPrice=" + lowerPrice
+                                + "&category=" + category
+                                + "&indexFromSaveProduct=" + indexPage;
+                    }
+                } else if (isSaved.equals(statusUnfollow)) {
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(),productID, isSaved, statusWating);//get userID form sessionScope
+                    if (result) {
+                        url = "filterProduct"
+                                + "?city=" + local
+                                + "&lowerPrice=" + lowerPrice
+                                + "&category=" + category
+                                + "&indexFromSaveProduct=" + indexPage;
+                    }
+                } else if (isSaved.equals(statusResale)) {
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(),productID, isSaved, statusWating);//get userID form sessionScope
                     if (result) {
                         url = "filterProduct"
                                 + "?city=" + local

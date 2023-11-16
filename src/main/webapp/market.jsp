@@ -127,12 +127,29 @@
                                                 </h6>
                                             </div>
                                         </a>
-                                        <c:set var="isSaved" value="false"/>
+                                        <c:set var="isSaved" value=""/>
                                         <c:set var="productIDChangeSave" value="${product.productId}"/>
 
                                         <c:forEach items="${SaveProductsList}" var="saveProduct" >
-                                            <c:if test="${saveProduct.productId == product.productId }">
-                                                <c:set var="isSaved" value="true"/>
+                                            <c:if test="${saveProduct.productId == product.productId }"> 
+                                                <c:if test="${saveProduct.statusMatch=='waiting'}">
+                                                    <c:set var="isSaved" value="waiting"/>
+                                                </c:if>
+                                                <c:if test="${saveProduct.statusMatch=='saled'}">
+                                                    <c:set var="isSaved" value="saled"/>
+                                                </c:if>
+                                                <c:if test="${saveProduct.statusMatch=='reject'}">
+                                                    <c:set var="isSaved" value="reject"/>
+                                                </c:if>
+                                                <c:if test="${saveProduct.statusMatch=='ban'}">
+                                                    <c:set var="isSaved" value="ban"/>
+                                                </c:if>
+                                                <c:if test="${saveProduct.statusMatch=='unfollow'}">
+                                                    <c:set var="isSaved" value="unfollow"/>
+                                                </c:if>
+                                                <c:if test="${saveProduct.statusMatch=='resale'}">
+                                                    <c:set var="isSaved" value="resale"/>
+                                                </c:if>
                                             </c:if>
                                         </c:forEach>
                                         <c:url var="saveProductLink" value="DispatchServlet" >
@@ -140,13 +157,53 @@
                                             <c:param name="isSaved" value="${isSaved}"></c:param>
                                             <c:param name="productIDChangeSave" value="${productIDChangeSave}"></c:param>
                                         </c:url>
-                                        <span class="like-icon">
-                                            <a class="fa fa-heart border-0 p-0" 
-                                               href="${saveProductLink}"
-                                               style="color: ${isSaved=="true"? "red":"gray"}; cursor: pointer; position: absolute; bottom: 30px; right: 40px;">
+                                        <c:if test="${isSaved==''||isSaved=='unfollow'}">
+                                            <span class="like-icon">
+                                                <a class="fa fa-heart border-0 p-0" 
+                                                   href="${saveProductLink}"
+                                                   style="color: gray; cursor: pointer; position: absolute; bottom: 30px; right: 40px;">
+                                                </a>
+                                            </span>
+                                        </c:if>
+                                        <c:if test="${isSaved=='waiting'}">
+                                            <span class="like-icon">
+                                                <a class="fa fa-heart border-0 p-0" 
+                                                   href="${saveProductLink}"
+                                                   style="color: red; cursor: pointer; position: absolute; bottom: 30px; right: 40px;">
+                                                </a>
+                                            </span>
+                                        </c:if>
+                                        <c:if test="${isSaved=='saled'}">
+                                            <span class="like-icon">
+                                                <a class="d-flex align-items-center" style="color: red; cursor: pointer; position: absolute; bottom: 30px; right: 40px;">
+                                                    <span class="fa fa-heart border-0 p-0"></span>
+                                                    <p class="mb-0 ml-2">Sản phẩm bạn đã mua</p>
+                                                </a>
+                                            </span>
+                                        </c:if>
+                                        <c:if test="${isSaved=='ban'}">
+<!--                                            <span class="like-icon">
+                                                <a class="d-flex align-items-center" style="color: #748B8E; cursor: pointer; position: absolute; bottom: 30px; right: 40px;"> 
+                                                    <p class="mb-0 ml-2">Bạn bị từ chối quan tâm tới sản phẩm này</p>
+                                                     
+                                                    <span class="fa fa-exclamation border-0 p-0"></span>
+                                                </a>
+                                            </span>-->
+                                        </c:if>
+                                        <c:if test="${isSaved=='resale'}">
+                                            <span class="like-icon">
+                                                <a class="d-flex align-items-center"
+                                                   href="${saveProductLink}"
+                                                   style="color: pink; cursor: pointer; position: absolute; bottom: 30px; right: 40px;"> 
+                                                    <span class="fa fa-heart border-0 p-0"></span>
+                                                    <p class="mb-0 ml-2">Sản phẩm từng quan tâm</p>
+                                                </a>
+                                            </span>
+                                        </c:if>
 
-                                            </a>
-                                        </span>
+
+
+
                                     </div>
                                 </c:forEach>
                                 <c:if test="${countDisplay eq 0}">

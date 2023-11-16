@@ -27,8 +27,12 @@ public class resaledProduct extends HttpServlet {
     private final String statusWating = "waiting";
     private final String statusReject = "reject";
     private final String statusBanned = "ban";
+    private final String statusUnfollow = "unfollow";
+    private final String statusResale = "resale";
+
     private final String statusApprove = "approved";
- public static final String PERSONAL_PRODUCT_PAGE = "getPersonalProduct";
+    public static final String PERSONAL_PRODUCT_PAGE = "getPersonalProduct";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,16 +45,17 @@ public class resaledProduct extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         String url="";
+        String url = "";
         try {
             String productId = request.getParameter("producID");
             saveProductDAO dao = new saveProductDAO();
             ProductDAO pdao = new ProductDAO();
             boolean result = false;
-            result = dao.setRejectSaveProduct(Integer.parseInt(productId), statusReject, statusWating);
-            dao.setRejectSaveProduct(Integer.parseInt(productId), statusSaled, statusBanned);
+            result = dao.setStatusSaveProduct(Integer.parseInt(productId), statusReject, statusResale);
+            dao.setStatusSaveProduct(Integer.parseInt(productId), statusUnfollow, statusResale);
+//            dao.setRejectSaveProduct(Integer.parseInt(productId), statusSaled, statusBanned);
             pdao.setStatusProduct(Integer.parseInt(productId), statusApprove);
-            url= PERSONAL_PRODUCT_PAGE;
+            url = PERSONAL_PRODUCT_PAGE;
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } catch (NamingException ex) {

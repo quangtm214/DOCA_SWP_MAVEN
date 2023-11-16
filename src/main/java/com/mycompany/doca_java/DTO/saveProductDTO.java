@@ -23,7 +23,8 @@ import lombok.ToString;
 public class saveProductDTO implements Serializable {
     private int productId;   
     private int userID;
-     private int countSave;
+    private int countSave;
+    private String statusMatch;
     public saveProductDTO(int productId) {
         this.productId = productId;
     }
@@ -31,6 +32,12 @@ public class saveProductDTO implements Serializable {
     public saveProductDTO(int productId, int countSave) {
         this.productId = productId;
         this.countSave = countSave;
+    }
+
+    public saveProductDTO(int productId, int userID, String statusMatch) {
+        this.productId = productId;
+        this.userID = userID;
+        this.statusMatch = statusMatch;
     }
     
     

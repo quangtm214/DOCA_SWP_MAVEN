@@ -8,6 +8,7 @@ package  com.mycompany.doca_java.Controller.ManageOwner.savedProduct;
 import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.saveProductDAO;
 import com.mycompany.doca_java.DTO.ProductDTO;
+import com.mycompany.doca_java.DTO.saveProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -53,10 +54,12 @@ public class ListProductSaved extends HttpServlet {
                 dao.getProductSavedbyUserID(account.getUser_ID());
                 List<ProductDTO> listOfProduct = dao.getListOfProduct();
                 saveProductDAO sDao= new saveProductDAO();
-                List<Integer> listSaveHaveReject= sDao.getRejectedSaveProductsByUserID(account.getUser_ID());
+//                List<Integer> listSaveHaveReject= sDao.getRejectedSaveProductsByUserID(account.getUser_ID());
+                List<saveProductDTO> listOfSaved = sDao.getListSaveProductDTOByUserID(account.getUser_ID());
                 if (listOfProduct != null) {
-                    request.setAttribute("listOfSaved", listOfProduct);
-                    request.setAttribute("listSaveHaveReject", listSaveHaveReject);
+                    request.setAttribute("listOfProduct", listOfProduct);
+//                    request.setAttribute("listSaveHaveReject", listSaveHaveReject);
+                    request.setAttribute("listOfSaved", listOfSaved);
                     url = PRODUCTSAVED;
                 }else{
                     request.setAttribute("Message", "Không có sản phẩm nào được lưu, hoặc sản phẩm đã bị ẩn");

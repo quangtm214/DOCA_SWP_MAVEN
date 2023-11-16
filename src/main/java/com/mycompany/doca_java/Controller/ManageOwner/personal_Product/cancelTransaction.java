@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.doca_java.Controller.ManageOwner.savedProduct;
+package com.mycompany.doca_java.Controller.ManageOwner.personal_Product;
 
 import com.mycompany.doca_java.DAO.ConversationDAO;
 import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.saveProductDAO;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,19 +15,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import javax.naming.NamingException;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "confirmSave", urlPatterns = {"/confirmSave"})
-public class confirmSave extends HttpServlet {
+@WebServlet(name = "cancelTransaction", urlPatterns = {"/cancelTransaction"})
+public class cancelTransaction extends HttpServlet {
 
     private final String statusSaled = "saled";
     private final String statusWating = "waiting";
     private final String statusReject = "reject";
+    private final String statusBanned = "ban";
+    private final String statusUnfollow = "unfollow";
+    private final String statusResale = "resale";
+    private final String statusApprove = "approved";
     private final String GET_CONVERSATIONLIST = "getConversationServlet";
 
     /**
@@ -45,26 +47,21 @@ public class confirmSave extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = "";
         try {
-            response.setContentType("text/html;charset=UTF-8");
-            String buyerId = request.getParameter("buyerID");
             String productId = request.getParameter("producID");
+            String buyerID = request.getParameter("buyerID");
             saveProductDAO dao = new saveProductDAO();
+            ConversationDAO cDao = new ConversationDAO();
+            cDao.updateConversationToReject(Integer.parseInt(productId), Integer.parseInt(buyerID));
             ProductDAO pdao = new ProductDAO();
-            ConversationDAO cdao= new ConversationDAO();
             boolean result = false;
-            if (buyerId != null) {
-                result = dao.setMatchProduct(Integer.parseInt(buyerId), Integer.parseInt(productId), statusSaled);
-                dao.setStatusSaveProduct(Integer.parseInt(productId), statusWating, statusReject);
-                pdao.setStatusProduct(Integer.parseInt(productId), statusSaled);
-                cdao.updateStatusToApprove(Integer.parseInt(productId), Integer.parseInt(buyerId));
-            } else {
-                result = dao.setStatusSaveProduct(Integer.parseInt(productId), statusWating, statusReject);
-                pdao.setStatusProduct(Integer.parseInt(productId), statusSaled);
-            }
-            if (result) {
-                request.setAttribute("MssSaledSuccess", "Xác nhận bán thành công");
-                url = GET_CONVERSATIONLIST;
-            }
+            dao.setStatusSaveProduct(Integer.parseInt(productId), statusReject, statusResale);
+            dao.setStatusSaveProduct(Integer.parseInt(productId), statusUnfollow, statusResale);
+            dao.setStatusSaveProductByUID(Integer.parseInt(buyerID), Integer.parseInt(productId), statusSaled, statusBanned);
+//            dao.setRejectSaveProduct(Integer.parseInt(productId), statusSaled, statusBanned);
+            pdao.setStatusProduct(Integer.parseInt(productId), statusApprove);
+
+            request.setAttribute("MssCancelSuccess", "Xác nhận hủy giao dịch thành công");
+            url = GET_CONVERSATIONLIST;
 
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -73,8 +70,7 @@ public class confirmSave extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

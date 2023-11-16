@@ -131,6 +131,15 @@
                                                                 </div>
                                                             </div>
                                                         </c:if>
+                                                        <c:if test="${conversation.status == 'reject'}">
+                                                            <p>
+                                                                <small class="text-danger">Giao dịch đã bị hủy 
+                                                                    <i class="fa fa-exclamation"></i>
+                                                                    Bạn không thể theo dõi sản phẩm này nữa
+                                                                </small>
+                                                            </p>
+
+                                                        </c:if>
                                                         <c:if test="${Product.status=='saled'}">
                                                             <c:if test="${conversation.status !='approve'}">
                                                                 <p><small style="color: #6330B7;">Rất tiếc: Sản phẩm đã bán cho người khác</small></p>
@@ -145,7 +154,7 @@
                                                                 </div>
                                                                 <div class="col-md-5 p-0">
                                                                     <button class="rounded-pill" style="background-color: #F63C13;" >
-                                                                        <a class="text-dark" href="">
+                                                                        <a class="text-dark" href="cancelTransaction?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
                                                                             Hủy giao dịch
                                                                         </a>
                                                                     </button>
@@ -163,6 +172,14 @@
                                                                     </a>
                                                                 </button>
                                                             </c:if>
+                                                        </c:if>
+                                                        <c:if test="${conversation.status == 'reject'}">
+                                                            <p>
+                                                                <small class="text-danger">Giao dịch đã bị hủy
+                                                                    <i class="fa fa-exclamation"></i>
+                                                                </small>
+                                                            </p>
+
                                                         </c:if>
                                                     </c:if>
 
@@ -383,6 +400,14 @@
                 var successMessage = "<c:out value='${MssSaledSuccess}' />";
                 if (successMessage) {
                     alert(successMessage);
+                }
+            });
+        </script>
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                var successCancel= "<c:out value='${MssCancelSuccess}' />";
+                if (successCancel) {
+                    alert(successCancel);
                 }
             });
         </script>
