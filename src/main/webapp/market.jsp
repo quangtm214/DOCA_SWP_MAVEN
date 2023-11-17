@@ -46,6 +46,9 @@
             a.sell.d-flex {
                 background-color: white;
             }
+            .btn1.d-flex {
+                margin-left: 130px;
+            }
         </style>
     </head>
 
@@ -182,13 +185,13 @@
                                             </span>
                                         </c:if>
                                         <c:if test="${isSaved=='ban'}">
-<!--                                            <span class="like-icon">
+                                            <span class="like-icon">
                                                 <a class="d-flex align-items-center" style="color: #748B8E; cursor: pointer; position: absolute; bottom: 30px; right: 40px;"> 
                                                     <p class="mb-0 ml-2">Bạn bị từ chối quan tâm tới sản phẩm này</p>
-                                                     
+
                                                     <span class="fa fa-exclamation border-0 p-0"></span>
                                                 </a>
-                                            </span>-->
+                                            </span>
                                         </c:if>
                                         <c:if test="${isSaved=='resale'}">
                                             <span class="like-icon">

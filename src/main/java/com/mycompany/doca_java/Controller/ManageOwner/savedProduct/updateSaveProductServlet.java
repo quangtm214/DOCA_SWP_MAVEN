@@ -4,7 +4,10 @@
  */
 package com.mycompany.doca_java.Controller.ManageOwner.savedProduct;
 
+import com.mycompany.doca_java.DAO.NotificationDAO;
+import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.saveProductDAO;
+import com.mycompany.doca_java.DTO.ProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.naming.NamingException;
 
 /**
@@ -60,11 +65,24 @@ public class updateSaveProductServlet extends HttpServlet {
                 ? (int) session.getAttribute("indexPageMarket") : 1;
 
         String url = "";
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Timestamp timeNotification = Timestamp.valueOf(currentDateTime);
         try {
+            //ai dó dã lai bài vi?t .... c?a banbj
+            ProductDAO pDao = new ProductDAO();
+            ProductDTO product = pDao.getProductById(productID);
+            String title = product.getTitle();
+            String first80Chars = title.substring(0, Math.min(title.length(), 80));
+            String noDes = "";
+            String Username = account.getUserName();
+            NotificationDAO notiDao = new NotificationDAO();
+            int OnerProductID = product.getUserId();
             if (account != null) {
                 saveProductDAO dao = new saveProductDAO();
                 if (isSaved.equals("")) {
                     boolean result = dao.createSaveProduct(account.getUser_ID(), productID);//get userID form sessionScope
+                    noDes = Username + " đã quan tâm sản phẩm " + " - " + first80Chars;
+                    notiDao.insertNotification(OnerProductID, noDes, timeNotification);
                     if (result) {
                         url = "filterProduct"
                                 + "?city=" + local
@@ -73,7 +91,7 @@ public class updateSaveProductServlet extends HttpServlet {
                                 + "&indexFromSaveProduct=" + indexPage;
                     }
                 } else if (isSaved.equals(statusWating)) {
-                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(),productID, isSaved, statusUnfollow);//get userID form sessionScope
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusUnfollow);//get userID form sessionScope
                     if (result) {
                         url = "filterProduct"
                                 + "?city=" + local
@@ -82,7 +100,7 @@ public class updateSaveProductServlet extends HttpServlet {
                                 + "&indexFromSaveProduct=" + indexPage;
                     }
                 } else if (isSaved.equals(statusUnfollow)) {
-                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(),productID, isSaved, statusWating);//get userID form sessionScope
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusWating);//get userID form sessionScope
                     if (result) {
                         url = "filterProduct"
                                 + "?city=" + local
@@ -91,7 +109,7 @@ public class updateSaveProductServlet extends HttpServlet {
                                 + "&indexFromSaveProduct=" + indexPage;
                     }
                 } else if (isSaved.equals(statusResale)) {
-                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(),productID, isSaved, statusWating);//get userID form sessionScope
+                    boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusWating);//get userID form sessionScope
                     if (result) {
                         url = "filterProduct"
                                 + "?city=" + local

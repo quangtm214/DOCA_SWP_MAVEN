@@ -40,71 +40,90 @@
         <!-- Link CSS -->
         <link rel="stylesheet" href="assets/css/standar-style.css">
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
-
+        <style>
+            table {
+                border-collapse: separate;
+                border-spacing: 15px;
+            }
+        </style>
     </head>
 
     <body>
         <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
-        
+
         <jsp:include page="header.jsp" />
 
         <div class="main-content">
             <div class="row row-content justify-content-center">
-                <div class="col-sm-8 ">
+                <div class="col-sm-8 text-center">
                     <h3>Chọn người đã quan tâm sản phẩm để thực hiện trao đổi</h3>
-                    <table>
-                        <tbody>
-                            <c:forEach items="${listUserHaveSave}" var="user">
-                                <c:if test="${user.user_ID != Owner.user_ID}">
-                                    <tr>
-                                        <td>
-                                            <a href="Profilemember?userId=${user.user_ID}">
-                                                <p class="text-dark">${user.userName}</p>
-                                            </a>
-                                        </td>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <table>
+                                    <tbody>
+                                        <c:forEach items="${listUserHaveSave}" var="user">
+                                            <c:if test="${user.user_ID != Owner.user_ID}">
+                                                <tr>
+                                                    <td>
+                                                        <img src="${user.avatar}"
+                                                             alt="Profile Image"
+                                                             class="rounded-circle profile-image" 
+                                                             style="width: 30px; height: 30px;">
+                                                    </td>
+                                                    <td>
+                                                        <a href="Profilemember?userId=${user.user_ID}">
+                                                            <h5 class="text-dark mb-0 mr-5">${user.userName}</h5>
+                                                        </a>
+                                                    </td>
 
-                                        <c:set var="count" value="0" />
-                                        <c:set var="countApprove" value="0" />
-                                        <c:forEach items="${listConverOfProduct}" var="conversation">
-                                            <c:if test="${conversation.buyer_id == user.user_ID}">
-                                                <c:set var="count" value="${count + 1}" />
-                                                <c:if test="${conversation.status=='approve'}">
-                                                    <c:set var="countApprove" value="${countApprove +1 }" />
-                                                </c:if>
+                                                    <c:set var="count" value="0" />
+                                                    <c:set var="countApprove" value="0" />
+                                                    <c:forEach items="${listConverOfProduct}" var="conversation">
+                                                        <c:if test="${conversation.buyer_id == user.user_ID}">
+                                                            <c:set var="count" value="${count + 1}" />
+                                                            <c:if test="${conversation.status=='approve'}">
+                                                                <c:set var="countApprove" value="${countApprove +1 }" />
+                                                            </c:if>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:choose>
+                                                        <c:when test="${count==0}">
+                                                            <td>
+                                                                <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                                    <button class="rounded-pill" data-toggle="tooltip" data-placement="top" title="Tạo cuộc trò chuyện với ${user.userName}">
+                                                                        Tiếp cận
+                                                                    </button>
+                                                                </a>
+                                                            </td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:if test="${countApprove==0}">
+                                                                <td>
+                                                                    <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                                        <button class="rounded-pill">Đang trò chuyện</button>
+                                                                    </a>
+                                                                </td>
+                                                            </c:if>
+                                                            <c:if test="${countApprove!=0}">
+                                                                <td>
+                                                                    <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                                        <button class="rounded-pill">Đã giao dịch</button>
+                                                                    </a>
+                                                                </td>
+                                                            </c:if>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </tr>
                                             </c:if>
                                         </c:forEach>
-                                        <c:choose>
-                                            <c:when test="${count==0}">
-                                                <td>
-                                                    <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                        <button>Tiếp cận</button>
-                                                    </a>
-                                                </td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:if test="${countApprove==0}">
-                                                    <td>
-                                                        <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                            <button>Đang trò chuyện</button>
-                                                        </a>
-                                                    </td>
-                                                </c:if>
-                                                <c:if test="${countApprove!=0}">
-                                                    <td>
-                                                        <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                            <button>Đã giao dịch</button>
-                                                        </a>
-                                                    </td>
-                                                </c:if>
-                                            </c:otherwise>
-                                        </c:choose>
-
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

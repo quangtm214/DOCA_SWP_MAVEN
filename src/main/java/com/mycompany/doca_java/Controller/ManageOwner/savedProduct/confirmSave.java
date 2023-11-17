@@ -55,6 +55,7 @@ public class confirmSave extends HttpServlet {
             if (buyerId != null) {
                 result = dao.setMatchProduct(Integer.parseInt(buyerId), Integer.parseInt(productId), statusSaled);
                 dao.setStatusSaveProduct(Integer.parseInt(productId), statusWating, statusReject);
+                
                 pdao.setStatusProduct(Integer.parseInt(productId), statusSaled);
                 cdao.updateStatusToApprove(Integer.parseInt(productId), Integer.parseInt(buyerId));
             } else {

@@ -76,7 +76,6 @@
                     <!-- viết code vào đây -->
                     <div class="container mt-5 justify-content-center">
                         <h1>Quản lý bài viết của bạn</h1>
-
                         <div class="row-content">
                             <nav class="navbar navbar-light navbar-expand-lg container-fluid rounded-pill"
                                  style="background-color: #CAD2C5;"
@@ -105,7 +104,7 @@
 
                         </div>
                         <!-- content -->
-                        <div class="tab-content mt-5 pb-5">
+                        <div class="tab-content">
 
                             <div role="tabpanel" class="tab-pane fade show active" id="display"> 
                                 <c:set var="countDisplay" value="0" />
@@ -142,7 +141,7 @@
                                         <!-- Popup Form -->
                                         <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                              aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                            <div class="modal-dialog ">
                                                 <form  action="UpdatePostByUserServlet" onsubmit="return validateFormUpdate()" method="post" enctype="multipart/form-data" >
                                                     <div class="modal-content">
                                                         <div class="modal-header">
