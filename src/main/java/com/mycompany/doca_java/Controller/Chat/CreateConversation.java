@@ -5,6 +5,7 @@
 package com.mycompany.doca_java.Controller.Chat;
 
 import com.mycompany.doca_java.DAO.ConversationDAO;
+import com.mycompany.doca_java.DAO.saveProductDAO;
 import com.mycompany.doca_java.DTO.ConversationDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
@@ -63,7 +64,8 @@ public class CreateConversation extends HttpServlet {
                 } else {
                     buyerID = account.getUser_ID();
                 }
-
+                saveProductDAO sdao = new saveProductDAO();
+                sdao.createSaveProduct(buyerID, ProductID);
                 ConversationDTO NewConversation = new ConversationDTO(ProductID, buyerID, sellerID);
                 //check if the conversation have exited
                 ConversationDAO dao = new ConversationDAO();

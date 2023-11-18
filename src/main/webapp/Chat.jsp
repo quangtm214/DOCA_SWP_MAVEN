@@ -45,8 +45,25 @@
         <link rel="stylesheet" href="assets/css/marketv2.css">
         <link rel="stylesheet" href="assets/css/standar-style.css">
         <link rel="stylesheet" href="assets/css/chat-style.css">
+        <style>
+            .rating input[type="radio"] {
+                display: none;
+            }
 
+            .rating label {
+                display: inline-block;
+                cursor: pointer;
+            }
 
+            .rating label i.fa-star {
+                color: #ddd;
+            }
+
+            .rating label i.filled {
+                color: orange;
+
+            }
+        </style>
     </head>
 
     <body>
@@ -61,7 +78,7 @@
             <div class="row row-content justify-content-center">
                 <div class="chat col-sm-9 mt-4" >
                     <div class="row container p-0">
-                        <div class="listConversation col-sm-4 " style="background-color: #A3B18A; height: 590px; overflow: scroll;" >
+                        <div class="listConversation col-sm-4 " style="background-color: #A2D9CE; height: 590px; overflow: scroll;" >
                             <ul class="list-group">
                                 <c:forEach items="${ListOfConversation}" var="conversation">
                                     <c:set var="conversationHavedShow" value="false"/>
@@ -71,7 +88,7 @@
                                                 <c:set var="conversationHavedShow" value="true"/>
                                                 <li id="conver_${conversation.conversation_id}" class="Convert-li list-group-item border-0 m-1
                                                     ${stayConversation.conversation_id == conversation.conversation_id ? 'active':''}" 
-                                                    style="background-color: #A3B18A">
+                                                    style="background-color: #A2D9CE">
                                                     <c:if test="${conversation.seller_id==Owner.user_ID}">
                                                         <c:set var="AnotherUserID" value="${conversation.buyer_id}"/>
                                                     </c:if>
@@ -98,7 +115,7 @@
 
                                                                             <a class=" Conversation-name "
                                                                                onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">  
-                                                                                <small class="d-inline-block text-truncate"  style="color: #D1F0E8 ;max-width: 150px; max-height: 3em;"> ${Product.title}</small>
+                                                                                <small class="d-inline-block text-truncate"  style="color: black;max-width: 150px; max-height: 3em;"> ${Product.title}</small>
                                                                             </a>
 
                                                                         </div>
@@ -120,12 +137,12 @@
                                                         <c:if test="${conversation.status=='approve'}">
                                                             <div class="row">
                                                                 <div class="col-md-6 p-0">
-                                                                    <p style="color: #0085A3;">Giao dịch hoàn tất</p> 
+                                                                    <p style="color: #119077;">Giao dịch hoàn tất</p> 
                                                                 </div>
                                                                 <div class="col-md-6 p-0">
                                                                     <a onclick="openFeedbackForm(${conversation.conversation_id})">
-                                                                        <p style="color: yellow">
-                                                                            <small>Đánh giá người bán</small>
+                                                                        <p style="color: #95A5A6;">
+                                                                            Đánh giá người bán
                                                                         </p>
                                                                     </a>
                                                                 </div>
@@ -133,7 +150,7 @@
                                                         </c:if>
                                                         <c:if test="${conversation.status == 'reject'}">
                                                             <p>
-                                                                <small class="text-danger">Giao dịch đã bị hủy 
+                                                                <small class="" style="color: #EC7063;">Giao dịch đã bị hủy 
                                                                     <i class="fa fa-exclamation"></i>
                                                                     Bạn không thể theo dõi sản phẩm này nữa
                                                                 </small>
@@ -150,10 +167,10 @@
                                                         <c:if test="${conversation.status == 'approve'}">
                                                             <div class="row m-0">
                                                                 <div class="col-md-7 pr-0">
-                                                                    <p style="color: #0085A3;">Giao dịch hoàn tất</p> 
+                                                                    <p style="color: #119077;">Giao dịch hoàn tất</p> 
                                                                 </div>
                                                                 <div class="col-md-5 p-0">
-                                                                    <button class="rounded-pill" style="background-color: #F63C13;" >
+                                                                    <button class="rounded-pill" style="background-color: #EC7063;" >
                                                                         <a class="text-dark" href="cancelTransaction?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
                                                                             Hủy giao dịch
                                                                         </a>
@@ -166,7 +183,7 @@
                                                                 <p><small style="color: #F02100;">Sản phẩm đã giao dịch thành công với khách hàng khác</small></p>
                                                             </c:if>
                                                             <c:if test="${Product.status =='approved'}">
-                                                                <button class="rounded-pill" style="background-color: #7FD80E;" >
+                                                                <button class="rounded-pill" style="background-color: #4BAC74;" >
                                                                     <a class="text-dark" href="confirmSave?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
                                                                         Hoàn thành giao dịch
                                                                     </a>
@@ -175,7 +192,7 @@
                                                         </c:if>
                                                         <c:if test="${conversation.status == 'reject'}">
                                                             <p>
-                                                                <small class="text-danger">Giao dịch đã bị hủy
+                                                                <small class="" style="color: #EC7063;">Giao dịch đã bị hủy
                                                                     <i class="fa fa-exclamation"></i>
                                                                 </small>
                                                             </p>
@@ -197,16 +214,24 @@
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                                                                 </div>
                                                                 <div class="modal-body">
+                                                                    <div class="form-group start">
+                                                                        <label for="ratingTitle">Đánh giá:</label>
+                                                                        <div class="rating">
+                                                                            <input type="radio" id="rating1" name="rating" value="1" onchange="changeStarRating(1)" />
+                                                                            <label for="rating1"><i id="star1" class="far fa-star"></i></label>
 
-                                                                    <div class="form-group">
-                                                                        <label for="rating">Đánh giá:</label>
-                                                                        <select name="rate" class="form-control" id="rating">
-                                                                            <option value="5">5 sao</option>
-                                                                            <option value="4">4 sao</option>
-                                                                            <option value="3">3 sao</option>
-                                                                            <option value="2">2 sao</option>
-                                                                            <option value="1">1 sao</option>
-                                                                        </select>
+                                                                            <input type="radio" id="rating2" name="rating" value="2" onchange="changeStarRating(2)" />
+                                                                            <label for="rating2"><i id="star2" class="far fa-star"></i></label>
+
+                                                                            <input type="radio" id="rating3" name="rating" value="3" onchange="changeStarRating(3)" />
+                                                                            <label for="rating3"><i id="star3" class="far fa-star"></i></label>
+
+                                                                            <input type="radio" id="rating4" name="rating" value="4" onchange="changeStarRating(4)" />
+                                                                            <label for="rating4"><i id="star4" class="far fa-star"></i></label>
+
+                                                                            <input type="radio" id="rating5" name="rating" value="5" onchange="changeStarRating(5)" />
+                                                                            <label for="rating5"><i id="star5" class="far fa-star"></i></label>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="comment">Bình luận:</label>
@@ -214,7 +239,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
+
                                                                     <input type="hidden" name="seller_id" value="${Product.userId}" />
+                                                                    <input type="hidden" id="hiddenRating${conversation.conversation_id}" name="rate" value="" />
                                                                     <input type="hidden" name="product_id" value="${conversation.product_id}" />
                                                                     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                                                                 </div>
@@ -228,7 +255,7 @@
                                 </c:forEach>
                             </ul>
                         </div>
-                        <div class="listMessage col-sm-8 pr-0 " style=" height: 590px;background-color: #DAD7CD; " >
+                        <div class="listMessage col-sm-8 pr-0 " style=" height: 590px;background-color: #9DCAC1; " >
                             <div style="height: 50px; " >
                                 <div class="row profile-seller-info mt-2" style="display: none;">
                                     <img src=""
@@ -236,7 +263,7 @@
                                          class="rounded-circle profile-image ml-2" style=" object-fit: cover;
                                          border-radius: 50%;  width: 50px;
                                          height: 50px;">
-                                    <a id="profileLink" href="" class="username"></a>
+                                    <a id="profileLink" style="color: black;" href="" class="username"></a>
                                 </div>
                             </div>
                             <!-- Message list content goes here -->
@@ -253,7 +280,7 @@
                                                    style="width: 100%">
                                         </div>
                                         <div class="mr-3">
-                                            <button class="btn btn-primary">
+                                            <button class="btn  " style="background-color:  #7FB3D5;">
                                                 <i class="fa fa-paper-plane"></i>
                                             </button>
                                         </div>
@@ -267,17 +294,38 @@
         </div>
 
         <script>
+            let conversationidRating;
             function openFeedbackForm(conversationid) {
                 $('#ratingModal' + conversationid).modal('show');
+                conversationidRating = conversationid;
             }
 
             function closeEditForm(postId) {
                 $('#ratingModal' + conversationid).modal('hide');
+
             }
             function saveChanges() {
                 var editedContent = $('#edited-content').val();
                 // Thực hiện các thay đổi và lưu bài viết tại đây
                 closeEditForm(); // Đóng popup sau khi hoàn thành
+            }
+
+            function changeStarRating(rating) {
+                var ratingform = document.getElementById('ratingModal' + conversationidRating);
+                var hiddenInput = document.getElementById('hiddenRating' + conversationidRating);
+                var stars = ratingform.querySelectorAll('.rating label i');
+                for (var i = 0; i < stars.length; i++) {
+                    stars[i].classList.remove('filled');
+                    console.log(stars[i].classList);
+                }
+                for (var i = 0; i < rating; i++) {
+//                  
+                    stars[i].classList.add('filled');
+//                  
+                }
+
+                hiddenInput.setAttribute('value', rating);
+
             }
         </script>
         <script>
@@ -403,14 +451,5 @@
                 }
             });
         </script>
-        <script>
-            window.addEventListener('DOMContentLoaded', (event) => {
-                var successCancel= "<c:out value='${MssCancelSuccess}' />";
-                if (successCancel) {
-                    alert(successCancel);
-                }
-            });
-        </script>
-
     </body>
 </html>

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
@@ -34,10 +35,11 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 //2.create sql string
-                String sql = "SELECT sp.product_id\n"
-                        + "FROM saveProduct sp\n"
-                        + "JOIN users u ON sp.user_id = u.user_id\n"
-                        + "WHERE u.user_id = ?";
+                String sql = "SELECT sp.product_id "
+                        + "FROM saveProduct sp "
+                        + "JOIN users u ON sp.user_id = u.user_id "
+                        + "WHERE u.user_id = ? "
+                        + "ORDER BY sp.time DESC";
                 //3.create stm obj
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userID);
@@ -83,11 +85,12 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 // Tạo câu truy vấn SQL để lấy danh sách user ID từ product ID
-                String sql = "SELECT u.user_id\n"
-                        + "FROM saveProduct sp\n"
-                        + "JOIN users u ON sp.user_id = u.user_id\n"
-                        + "WHERE sp.product_id = ?\n"
-                        + "AND sp.statusMatch NOT IN ('resale', 'unfollow', 'ban')";
+                String sql = "SELECT u.user_id "
+                        + "FROM saveProduct sp "
+                        + "JOIN users u ON sp.user_id = u.user_id "
+                        + "WHERE sp.product_id = ? "
+                        + "AND sp.statusMatch NOT IN ('resale', 'unfollow', 'ban') "
+                        + "ORDER BY sp.time DESC";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
 
@@ -159,24 +162,32 @@ public class saveProductDAO {
         try {
             con = DBconnect.makeConnection();
             if (con != null) {
-                //2.create sql string
-                String sql = "INSERT INTO saveProduct (user_id, product_id, statusMatch)\n"
-                        + "VALUES (?, ?, ?);";
-                //3.create stm obj
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, userID);
-                stm.setInt(2, productId);
-                stm.setString(3, "waiting");
-                //4.execute
-                int effectRows = stm.executeUpdate();
-                //5.process (Note: Luu y Khi SU DUNG IF/WHILE)
-                if (effectRows > 0) {
-                    result = true;
+                // Check if the pair of userID and productID already exists
+                String checkSql = "SELECT COUNT(*) FROM saveProduct WHERE user_id = ? AND product_id = ?";
+                PreparedStatement checkStm = con.prepareStatement(checkSql);
+                checkStm.setInt(1, userID);
+                checkStm.setInt(2, productId);
+                ResultSet rs = checkStm.executeQuery();
+                rs.next();
+                int count = rs.getInt(1);
+
+                if (count == 0) {
+                    // If the pair doesn't exist, insert it into the saveProduct table
+                    String insertSql = "INSERT INTO saveProduct (user_id, product_id, statusMatch, time) VALUES (?, ?, ?, GETDATE())";
+                    stm = con.prepareStatement(insertSql);
+                    stm.setInt(1, userID);
+                    stm.setInt(2, productId);
+                    stm.setString(3, "waiting");
+
+                    int effectRows = stm.executeUpdate();
+                    if (effectRows > 0) {
+                        result = true;
+                    }
                 }
-            }//end connect is available
+            }
         } finally {
             if (stm != null) {
-                con.close();
+                stm.close();
             }
             if (con != null) {
                 con.close();
@@ -193,7 +204,7 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 // Create SQL statement
-                String sql = "UPDATE saveProduct SET statusMatch = 'unfollow' WHERE user_id = ? AND product_id = ?";
+                String sql = "UPDATE saveProduct SET statusMatch = 'unfollow', time = GETDATE() WHERE user_id = ? AND product_id = ?";
                 // Create prepared statement
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userID);
@@ -264,8 +275,7 @@ public class saveProductDAO {
             con = DBconnect.makeConnection();
             if (con != null) {
                 //2.create sql string
-                String sql = "UPDATE [dbo].[saveProduct]\n"
-                        + "   SET [statusMatch] = ?  Where product_id = ? And user_id = ?";
+                String sql = "UPDATE saveProduct SET statusMatch = ?, time = GETDATE() WHERE product_id = ? AND user_id = ?";
                 //3.create stm obj
                 stm = con.prepareStatement(sql);
                 stm.setString(1, statusMatch);
@@ -336,10 +346,8 @@ public class saveProductDAO {
             if (con != null) {
                 //2.create sql string
                 String sql = "UPDATE [dbo].[saveProduct]\n"
-                        + "   SET \n"
-                        + "      [statusMatch] = ?\n"
-                        + "     \n"
-                        + " WHERE saveProduct.statusMatch = ? and product_id = ?";
+                        + "SET [statusMatch] = ?, [time] = GETDATE()\n"
+                        + "WHERE [statusMatch] = ? AND [product_id] = ?";
                 //3.create stm obj
                 stm = con.prepareStatement(sql);
                 stm.setString(1, setStatus);
@@ -373,9 +381,8 @@ public class saveProductDAO {
             if (con != null) {
                 // Tạo câu truy vấn SQL để cập nhật trạng thái của sản phẩm
                 String sql = "UPDATE [dbo].[saveProduct]\n"
-                        + "   SET \n"
-                        + "      [statusMatch] = ?\n"
-                        + " WHERE [user_id] = ? AND [product_id] = ? AND [statusMatch] = ?";
+                        + "SET [statusMatch] = ?, [time] = GETDATE()\n"
+                        + "WHERE [user_id] = ? AND [product_id] = ? AND [statusMatch] = ?";
 
                 stm = con.prepareStatement(sql);
                 stm.setString(1, setStatus);
@@ -410,9 +417,10 @@ public class saveProductDAO {
         try {
             con = DBconnect.makeConnection();
             if (con != null) {
-                String sql = "SELECT sp.product_id, sp.user_id, sp.statusMatch "
+                String sql = "SELECT sp.product_id, sp.user_id, sp.statusMatch, sp.time "
                         + "FROM saveProduct sp "
-                        + "WHERE sp.product_id = ?";
+                        + "WHERE sp.product_id = ? "
+                        + "ORDER BY sp.time DESC";
 
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
@@ -422,8 +430,8 @@ public class saveProductDAO {
                 while (rs.next()) {
                     int userId = rs.getInt("user_id");
                     String statusMatch = rs.getString("statusMatch");
-
-                    saveProductDTO saveProductDTO = new saveProductDTO(productID, userId, statusMatch);
+                    Timestamp timeSave = rs.getTimestamp("time");
+                    saveProductDTO saveProductDTO = new saveProductDTO(productID, userId, statusMatch,timeSave);
                     saveProducts.add(saveProductDTO);
                 }
             }
@@ -453,7 +461,8 @@ public class saveProductDAO {
             if (con != null) {
                 String sql = "SELECT sp.product_id, sp.user_id, sp.statusMatch "
                         + "FROM saveProduct sp "
-                        + "WHERE sp.user_id = ?";
+                        + "WHERE sp.user_id = ? "
+                        + "ORDER BY sp.time DESC";
 
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, userID);

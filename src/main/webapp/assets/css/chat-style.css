@@ -1,8 +1,8 @@
 
 .list-group-item.active,
 .list-group-item:hover {
-    background-color: #7B945D !important;
-    color: white;
+    background-color:  #BEE8E1 !important;
+    color: black;
     font-weight: bold;
     text-decoration: none;
 }
@@ -21,3 +21,4 @@
     border-top-left-radius:  0.5em 0.5em;
     border-bottom-right-radius:0.5em 0.5em;
 }
+

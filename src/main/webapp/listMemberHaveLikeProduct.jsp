@@ -62,6 +62,14 @@
                             <div class="col-sm-2"></div>
                             <div class="col-sm-8">
                                 <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Avatar</th>
+                                            <th scope="col">Tên người quan tâm</th>
+                                            <th scope="col">Thời gian</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <c:forEach items="${listUserHaveSave}" var="user">
                                             <c:if test="${user.user_ID != Owner.user_ID}">
@@ -74,8 +82,16 @@
                                                     </td>
                                                     <td>
                                                         <a href="Profilemember?userId=${user.user_ID}">
-                                                            <h5 class="text-dark mb-0 mr-5">${user.userName}</h5>
+                                                            <h5 class="text-dark mb-0 mr-5" data-toggle="tooltip" data-placement="top"
+                                                                title="Xem trang cá nhân ${user.userName}">${user.userName}</h5>
                                                         </a>
+                                                    </td>
+                                                    <td>
+                                                        <c:forEach items="${listSaveProduct}" var="save">
+                                                            <c:if test="${save.userID==user.user_ID}">
+                                                                ${save.formatTimeDifference()}
+                                                            </c:if>
+                                                        </c:forEach>
                                                     </td>
 
                                                     <c:set var="count" value="0" />
@@ -92,8 +108,10 @@
                                                         <c:when test="${count==0}">
                                                             <td>
                                                                 <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                                    <button class="rounded-pill" data-toggle="tooltip" data-placement="top" title="Tạo cuộc trò chuyện với ${user.userName}">
+                                                                    <button class="rounded-pill" style="background-color: #85C1E9 " data-toggle="tooltip" data-placement="top" title="Tạo cuộc trò chuyện với ${user.userName}">
                                                                         Tiếp cận
+                                                                        <i class="fa-regular fa-hand-point-right" style="color: black;" ></i>
+
                                                                     </button>
                                                                 </a>
                                                             </td>
@@ -102,14 +120,25 @@
                                                             <c:if test="${countApprove==0}">
                                                                 <td>
                                                                     <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                                        <button class="rounded-pill">Đang trò chuyện</button>
+                                                                        <button class="rounded-pill" style="background-color: #76D7C4"
+                                                                                data-toggle="tooltip" data-placement="top" title="Đi tới cuộc trò chuyện với ${user.userName}"
+                                                                                >Đang trò chuyện
+                                                                            <i class="fa-regular fa-comments" style="color: black;" ></i>
+
+                                                                        </button>
                                                                     </a>
                                                                 </td>
                                                             </c:if>
                                                             <c:if test="${countApprove!=0}">
                                                                 <td>
                                                                     <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                                        <button class="rounded-pill">Đã giao dịch</button>
+                                                                        <button class="rounded-pill" style="background-color: #F9E79F "
+                                                                                data-toggle="tooltip" data-placement="top" title="Bạn đã bán sản phẩm cho ${user.userName}"
+                                                                                >Đã giao dịch   
+                                                                            <i class="fa-regular fa-handshake" style="color: black;" ></i>
+
+                                                                        </button>
+
                                                                     </a>
                                                                 </td>
                                                             </c:if>
