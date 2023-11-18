@@ -580,8 +580,6 @@ public class PostDAO {
 
     }
 
-    
-
     public List<Integer> categorys(int postId) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -706,4 +704,55 @@ public class PostDAO {
             }
         }
     }
+
+    public List<PostDTO> getPostByCategoryIDAndStatus(int categoryID, String status) throws SQLException, ClassNotFoundException, NamingException {
+        List<PostDTO> listOfPost = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT p.post_id, p.user_id, p.post_content, p.post_image, p.isPublic, p.timePosted, p.status, p.reason "
+                        + "FROM post p "
+                        + "JOIN categoryLinkpost clp ON p.post_id = clp.post_id "
+                        + "WHERE clp.category_id = ? AND p.status = ?" ;
+
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, categoryID);
+                stm.setString(2, status); // Đặt tham số cho status
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int postId = rs.getInt("post_id");
+                    int userId = rs.getInt("user_id");
+                    String postContent = rs.getString("post_content");
+                    String postImage = rs.getString("post_image");
+                    boolean isPublic = rs.getBoolean("isPublic");
+                    Timestamp timePosted = rs.getTimestamp("timePosted");
+                    String postStatus = rs.getString("status");
+                    String reason = rs.getString("reason");
+
+                    PostDTO post = new PostDTO(postId, userId, postContent, postImage, isPublic, timePosted, postStatus, reason);
+                    listOfPost.add(post);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+
+            if (stm != null) {
+                stm.close();
+            }
+
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return listOfPost;
+    }
+
 }

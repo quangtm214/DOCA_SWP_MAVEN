@@ -46,11 +46,20 @@ public class AdminManageForumPostServlet extends HttpServlet {
         String url = "";
         HttpSession session = request.getSession();
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
+        String selectedCategory = request.getParameter("categorypost");
         try {
             if (!account.isRoleID()) {
                 response.setContentType("text/html;charset=UTF-8");
+                List<PostDTO> listPost;
                 PostDAO dao = new PostDAO();
-                List<PostDTO> listPost = (List<PostDTO>) dao.getPostForumsbyStatus(status);
+                if (selectedCategory != null && !selectedCategory.isEmpty() && !selectedCategory.equals("0")) {
+                    int categoryId = Integer.parseInt(selectedCategory);
+                    request.setAttribute("categoryId", categoryId);
+                    listPost = dao.getPostByCategoryIDAndStatus(categoryId,status);
+                } else {
+                    request.setAttribute("categoryId", "0");
+                    listPost = dao.getPostForumsbyStatus(status);
+                }
                 if (listPost != null) {
                     request.setAttribute("listofPost", listPost);
                     url = adminShowProduct;

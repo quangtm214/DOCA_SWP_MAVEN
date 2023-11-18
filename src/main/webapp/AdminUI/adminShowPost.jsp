@@ -67,6 +67,27 @@
                 </li>
             </ul>
 
+            <form id="filterForm" action="AdminManageForumPostServlet" method="GET">
+                <!-- Add this script to submit the form -->
+                <script>
+                    function filterByCategory() {
+                        document.getElementById("filterForm").submit();
+                    }
+                </script>
+
+                <!-- Modify the select element to include onchange event -->
+                <select class="form-select" id="categorySelect" name="categorypost" onchange="filterByCategory()">
+                    <option value="0" ${categoryId == 0 ? 'selected' : ''}>Tất cả</option>
+                    <option value="5" ${categoryId == 5 ? 'selected' : ''}>Câu chuyện</option>
+                    <option value="6" ${categoryId == 6 ? 'selected' : ''}>Mẹo huấn luyện</option>
+                    <option value="7" ${categoryId == 7 ? 'selected' : ''}>Mẹo chăm sóc</option>
+                    <option value="8" ${categoryId == 8 ? 'selected' : ''}>Sự kiện</option>
+                    <option value="9" ${categoryId == 9 ? 'selected' : ''}>Thất lạc</option>
+                </select>
+
+                <!-- Add a submit button -->
+
+            </form>
             <div class="tab-content ">
                 <div class=" tab-pane fade show active container" id="forum">
                     <div class="row">
@@ -137,7 +158,7 @@
                 function redirectToProductServlet() {
                     window.location.href = "AdminManageProductPostServlet";
                 }
-                  function redirectToUserServlet() {
+                function redirectToUserServlet() {
                     window.location.href = "AllUserServlet";
                 }
             </script>
