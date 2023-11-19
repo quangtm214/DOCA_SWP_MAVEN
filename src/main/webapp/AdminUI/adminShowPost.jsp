@@ -51,6 +51,7 @@
     <body>
         <!--set var-->
         <c:set var="listPost" value="${requestScope.listofPost}"/>
+        
         <jsp:include page="headerAdmin.jsp" />
 
         <div class="container " style="margin-top: 150px;">
@@ -76,13 +77,13 @@
                 </script>
 
                 <!-- Modify the select element to include onchange event -->
-                <select class="form-select" id="categorySelect" name="categorypost" onchange="filterByCategory()">
-                    <option value="0" ${categoryId == 0 ? 'selected' : ''}>Tất cả</option>
-                    <option value="5" ${categoryId == 5 ? 'selected' : ''}>Câu chuyện</option>
-                    <option value="6" ${categoryId == 6 ? 'selected' : ''}>Mẹo huấn luyện</option>
-                    <option value="7" ${categoryId == 7 ? 'selected' : ''}>Mẹo chăm sóc</option>
-                    <option value="8" ${categoryId == 8 ? 'selected' : ''}>Sự kiện</option>
-                    <option value="9" ${categoryId == 9 ? 'selected' : ''}>Thất lạc</option>
+                <select class="form-select" id="categorySelect" name="selectedCategory" onchange="filterByCategory()">
+                    <option value="0" ${selectedCategory == 0 ? 'selected' : ''}>Tất cả</option>
+                    <option value="5" ${selectedCategory == 5 ? 'selected' : ''}>Câu chuyện</option>
+                    <option value="6" ${selectedCategory == 6 ? 'selected' : ''}>Mẹo huấn luyện</option>
+                    <option value="7" ${selectedCategory == 7 ? 'selected' : ''}>Mẹo chăm sóc</option>
+                    <option value="8" ${selectedCategory == 8 ? 'selected' : ''}>Sự kiện</option>
+                    <option value="9" ${selectedCategory == 9 ? 'selected' : ''}>Thất lạc</option>
                 </select>
 
                 <!-- Add a submit button -->
@@ -113,6 +114,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-3">
                                                         <form action="ManagePostForumServlet">
+                                                            <input type="hidden" name="categorypost" value="${selectedCategory}" />
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <input type="hidden" name="postDes" value="${post. postContentFormat()}" />
                                                             <input type="hidden" name="userId" value="${post.userId}" />
@@ -140,6 +142,7 @@
                                                     </select>
                                                 </div>
                                                 <input type="hidden" name="status" value="rejected" />
+                                                <input type="hidden" name="categorypost" value="${selectedCategory}" />
                                                 <input type="hidden" name="postDes" value="${post.postContent}" />
                                                 <input type="hidden" name="userId" value="${post.userId}" />
                                                 <input type="hidden" name="postId" value="${post.postId}" />

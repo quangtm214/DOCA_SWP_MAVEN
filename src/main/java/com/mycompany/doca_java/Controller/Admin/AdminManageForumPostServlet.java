@@ -46,7 +46,11 @@ public class AdminManageForumPostServlet extends HttpServlet {
         String url = "";
         HttpSession session = request.getSession();
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
-        String selectedCategory = request.getParameter("categorypost");
+        String selectedCategory;
+        selectedCategory = (String) request.getAttribute("categoryId");
+        if (selectedCategory == null || selectedCategory.isEmpty()) {
+            selectedCategory = request.getParameter("selectedCategory");
+        }
         try {
             if (!account.isRoleID()) {
                 response.setContentType("text/html;charset=UTF-8");
@@ -54,10 +58,10 @@ public class AdminManageForumPostServlet extends HttpServlet {
                 PostDAO dao = new PostDAO();
                 if (selectedCategory != null && !selectedCategory.isEmpty() && !selectedCategory.equals("0")) {
                     int categoryId = Integer.parseInt(selectedCategory);
-                    request.setAttribute("categoryId", categoryId);
-                    listPost = dao.getPostByCategoryIDAndStatus(categoryId,status);
+                    request.setAttribute("selectedCategory", selectedCategory);
+                    listPost = dao.getPostByCategoryIDAndStatus(categoryId, status);
                 } else {
-                    request.setAttribute("categoryId", "0");
+                    request.setAttribute("selectedCategory", "0");
                     listPost = dao.getPostForumsbyStatus(status);
                 }
                 if (listPost != null) {

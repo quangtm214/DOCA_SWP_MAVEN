@@ -56,6 +56,10 @@ public class ManagePostProductServlet extends HttpServlet {
         String setStatus = "";
         try {
             String reason = null;
+            String selectedCategory = request.getParameter("selectedCategory");
+            if (selectedCategory != null && !selectedCategory.isEmpty()) {
+                request.setAttribute("selectedCategory", selectedCategory);
+            }
             String productId = request.getParameter("productId");;
             String status = request.getParameter("status");
             String productTitle = request.getParameter("productTitle");
@@ -102,7 +106,8 @@ public class ManagePostProductServlet extends HttpServlet {
         } catch (NamingException ex) {
             Logger.getLogger(ManagePostProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect(url);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
         }
 
     }

@@ -6,6 +6,7 @@ package com.mycompany.doca_java.Controller.Admin;
 
 import com.mycompany.doca_java.DAO.NotificationDAO;
 import com.mycompany.doca_java.DAO.PostDAO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -53,7 +54,10 @@ public class ManagePostForumServlet extends HttpServlet {
         boolean resultInsNotifi;
         String setStatus = "";
         try {
-
+            String categorypost = request.getParameter("categorypost");
+            if (categorypost != null && !categorypost.isEmpty()) {
+                request.setAttribute("categoryId", categorypost);
+            }
             String reason = null;
             String postId = request.getParameter("postId");
             String status = request.getParameter("status");
@@ -87,7 +91,8 @@ public class ManagePostForumServlet extends HttpServlet {
         } catch (NamingException ex) {
             ex.printStackTrace();
         } finally {
-            response.sendRedirect(url);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
         }
 
     }

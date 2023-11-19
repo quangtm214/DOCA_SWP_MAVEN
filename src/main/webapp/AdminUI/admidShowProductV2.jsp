@@ -121,6 +121,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-3">
                                                         <form action="ManagePostProductServlet">
+                                                            <input type="hidden" name="selectedCategory" value="${selectedCategory}" />
                                                             <input type="hidden" name="productId" value="${product.productId}" />
                                                             <input type="hidden" name="productTitle" value="${product.title}" />
                                                             <input type="hidden" name="userId" value="${product.userId}" />
@@ -148,6 +149,7 @@
                                                         <option >Giá cả không hợp lý</option>
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="selectedCategory" value="${selectedCategory}" />
                                                 <input type="hidden" name="status" value="reject" />
                                                 <input type="hidden" name="productTitle" value="${product.title}" />
                                                 <input type="hidden" name="productId" value="${product.productId}" />

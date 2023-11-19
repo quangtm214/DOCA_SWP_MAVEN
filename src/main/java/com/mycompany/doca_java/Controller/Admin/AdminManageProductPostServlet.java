@@ -43,7 +43,12 @@ public class AdminManageProductPostServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = "Error.html";
-        String categoryID = request.getParameter("selectedCategory");
+        String categoryID;
+        categoryID = (String) request.getAttribute("categoryId");
+        if (categoryID == null || categoryID.isEmpty()) {
+            categoryID = request.getParameter("selectedCategory");
+        }
+
         try {
             response.setContentType("text/html;charset=UTF-8");
             ProductDAO dao = new ProductDAO();
@@ -51,7 +56,7 @@ public class AdminManageProductPostServlet extends HttpServlet {
             request.setAttribute("selectedCategory", categoryID);
             if (categoryID != null && !categoryID.isEmpty() && !categoryID.equals("0")) {
                 int categoryId = Integer.parseInt(categoryID);
-                
+
                 listProductByStatus = dao.getProductsByStatusAndCategory(status, categoryId);
             } else {
 
