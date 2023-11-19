@@ -40,53 +40,46 @@
         <!-- Link CSS -->
         <link rel="stylesheet" href="assets/css/standar-style.css">
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
-        <!--        <style>
-                    a.username {
-                        color: #050505;
-                    }
-                    .post-time.text-muted {
-                        color: #adaeb0;
-                    }
-                    .post.my-4.border.rounded.position-relative {
-                        background-color: #ffffff;
-                    }
-                    p.post-text {
-                        color: #050505;
-                        margin-left: 60px;
-                        margin-right: 60px;
-                    }
-        /*            a.sell.d-flex {
-                        width: 120%;
-                    }*/
-                    /*>>>>>>>>>>>>>>>>>>>>>>>>>>> css moi postdetail.jsp*/
-                    img.img-content.col-sm-7 {
-                        margin-left: 290px;
-                        border-radius: 5%;
-                        padding: 0;
-                    }
-                    .like-count {
-                        border-top: 1px solid #ccc; /* Màu và độ dày của đường kẻ phía trên */
-                        border-bottom: 1px solid #ccc; /* Màu và độ dày của đường kẻ phía dưới */
-                        padding: 10px 0; /* Khoảng cách giữa đường kẻ và nội dung */
-                        margin-top: 10px;
-                        color: blue;
-                    }
-                    .delete-comment {
-                        display: inline-block; /* Để nút hiển thị trên cùng một hàng với văn bản */
-                        padding: 5px 10px; /* Điều chỉnh kích thước của nút */
-                        border: none; /* Loại bỏ viền của nút */
-                        border-radius: 20px; /* Bo tròn viền của nút */
-                        background-color: #FF5733; /* Màu nền của nút */
-                        color: #fff; /* Màu chữ trắng */
-                        text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
-                        transition: background-color 0.3s; /* Hiệu ứng thay đổi màu nền */
-                    }
-        
-                    /* CSS khi di chuột vào nút */
-                    .delete-comment:hover {
-                        background-color: #E64222; /* Thay đổi màu nền khi di chuột vào nút */
-                    }
-                </style>-->
+
+        <style>
+            .tab-content.col-md-10 {
+                margin-top: -5px;
+            }
+            a.nav-link {
+                display: inline-block;
+                padding: 10px 20px;
+                transition: box-shadow 0.3s, transform 0.3s;
+                margin-right: 10px;
+            }
+
+            a.nav-link:hover {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                transform: scale(1.05);
+            }
+            .btn-createpost:hover {
+                filter: brightness(90%);
+            }
+            .btn_in_post {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .btn_in_post:hover {
+                transform: scale(1.05);
+                filter: brightness(90%);
+            }
+
+            .btn_in_post.active {
+                filter: brightness(100%);
+            }
+            #page {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            #page:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+        </style>
     </head>
 
     <body>
@@ -117,7 +110,7 @@
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <div class="d-flex justify-content-start">
                                     <i class="fa fa-edit ml-3 mt-1"></i>
-                                    Cùng chia sẽ nội dung về chó mèo
+                                    Cùng chia sẻ nội dung về chó mèo
                                 </div>
 
                             </button>
@@ -258,7 +251,7 @@
                                                 </button>
                                             </a>
 
-                                            <button class="btn  flex-grow-1 btn-light btn_in_post" 
+                                            <button class="btn flex-grow-1 btn-light btn_in_post" 
                                                     onclick="toggleCommentForm('${post.postId}')">
                                                 <i class="fas fa-comment"></i> Bình luận
                                             </button>
@@ -287,7 +280,7 @@
                         <ul class="pagination justify-content-center ">
                             <c:forEach begin="1" end="${numberPage}" var="i">
                                 <li class="page-item rounded-pill ${indexPageForum} ${indexPageForum==i?"active":""}" >
-                                    <a class="page-link rounded-pill ml-2 mt-4" href="forumServlet?index=${i}&categoryID=${indexcategoryID}">${i}</a>
+                                    <a id='page'  class="page-link rounded-pill ml-2 mt-4" href="forumServlet?index=${i}&categoryID=${indexcategoryID}">${i}</a>
                                 </li>
                             </c:forEach> 
 
@@ -300,7 +293,7 @@
             </div>
 
         </div>
-  
+
         <script>
             function validateCheckBoxes() {
                 var checkboxes = document.getElementsByName('category');

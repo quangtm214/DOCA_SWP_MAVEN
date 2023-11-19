@@ -135,6 +135,43 @@
                 cursor: pointer;
                 border-radius: 4px;
             }
+            #shareButton {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            #shareButton:hover {
+                transform: scale(1.05); /* Hiệu ứng scale khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+
+            #shareButton:active {
+                filter: brightness(100%); /* Đặt lại mức độ sáng khi nút được nhấn */
+            }
+            #copyButton {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            #copyButton:hover {
+                transform: scale(1.05); /* Hiệu ứng scale khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+
+            #copyButton:active {
+                filter: brightness(100%); /* Đặt lại mức độ sáng khi nút được nhấn */
+            }
+            #delete-btn {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            #delete-btn:hover {
+                transform: scale(1.05); /* Hiệu ứng scale khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+
+            #delete-btn:active {
+                filter: brightness(100%); /* Đặt lại mức độ sáng khi nút được nhấn */
+            }
+
         </style>
     </head>
 
@@ -173,7 +210,7 @@
                                 <img class="img-content"src="${post.postImage}" alt="Post Image"  style=" object-fit: cover;
                                      border-radius: 10%; max-width: 100%;">
                             </div>
-                            <p class="like-count">Số lượt like của bài viết này: ${likeCount}</p>
+                            <p class="like-count"><i class="fa-regular fa-thumbs-up"></i> ${likeCount}</p>
                         </div>
                         <button id="shareButton">Chia sẻ</button>
                         <div class="popup" id="sharePopup">
@@ -204,7 +241,10 @@
                                 </div>
                                 <!--xoá comment-->
                                 <c:if test="${OwnerComment.user_ID==comment.userId}">
-                                    <a href="deleteCommentServlet?commentId=${comment.commentId}&postId=${post.postId}">Xoá comment</a>
+                                    <a href="deleteCommentServlet?commentId=${comment.commentId}&postId=${post.postId}">
+                                        <i id='delete-btn' class="fa-regular fa-trash-can" title="Xoá comment">
+                                        </i>
+                                    </a>
                                 </c:if>
                             </c:if>
 
@@ -214,7 +254,7 @@
                 </div>
             </div>
         </div>
-   
+
     </body>
     <script>
         document.getElementById('shareButton').addEventListener('click', function () {

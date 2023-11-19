@@ -76,6 +76,25 @@
                 display: flex; /* Sử dụng flexbox để sắp xếp nằm ngang */
                 align-items: center; /* Canh giữa các phần tử theo chiều dọc */
             }
+            #sellerPhone {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            #sellerPhone:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+            #chat {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            #chat:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+            #chat a{
+                text-decoration: none;
+            }
         </style>
     </head>
 
@@ -91,12 +110,12 @@
                     <div class="container pt-5">
                         <c:if test="${empty product}">
                             <div class="row  ml-0  d-flex justify-content-center" style="margin-top: 300px;">
-                                
-                                    <h3>Sản phẩm không còn tồn tại</h3>
-                                    <h4 >${MessageERRO}</h4>
-                                    <form action="DispatchServlet" >
+
+                                <h3>Sản phẩm không còn tồn tại</h3>
+                                <h4 >${MessageERRO}</h4>
+                                <form action="DispatchServlet" >
                                     <button class="btn btn-warning text-white" name="btAction" value="goTomarket">Về trang chợ</button>
-                                    </form>
+                                </form>
                             </div>
                         </c:if>
                         <c:if test="${not empty product}">
@@ -140,11 +159,11 @@
                                     <div class="row mt-5">
                                         <p>Sản phẩm có  ${countSave} lượt quan tâm</p>
                                         <button class="btn btn-outline-secondary bg-light btn-block text-success"
-                                                id="sellerPhone">Hiện số người bán</button>
+                                                id="sellerPhone"><i class="fa-solid fa-phone"></i> Hiện số người bán</button>
 
                                         <br>
                                         <c:if test="${product.userId  != OwnerAccount.user_ID }">
-                                            <button class="btn btn-outline-secondary bg-light btn-block text-success mt-2">
+                                            <button id='chat' class="btn btn-outline-secondary bg-light btn-block text-success mt-2">
                                                 <a href="CreateConversation?ProductID=${product.productId}&sellerID=${product.userId}" >
                                                     <i class="fa fa-comments"></i> Chat với người bán
                                                 </a>

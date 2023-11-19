@@ -51,7 +51,7 @@
     <body>
         <!--set var-->
         <c:set var="listPost" value="${requestScope.listofPost}"/>
-        
+
         <jsp:include page="headerAdmin.jsp" />
 
         <div class="container " style="margin-top: 150px;">
@@ -197,7 +197,13 @@
                     document.getElementById("RejectManagePostForum").href = rejectManageProductPost;
                 }
             </script>
-
+            <%-- Kiểm tra giá trị của messShift và hiển thị thông báo alert --%>
+            <% if (request.getAttribute("messShift") != null) { %>
+            <script>
+            alert("<%= request.getAttribute("messShift") %>");
+            </script>
+            <% } %>
+            <!--set var-->
 
         </div>
     </body>

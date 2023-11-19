@@ -46,6 +46,7 @@ public class AdminManageForumPostServlet extends HttpServlet {
         String url = "";
         HttpSession session = request.getSession();
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
+        request.getAttribute("messShift");
         String selectedCategory;
         selectedCategory = (String) request.getAttribute("categoryId");
         if (selectedCategory == null || selectedCategory.isEmpty()) {

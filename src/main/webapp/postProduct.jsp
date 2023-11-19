@@ -59,6 +59,27 @@
                 inputContainer.style.display = "none";
             }
         </script>
+        <style>
+            .submit {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .submit:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+            .address {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .address:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+            .col-sm-8{
+                background-color: antiquewhite;
+            }
+        </style>
     </head>
 
     <body>
@@ -119,7 +140,7 @@
                         <!-- bat dau modal -->
                         <div class="container mt-3 p-0">
                             <!--Button mở modal--> 
-                            <button type="button" class="btn btn-primary form-control" data-toggle="modal"
+                            <button type="button" class="btn btn-primary form-control address" data-toggle="modal"
                                     data-target="#myModal">
                                 Địa chỉ
                             </button>
@@ -129,8 +150,8 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <!--Modal Header--> 
-                                        <div class="modal-header" data-toggle="collapse" data-target="#categoryList">
-                                            <h4 class="modal-title ">Địa chỉ</h4>
+                                        <div class="modal-header" data-toggle="collapse" data-target="#categoryList" >
+                                            <h4 class="modal-title  ">Địa chỉ</h4>
                                         </div>
 
                                         <!--Modal body--> 
@@ -171,7 +192,7 @@
                 </div>
             </div>
         </div>
-       
+
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
@@ -279,16 +300,16 @@
                 return false;
             }
 
-            if (fee.value == "fee" && (document.getElementById("input-fee").value == "0" ||document.getElementById("input-fee").value == "₫0" ) ) {
+            if (fee.value == "fee" && (document.getElementById("input-fee").value == "0" || document.getElementById("input-fee").value == "₫0")) {
 
                 errorFee.innerHTML = "Vui lòng điền giá tiền";
-                 ErrorRadio.innerHTML = "";
+                ErrorRadio.innerHTML = "";
                 return false;
             }
 
             if (city == "" || district == "" || ward == "") {
-             
-                 document.getElementById("addressResult").textContent = "Vui lòng chọn địa chỉ đầy đủ";
+
+                document.getElementById("addressResult").textContent = "Vui lòng chọn địa chỉ đầy đủ";
                 return false;
             }
         }

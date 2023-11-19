@@ -14,8 +14,6 @@ Author : Admin
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
         <meta http-equiv="x-ua-compatible" content="ie=edge"> <!-- Bootstrap CSS --> <!-- Bootstrap CSS --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-        <title>Account</title>
-
         <!-- Link Iconn  -->
         <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/fontawesome.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -52,6 +50,48 @@ Author : Admin
                     });
                 </script>-->
     </head>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Primary button style */
+        .primary-button {
+            background-color: #ff6f00;
+            color: #fff;
+        }
+
+        /* Secondary button style */
+        .secondary-button {
+            background-color: #ffab40;
+            color: #fff;
+        }
+        #showAccountInfoButton {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        #showAccountInfoButton:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+        #showChangePasswordButton {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        #showChangePasswordButton:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+    </style>
     <body>
 
 
@@ -79,8 +119,8 @@ Author : Admin
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <button id="showAccountInfoButton" onclick="showAccountInfo()">Thông tin tài khoản</button>
-                                        <button id="showChangePasswordButton" onclick="showChangePassword()">Thay đổi mật khẩu</button>
+                                        <button class="button primary-button" id="showAccountInfoButton" onclick="showAccountInfo()">Thay đổi thông tin tài khoản</button>
+                                        <button class="button secondary-button" id="showChangePasswordButton" onclick="showChangePassword()">Thay đổi mật khẩu</button>
                                     </div>
                                 </div>
                                 <!-- Account details card-->
@@ -179,7 +219,7 @@ Author : Admin
                                                             <div class="mb-2"><b>Thay đổi mật khẩu</b></div>
                                                             <p class="text-success">${SucessMessage}</p>
                                                             <div class="row">
-                                                                
+
                                                                 <div class="col">
                                                                     <div class="form-group">
                                                                         <label class="small mb-1" for="inputCurPassword">Mật khẩu hiện tại <span
@@ -229,28 +269,6 @@ Author : Admin
 
                                     </form>
                                 </div>    
-
-<!--                                <div class="card mb-4">
-                                    <div class="card-header">Liên kết mạng xã hội</div>
-                                    <div class="card-body">
-                                        <button class="btn btn-primary btn-content" type="button"><svg width="20"
-                                                                                                       height="20" viewBox="0 0 20 20" fill="none"
-                                                                                                       xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M18.8002 10.1951C18.8002 9.47569 18.7405 8.95069 18.6112 8.40625H10.2041V11.6534H15.1389C15.0394 12.4604 14.5022 13.6757 13.3082 14.4923L13.2915 14.601L15.9496 16.6133L16.1338 16.6312C17.8251 15.1048 18.8002 12.859 18.8002 10.1951Z"
-                                                fill="#4285F4"></path>
-                                            <path
-                                                d="M10.2043 18.7499C12.6219 18.7499 14.6515 17.9721 16.134 16.6305L13.3084 14.4915C12.5523 15.0068 11.5375 15.3665 10.2043 15.3665C7.83642 15.3665 5.8267 13.8402 5.11029 11.7305L5.00528 11.7392L2.24129 13.8295L2.20514 13.9277C3.6776 16.786 6.70216 18.7499 10.2043 18.7499Z"
-                                                fill="#34A853"></path>
-                                            <path
-                                                d="M5.11025 11.7322C4.92122 11.1878 4.81182 10.6044 4.81182 10.0016C4.81182 9.39881 4.92122 8.8155 5.1003 8.27106L5.09529 8.15511L2.29666 6.03125L2.2051 6.07381C1.59823 7.25994 1.25 8.59191 1.25 10.0016C1.25 11.4113 1.59823 12.7432 2.2051 13.9294L5.11025 11.7322Z"
-                                                fill="#FBBC05"></path>
-                                            <path
-                                                d="M10.2043 4.63331C11.8857 4.63331 13.0199 5.34303 13.6666 5.93612L16.1937 3.525C14.6417 2.11528 12.6219 1.25 10.2043 1.25C6.70216 1.25 3.6776 3.21387 2.20514 6.07218L5.10034 8.26944C5.8267 6.15972 7.83642 4.63331 10.2043 4.63331Z"
-                                                fill="#EB4335"></path>
-                                            </svg><a> Liên kết với google</a></button>
-                                    </div>
-                                </div>-->
                             </div>
 
                         </div>

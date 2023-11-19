@@ -42,6 +42,27 @@
 
         <!-- Link CSS -->
         <link rel="stylesheet" href="assets/css/standar-style.css">
+        <style>
+            .fa-heart {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .fa-heart:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+            .saved {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .saved:hover {
+                transform: scale(1.05);
+                filter: brightness(90%);
+            }
+            .font a{
+                text-decoration: none;
+            }
+        </style>
 
     </head>
 
@@ -74,7 +95,7 @@
                                 <div class="row justify-content-start" >
 
                                     <c:forEach items="${listOfProduct}" var="porduct">
-                                        <div class=" card  col-3 justify-content-center ">
+                                        <div class=" card  col-3 justify-content-center saved">
                                             <img class="image" src="${porduct.productImage}" alt="Hình ảnh">
                                             <div class="card-body">
                                                 <div class="font">
@@ -146,7 +167,7 @@
                                                             </c:if>
 
 
-                                                          
+
                                                         </c:if>
                                                     </c:forEach>
 
@@ -158,7 +179,7 @@
 
                                             </div>
                                             <div class="card-footer">
-                                                <small class="text-muted">${porduct.formatTimeDifference()}</small>
+                                                <small class="text-muted">Thời gian đăng: ${porduct.formatTimeDifference()}</small>
                                             </div>
                                         </div>
                                     </c:forEach>

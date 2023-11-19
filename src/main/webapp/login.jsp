@@ -87,6 +87,13 @@
 
 
         <script src="assets/js/login-main.js"></script>
+        <%-- Kiểm tra giá trị của messShift và hiển thị thông báo alert --%>
+        <% if (request.getAttribute("messnotShift") != null) { %>
+        <script>
+                alert("<%= request.getAttribute("messnotShift") %>");
+        </script>
+        <% } %>
+        <!--set var-->
     </body>
 
 </html>

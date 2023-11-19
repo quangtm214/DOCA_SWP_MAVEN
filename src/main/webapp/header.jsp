@@ -9,11 +9,98 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <style>
-    #notiForm {
+    .setting {
         position: absolute;
-        top: 0;
         right: 18%;
-        z-index: 9999;
+        top: 0;
+        max-width: 380px;
+        min-width: 300px;
+        z-index: 3;
+    }
+
+    .setting .card {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .setting .menu-title {
+        color: #333;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .setting .notifications-wrapper {
+        overflow: scroll;
+        max-height: 490px;
+        height: 100%;
+        background-color: #f5f5f5;
+    }
+
+    .setting .notifications-wrapper p {
+        margin: 0;
+    }
+
+    .setting .notification-item {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .setting .item-title {
+        color: #6b8e23;
+        margin: 0;
+    }
+
+    .setting .item-info {
+        color: black;
+    }
+    /* Style for the notification container */
+    #notificationsWrapper {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* Style for each notification item */
+    .notification-item {
+        background-color: #f5f5f5;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Style for the item title */
+    .item-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    /* Style for the item info */
+    .item-info {
+        margin: 0;
+    }
+
+    /* Style for the hr separator */
+    hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 10px 0;
+    }
+
+    /* Style for the toggle form button */
+    .toggle-form-button {
+        background-color: #33FFA2;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    /* Hide the form by default */
+    #settingForm,
+    #notiForm {
+        display: none;
     }
     .container-fluid.d-flex.justify-content-center {
         background-color: #fadadd;
@@ -39,6 +126,70 @@
     }
     a.btn.btn-light.border-0.rounded-pill.button_in_header {
         background-color: #add8e6;
+    }
+    #notify-btn {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #notify-btn:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    #chat-btn {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #chat-btn:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    .sell-btn {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    .sell-btn:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    #login-btn {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #login-btn:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    #signup-btn {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #signup-btn:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    #profile-btn {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #profile-btn:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    #dropdownMenuButton {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #dropdownMenuButton:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
+    #searchButton {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    #searchButton:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
     }
 </style>
 
@@ -84,21 +235,21 @@
                     </form>
                 </div>
                 <div>
-                    <a href="#" class="btn-notification btn  btn-light border-0 rounded-pill button_in_header" onclick="toggleMenuFormNoti()">
+                    <a href="#" id='notify-btn' class="btn-notification btn  btn-light border-0 rounded-pill button_in_header" onclick="toggleMenuFormNoti()">
                         <i class="fa fa-bell" ></i>
                         <span class="badge p-0"></span>
                     </a>
 
-                    <a class="btn btn-light border-0 rounded-pill button_in_header" href="getConversationServlet" role="button"><i
+                    <a id='chat-btn' class="btn btn-light border-0 rounded-pill button_in_header" href="getConversationServlet" role="button"><i
                             class="fa-solid fa-message"></i></a>
                         <c:choose>
                             <c:when test="${Owner eq null}">
-                            <a class="btn btn-light border-0 rounded-pill button_in_header" href="login.jsp" role="button">
+                            <a class="btn btn-light border-0 rounded-pill button_in_header sell-btn" href="login.jsp" role="button">
                                 <i class="fa-solid fa-pen-to-square"></i> Tạo bài bán
                             </a>
                         </c:when>
                         <c:otherwise>
-                            <a class="btn btn-light border-0 rounded-pill button_in_header" href="postProduct.jsp" role="button">
+                            <a class="btn btn-light border-0 rounded-pill button_in_header sell-btn" href="postProduct.jsp" role="button">
                                 <i class="fa-solid fa-pen-to-square"></i> Tạo bài bán
                             </a>
                         </c:otherwise>
@@ -106,15 +257,15 @@
 
                     <c:choose>
                         <c:when test="${Owner eq null}">
-                            <a class="btn btn-light border-0 rounded-pill button_in_header" href="login.jsp" role="button">
+                            <a id='login-btn' class="btn btn-light border-0 rounded-pill button_in_header" href="login.jsp" role="button">
                                 <i class="fa fa-arrow-right-to-bracket"></i>Đăng nhập
                             </a>
-                            <a class="btn btn-light border-0 rounded-pill button_in_header" href="signup.jsp" role="button">
+                            <a id='signup-btn' class="btn btn-light border-0 rounded-pill button_in_header" href="signup.jsp" role="button">
                                 <i class=" fa fa-user-plus"></i> Đăng ký
                             </a>
                         </c:when>
                         <c:otherwise>
-                            <a class="btn btn-light border-0 rounded-pill button_in_header" href="#" role="button" onclick="toggleMenuForm()">
+                            <a id='profile-btn' class="btn btn-light border-0 rounded-pill button_in_header" href="#" role="button" onclick="toggleMenuForm()">
                                 <img src="${Owner.avatar}"
                                      alt="Profile Image"
                                      class="rounded-circle profile-image" 
@@ -148,7 +299,7 @@
     </div>
     <div class="setting position-absolute shadow-lg bg-body rounded" id="notiForm" style="display: none; right: 18%; top:0px; position: absolute; max-width: 380px; min-width: 300px; z-index: 3;">
         <div class="card">
-            <h4 class="menu-title">Thông báo </h4>
+            <h4 class="menu-title">Thông báo của bạn </h4>
             <div class="notifications-wrapper" id="notificationsWrapper" style="overflow: scroll; max-height:490px; height: 100%; ">
                 <!-- Dữ liệu từ server sẽ được render vào đây -->
             </div>
@@ -193,12 +344,12 @@
 
             const itemTitle = document.createElement('p');
             itemTitle.classList.add('item-title');
-            itemTitle.style.color = '#33FFA2';
+            itemTitle.style.color = '#6b8e23';
             itemTitle.style.margin = '0';
             itemTitle.textContent = formatTimeDifference(notify.timeNotification);
 
 
-            const itemInfo1 = document.createElement('h6');
+            const itemInfo1 = document.createElement('h5');
             itemInfo1.classList.add('item-info');
             itemInfo1.style.color = 'black';
             itemInfo1.textContent = notify.notification_value.split('-')[0];
@@ -213,7 +364,7 @@
 
             itemWrapper.appendChild(notificationItem);
             notificationsWrapper.appendChild(itemWrapper);
-            notificationsWrapper.appendChild(document.createElement('hr'));
+//            notificationsWrapper.appendChild(document.createElement('hr'));
         });
     };
     const formatTimeDifference = (timeNotification) => {
