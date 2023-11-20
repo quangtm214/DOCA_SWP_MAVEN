@@ -47,6 +47,14 @@
         padding-bottom: 10px;
         margin-bottom: 10px;
     }
+    .notification-item {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    .notification-item:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
 
     .setting .item-title {
         color: #6b8e23;

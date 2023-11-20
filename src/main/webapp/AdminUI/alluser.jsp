@@ -49,6 +49,18 @@
 
 
     </head>
+    
+        <style>
+        .button {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .button:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+    </style>
+    
     <body>
         <jsp:include page="headerAdmin.jsp" />
 
@@ -69,7 +81,7 @@
                 <div class="input-group">
                     <input type="text" name="txtSearch" class="form-control" placeholder="Tìm kiếm tên tài khoản" value="${param.txtSearch}">
                     <input type="hidden" class="btn btn-primary" value="Search User" name="btAction">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="button btn btn-primary">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -122,11 +134,11 @@
                                 <c:choose>
                                     <c:when test="${user.status}">
                                         <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=ban&txtSearch=${param.txtSearch}" 
-                                           class="btn btn-danger">Vô hiệu hóa</a>
+                                           class="button btn btn-danger">Vô hiệu hóa</a>
                                     </c:when>
                                     <c:otherwise>
                                         <a href="DeleteUserSerlvet?user_id=${user.user_ID}&action=unban&txtSearch=${param.txtSearch}" 
-                                           class="btn btn-success">Kích hoạt</a>
+                                           class="button btn btn-success">Kích hoạt</a>
                                     </c:otherwise>
                                 </c:choose></td>
                         </form>

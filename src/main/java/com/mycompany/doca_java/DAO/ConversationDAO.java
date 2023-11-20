@@ -232,6 +232,29 @@ public class ConversationDAO {
         }
     }
 
+    public void updateStatusToComplete(int productID, int buyerID) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String updateSql = "UPDATE [dbo].[conversation] SET [status] = 'complete' WHERE [product_id] = ? AND [buyer_id] = ?";
+                stm = con.prepareStatement(updateSql);
+                stm.setInt(1, productID);
+                stm.setInt(2, buyerID);
+
+                stm.executeUpdate();
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
     public void updateConversationToReject(int productID, int buyerID) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

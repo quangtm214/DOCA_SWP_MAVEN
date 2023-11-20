@@ -41,7 +41,46 @@
 
 
     </head>
+    <style>
+        .display {
+            transition: transform 0.3s, filter 0.3s;
+            margin-left:10px;
+            margin-right:10px;
+        }
 
+        .display:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+        .denied {
+            transition: transform 0.3s, filter 0.3s;
+            margin-left:10px;
+            margin-right:10px;
+        }
+
+        .denied:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+        .waiting {
+            transition: transform 0.3s, filter 0.3s;
+            margin-left:10px;
+            margin-right:10px;
+        }
+
+        .waiting:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+        .action {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .action:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+    </style>
     <body>
         <jsp:include page="header.jsp" />
         <c:set var="listPostOfPersonal" value="${requestScope.listPostOfPersonal}"/>
@@ -84,16 +123,16 @@
                                 <div class="container justify-content-center">
 
                                     <ul class="nav nav-tabs border-0">
-                                        <li class="nav-item rounded-pill">
+                                        <li class="nav-item rounded-pill display">
                                             <a class="nav-link active rounded-pill mt-1" href="#display" role="tab"
                                                data-toggle="tab"><strong style="color: black;">Đang hiển thị</strong></a>
                                         </li>
-                                        <li class="nav-item rounded-pill">
+                                        <li class="nav-item rounded-pill denied">
                                             <a class="nav-link rounded-pill mt-1" href="#denied" role="tab"
                                                data-toggle="tab"><strong style="color: black;">Bị từ
                                                     chối</strong></a>
                                         </li>
-                                        <li class="nav-item rounded-pill">
+                                        <li class="nav-item rounded-pill waiting">
                                             <a class="nav-link rounded-pill mt-1" href="#waiting" role="tab"
                                                data-toggle="tab"><strong style="color: black;">Chờ
                                                     duyệt</strong></a>
@@ -111,24 +150,23 @@
                                 <c:forEach items="${listPostOfPersonal}" var="post">
                                     <c:if test="${post.status eq 'approved'}">
                                         <c:set var="countDisplay" value="${count + 1}" />
-                                        <img class="col-sm-6 image-content mt-5 img-fluid"
-                                             src="${post.postImage}" alt="Hình ảnh">
-
                                         <div class="font">
                                             <p>${post.postContent}</p>
                                         </div>
+                                        <img class="col-sm-6 image-content img-fluid"
+                                             src="${post.postImage}" alt="Hình ảnh">                                       
                                         <p>
                                             Bài viết đang ở chế độ:
                                             <span class="${post.isPublic() ? 'text-success' : 'text-danger'}">
                                                 ${post.isPublic() ? 'Công khai' : 'Ẩn'}
                                             </span>
                                         </p>
-                                        <button class="btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
+                                        <button class="action btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
                                         <!--                                        <form action="DeletePostByUserServlet">
                                                                                     <input type="hidden" name="postId" value="${post.postId}" />
                                                                                     <input type="submit" value="xoá bài viết">
                                                                                 </form>-->
-                                        <a class="btn btn-secondary" href="SetIsPublicPost?postId=${post.postId}&isPublic=${post.isPublic()}">
+                                        <a class="action btn btn-secondary" href="SetIsPublicPost?postId=${post.postId}&isPublic=${post.isPublic()}">
                                             <c:choose>
                                                 <c:when test="${post.isPublic()}">
                                                     Ẩn bài viết <i class="fa fa-eye-slash"></i>
@@ -213,7 +251,7 @@
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <div class="row">
                                                                 <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
-                                                                <button type="submit" class="btn btn-primary col-sm-2 p-0" >Cập nhật</button>
+                                                                <button type="submit" class="action btn btn-primary col-sm-2 p-0" >Cập nhật</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -234,117 +272,14 @@
                                 <c:forEach items="${listPostOfPersonal}" var="post">
                                     <c:if test="${post.status eq 'rejected'}">
                                         <c:set var="countDenied" value="${count + 1}" />
-
-                                        <img class="col-sm-6 image-content mt-5 img-fluid"
-                                             src="${post.postImage}" alt="Hình ảnh">
                                         <div class="font">
                                             <p>${post.postContent}</p>
                                         </div>
+                                        <img class="col-sm-6 image-content img-fluid"
+                                             src="${post.postImage}" alt="Hình ảnh">
+
                                         <p>Lí do từ chối: ${post.reason}</p>
-                                        <button class="btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
-                                        <!-- Popup Form -->
-                                        <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                             aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                <form  action="UpdatePostByUserServlet" onsubmit="return validateFormUpdate()" method="post" enctype="multipart/form-data" >
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa bài viết</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                    aria-label="Close">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="mb-3">
-                                                                <div class="form-check form-check-inline">
-                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox1"
-                                                                           value="5" <c:forEach var="categorys" items="${post.categoryId}">
-                                                                               <c:if test="${categorys == 5}">checked</c:if>
-                                                                           </c:forEach>
-                                                                           >
-                                                                    <label class="form-check-label" for="inlineCheckbox1">Câu chuyện</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline">
-                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox2" 
-                                                                           value="6" <c:forEach var="categorys" items="${post.categoryId}">
-                                                                               <c:if test="${categorys == 6}">checked</c:if>
-                                                                           </c:forEach>
-                                                                           >
-                                                                    <label class="form-check-label" for="inlineCheckbox2">Mẹo huấn luyện</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline">
-                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox3"
-                                                                           value="7" <c:forEach var="categorys" items="${post.categoryId}">
-                                                                               <c:if test="${categorys == 7}">checked</c:if>
-                                                                           </c:forEach>
-                                                                           >
-                                                                    <label class="form-check-label" for="inlineCheckbox3">Mẹo chăm sóc</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline">
-                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox4"
-                                                                           value="8" <c:forEach var="categorys" items="${post.categoryId}">
-                                                                               <c:if test="${categorys == 8}">checked</c:if>
-                                                                           </c:forEach>
-                                                                           >
-                                                                    <label class="form-check-label" for="inlineCheckbox4">Sự kiện</label>
-                                                                </div>
-                                                                <div class="form-check form-check-inline">
-                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox5"
-                                                                           value="9" <c:forEach var="categorys" items="${post.categoryId}">
-                                                                               <c:if test="${categorys == 9}">checked</c:if>
-                                                                           </c:forEach>
-                                                                           >
-                                                                    <label class="form-check-label" for="inlineCheckbox5">Chó mèo thất lạc</label>
-                                                                </div>
-                                                                <p id="error-message" style="color: red; display: none;">Vui lòng chọn ít nhất một checkbox.</p>
-                                                            </div><!-- comment -->
-
-
-                                                            <div class="mb-3">
-                                                                <label for="message-text" class="col-form-label">Nội dung:</label>
-                                                                <textarea name="content" class="form-control" id="message-text" rows="7">${post.postContent}</textarea>
-                                                            </div>
-                                                            <img class="col-sm-6 image-content mt-5 img-fluid"
-                                                                 src="${post.postImage}" alt="Hình ảnh">
-                                                            <div class="mb-3">
-                                                                <label for="formFile" class="form-label"><i class="fa fa-picture-o"></i>
-                                                                    Chọn ảnh mới: </label>
-                                                                <input class="form-control" type="file" id="formFile" name="file"  multiple>
-                                                                <input type="hidden" name="OldImg" value="${post.postImage}" />
-                                                                <img id="previewImage" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
-                                                            </div>
-                                                        </div>
-                                                       <div class="modal-footer container">
-                                                            <input type="hidden" name="postId" value="${post.postId}" />
-                                                            <div class="row">
-                                                                <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
-                                                                <button type="submit" class="btn btn-primary col-sm-2 p-0" >Cập nhật</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>  
-                                            </div>
-                                        </div>
-
-
-                                        <hr>
-                                    </c:if>
-                                </c:forEach>
-                                <c:if test="${countDenied eq 0}">
-                                    <p>${Message}</p>
-                                </c:if>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade " id="waiting">
-                                <c:set var="countWaiting" value="0" />
-                                <c:forEach items="${listPostOfPersonal}" var="post">
-                                    <c:if test="${post.status eq 'pending'}">
-                                        <c:set var="countWaiting" value="${count + 1}" />
-                                        <c:set var="countDisplay" value="${count + 1}" />
-                                        <img class="col-sm-6 image-content mt-5 img-fluid"
-                                             src="${post.postImage}" alt="Hình ảnh">
-                                        <div class="font">
-                                            <p>${post.postContent}</p>
-                                        </div>
-                                        <button class="btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
+                                        <button class="action btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
                                         <!-- Popup Form -->
                                         <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                              aria-hidden="true">
@@ -420,7 +355,111 @@
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <div class="row">
                                                                 <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
-                                                                <button type="submit" class="btn btn-primary col-sm-2 p-0" >Cập nhật</button>
+                                                                <button type="submit" class="action btn btn-primary col-sm-2 p-0" >Cập nhật</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>  
+                                            </div>
+                                        </div>
+
+
+                                        <hr>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${countDenied eq 0}">
+                                    <p>${Message}</p>
+                                </c:if>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade " id="waiting">
+                                <c:set var="countWaiting" value="0" />
+                                <c:forEach items="${listPostOfPersonal}" var="post">
+                                    <c:if test="${post.status eq 'pending'}">
+                                        <c:set var="countWaiting" value="${count + 1}" />
+                                        <c:set var="countDisplay" value="${count + 1}" />
+                                        <div class="font">
+                                            <p>${post.postContent}</p>
+                                        </div>
+                                        <img class="col-sm-6 image-content img-fluid"
+                                             src="${post.postImage}" alt="Hình ảnh">
+                                        <p>Trạng thái bài đăng: Chờ duyệt</p>
+                                        <button class="action btn btn-primary" onclick="openEditForm(${post.postId})">Sửa bài viết</button>
+                                        <!-- Popup Form -->
+                                        <div class="modal fade" id="edit-form${post.postId}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                <form  action="UpdatePostByUserServlet" onsubmit="return validateFormUpdate()" method="post" enctype="multipart/form-data" >
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa bài viết</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox1"
+                                                                           value="5" <c:forEach var="categorys" items="${post.categoryId}">
+                                                                               <c:if test="${categorys == 5}">checked</c:if>
+                                                                           </c:forEach>
+                                                                           >
+                                                                    <label class="form-check-label" for="inlineCheckbox1">Câu chuyện</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox2" 
+                                                                           value="6" <c:forEach var="categorys" items="${post.categoryId}">
+                                                                               <c:if test="${categorys == 6}">checked</c:if>
+                                                                           </c:forEach>
+                                                                           >
+                                                                    <label class="form-check-label" for="inlineCheckbox2">Mẹo huấn luyện</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox3"
+                                                                           value="7" <c:forEach var="categorys" items="${post.categoryId}">
+                                                                               <c:if test="${categorys == 7}">checked</c:if>
+                                                                           </c:forEach>
+                                                                           >
+                                                                    <label class="form-check-label" for="inlineCheckbox3">Mẹo chăm sóc</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox4"
+                                                                           value="8" <c:forEach var="categorys" items="${post.categoryId}">
+                                                                               <c:if test="${categorys == 8}">checked</c:if>
+                                                                           </c:forEach>
+                                                                           >
+                                                                    <label class="form-check-label" for="inlineCheckbox4">Sự kiện</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline">
+                                                                    <input name="categoryInUpdate" class="form-check-input" type="checkbox" id="inlineCheckbox5"
+                                                                           value="9" <c:forEach var="categorys" items="${post.categoryId}">
+                                                                               <c:if test="${categorys == 9}">checked</c:if>
+                                                                           </c:forEach>
+                                                                           >
+                                                                    <label class="form-check-label" for="inlineCheckbox5">Chó mèo thất lạc</label>
+                                                                </div>
+                                                                <p id="error-message" style="color: red; display: none;">Vui lòng chọn ít nhất một checkbox.</p>
+                                                            </div><!-- comment -->
+
+
+                                                            <div class="mb-3">
+                                                                <label for="message-text" class="col-form-label">Nội dung:</label>
+                                                                <textarea name="content" class="form-control" id="message-text" rows="7">${post.postContent}</textarea>
+                                                            </div>
+                                                            <img class="col-sm-6 image-content mt-5 img-fluid"
+                                                                 src="${post.postImage}" alt="Hình ảnh">
+                                                            <div class="mb-3">
+                                                                <label for="formFile" class="form-label"><i class="fa fa-picture-o"></i>
+                                                                    Chọn ảnh mới: </label>
+                                                                <input class="form-control" type="file" id="formFile" name="file"  multiple>
+                                                                <input type="hidden" name="OldImg" value="${post.postImage}" />
+                                                                <img id="previewImage" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer container">
+                                                            <input type="hidden" name="postId" value="${post.postId}" />
+                                                            <div class="row">
+                                                                <p class="col-sm-10 m-0 text-warning">Xác nhận cập nhật sẽ đưa bài viết của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là hợp lý</p>
+                                                                <button type="submit" class="action btn btn-primary col-sm-2 p-0" >Cập nhật</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -441,7 +480,7 @@
 
             </div>
         </div>
-                                
+
         <script>
             function validateFormUpdate() {
                 var checkboxes = document.querySelectorAll('input[name="categoryInUpdate"]');
@@ -508,6 +547,6 @@
                 reader.readAsDataURL(file);
             });
         </script>
-      
+
     </body>
 </html>

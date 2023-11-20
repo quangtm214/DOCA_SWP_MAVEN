@@ -48,6 +48,18 @@
         <!-- Link JS -->
 
     </head>
+
+    <style>
+        .button {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .button:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+    </style>
+
     <body>
         <!--set var-->
         <c:set var="Products" value="${requestScope.listOfProduct}"/>
@@ -125,12 +137,12 @@
                                                             <input type="hidden" name="productId" value="${product.productId}" />
                                                             <input type="hidden" name="productTitle" value="${product.title}" />
                                                             <input type="hidden" name="userId" value="${product.userId}" />
-                                                            <button class="btn btn-success approval-button" name="status" value="approve"><i class="fa-solid fa-check"></i> Duyệt</button>
+                                                            <button class="button btn btn-success approval-button" name="status" value="approve"><i class="fa-solid fa-check"></i> Duyệt</button>
                                                         </form>
                                                     </div>
                                                     <div class="col-sm-6"></div>
                                                     <div class="col-sm-3">
-                                                        <button class="btn btn-danger rejection-button" onclick="showForm(${product.productId})"><i class="fa-solid fa-xmark"></i> Không duyệt</button>
+                                                        <button class="button btn btn-danger rejection-button" onclick="showForm(${product.productId})"><i class="fa-solid fa-xmark"></i> Không duyệt</button>
                                                     </div>
                                                 </div>
                                             </div>

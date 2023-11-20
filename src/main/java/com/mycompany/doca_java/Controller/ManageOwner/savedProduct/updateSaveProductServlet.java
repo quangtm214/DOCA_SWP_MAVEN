@@ -110,6 +110,8 @@ public class updateSaveProductServlet extends HttpServlet {
                     }
                 } else if (isSaved.equals(statusResale)) {
                     boolean result = dao.setStatusSaveProductByUID(account.getUser_ID(), productID, isSaved, statusWating);//get userID form sessionScope
+//                    noDes = Username + " đã quan tâm lại sản phẩm " + " - " + first80Chars;
+//                    notiDao.insertNotification(OnerProductID, noDes, timeNotification);
                     if (result) {
                         url = "filterProduct"
                                 + "?city=" + local

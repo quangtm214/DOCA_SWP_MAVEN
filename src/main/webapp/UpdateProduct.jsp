@@ -57,6 +57,17 @@
         </script>
     </head>
 
+    <style>
+        .confirm-btn {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .confirm-btn:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+    </style>
+
     <body>
         <jsp:include page="header.jsp" />
         <c:set var="Product" value="${requestScope.productDetail}"/>
@@ -98,7 +109,7 @@
                             <div id="input-container" style="display: none;">
                                 <label for="input-fee">Giá:</label>
                                 <input type="text" name="input-fee" id="input-fee" class="form-control" value="${Product.price}">
-                                 <p id="ErrorFee" class="mb-0 text-danger"></p>
+                                <p id="ErrorFee" class="mb-0 text-danger"></p>
                                 <br>
                             </div>
                             <br>
@@ -116,7 +127,7 @@
                         <!-- bat dau modal -->
                         <div class="container mt-3 p-0">
                             <!--Button mở modal--> 
-                            <button type="button" class="btn btn-primary form-control" data-toggle="modal"
+                            <button type="button" class="confirm-btn btn btn-primary form-control" data-toggle="modal"
                                     data-target="#myModal">
                                 Địa chỉ
                             </button>
@@ -161,14 +172,14 @@
                                 </div>
                             </div>
                         </div>
-                        <p class=" mb-0 mt-2 text-success">Xác nhận cập nhật sẽ đưa sản phẩm của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là phù hợp</p>
-                        <button  type="submit" class="submit mt-5 mb-5 btn btn-primary form-control" value="UpdateProduct">xác nhận sửa sản phẩm</button>
+                        <p class="mb-0 mt-2 text-success">Xác nhận cập nhật sẽ đưa sản phẩm của bạn về trạng thái chờ duyệt hãy chắc rằng những thay đổi của bạn là phù hợp</p>
+                        <button  type="submit" class="confirm-btn submit mt-5 mb-5 btn btn-primary form-control" value="UpdateProduct">xác nhận sửa sản phẩm</button>
 
                     </form>
                 </div>
             </div>
         </div>
-       
+
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>

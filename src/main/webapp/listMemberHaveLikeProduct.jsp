@@ -64,7 +64,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th scope="col">Avatar</th>
+                                            <th scope="col">Ảnh đại diện</th>
                                             <th scope="col">Tên người quan tâm</th>
                                             <th scope="col">Thời gian</th>
                                             <th scope="col"></th>

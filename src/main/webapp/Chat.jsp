@@ -63,6 +63,25 @@
                 color: orange;
 
             }
+            .chat-point:hover{
+                cursor: pointer;
+            }
+            .cancel {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .cancel:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
+            .success {
+                transition: transform 0.3s, filter 0.3s;
+            }
+
+            .success:hover {
+                transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+                filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+            }
         </style>
     </head>
 
@@ -115,7 +134,7 @@
 
                                                                             <a class=" Conversation-name "
                                                                                onclick="loadMessages(${conversation.conversation_id},${AnotherUserID});">  
-                                                                                <small class="d-inline-block text-truncate"  style="color: black;max-width: 150px; max-height: 3em;"> ${Product.title}</small>
+                                                                                <small class="d-inline-block text-truncate chat-point"  style="color: black;max-width: 150px; max-height: 3em;"> ${Product.title}</small>
                                                                             </a>
 
                                                                         </div>
@@ -137,10 +156,34 @@
                                                         <c:if test="${conversation.status=='approve'}">
                                                             <div class="row">
                                                                 <div class="col-md-6 p-0">
-                                                                    <p style="color: #119077;">Giao dịch hoàn tất</p> 
+                                                                    <p style="color: #119077;">
+                                                                        <small>Giao dịch đang thực hiện</small>
+                                                                    </p> 
                                                                 </div>
                                                                 <div class="col-md-6 p-0">
-                                                                    <a onclick="openFeedbackForm(${conversation.conversation_id})">
+                                                                    <button class="success rounded-pill" style="background-color: #2874A6;" 
+                                                                            data-toggle="tooltip"
+                                                                            data-placement="top" title="Bạn đã nhận được sản phẩm từ người bán."
+                                                                            >
+                                                                        <a class="text-dark" href="completeConversation?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
+                                                                            Đã nhận hàng
+                                                                        </a>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${conversation.status=='complete'}">
+                                                            <div class="row">
+                                                                <div class="col-md-6 p-0">
+                                                                    <p style="color: #E3B71A;">
+                                                                        <small>Giao dịch thành công</small>
+                                                                    </p> 
+                                                                </div>
+                                                                <div class="col-md-6 p-0">
+                                                                    <a onclick="openFeedbackForm(${conversation.conversation_id})"
+                                                                       data-toggle="tooltip"
+                                                                       data-placement="top" title="Đánh giá người bán và sản phẩm."
+                                                                       >
                                                                         <p style="color: #95A5A6;">
                                                                             Đánh giá người bán
                                                                         </p>
@@ -148,6 +191,7 @@
                                                                 </div>
                                                             </div>
                                                         </c:if>
+
                                                         <c:if test="${conversation.status == 'reject'}">
                                                             <p>
                                                                 <small class="" style="color: #EC7063;">Giao dịch đã bị hủy 
@@ -158,7 +202,7 @@
 
                                                         </c:if>
                                                         <c:if test="${Product.status=='saled'}">
-                                                            <c:if test="${conversation.status !='approve'}">
+                                                            <c:if test="${conversation.status !='approve' && conversation.status !='complete' }">
                                                                 <p><small style="color: #6330B7;">Rất tiếc: Sản phẩm đã bán cho người khác</small></p>
                                                             </c:if>
                                                         </c:if> 
@@ -167,10 +211,15 @@
                                                         <c:if test="${conversation.status == 'approve'}">
                                                             <div class="row m-0">
                                                                 <div class="col-md-7 pr-0">
-                                                                    <p style="color: #119077;">Giao dịch hoàn tất</p> 
+                                                                    <p style="color: #119077;">
+                                                                        <small>Giao dịch đang thực hiện</small>
+                                                                    </p> 
                                                                 </div>
                                                                 <div class="col-md-5 p-0">
-                                                                    <button class="rounded-pill" style="background-color: #EC7063;" >
+                                                                    <button class="cancel rounded-pill" style="background-color: #EC7063;" 
+                                                                            data-toggle="tooltip"
+                                                                            data-placement="top" title="Hủy giao dịch khi khách hàng đổi ý hoặc không nhận hàng."
+                                                                            >
                                                                         <a class="text-dark" href="cancelTransaction?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
                                                                             Hủy giao dịch
                                                                         </a>
@@ -180,12 +229,15 @@
                                                         </c:if>
                                                         <c:if test="${conversation.status == 'waiting'}">
                                                             <c:if test="${Product.status=='saled'}">
-                                                                <p><small style="color: #F02100;">Sản phẩm đã giao dịch thành công với khách hàng khác</small></p>
+                                                                <p><small style="color: #F02100;">Sản phẩm đã giao dịch với khách hàng khác</small></p>
                                                             </c:if>
                                                             <c:if test="${Product.status =='approved'}">
-                                                                <button class="rounded-pill" style="background-color: #4BAC74;" >
+                                                                <button class="success rounded-pill" style="background-color: #4BAC74;" 
+                                                                        data-toggle="tooltip"
+                                                                        data-placement="top" title="Xác nhận sẽ giao dịch với khách hàng này."
+                                                                        >
                                                                     <a class="text-dark" href="confirmSave?buyerID=${conversation.buyer_id }&producID=${Product.productId}">
-                                                                        Hoàn thành giao dịch
+                                                                        Chấp nhận giao dịch
                                                                     </a>
                                                                 </button>
                                                             </c:if>
@@ -196,7 +248,14 @@
                                                                     <i class="fa fa-exclamation"></i>
                                                                 </small>
                                                             </p>
-
+                                                        </c:if>
+                                                        <c:if test="${conversation.status == 'complete'}">
+                                                            <p style="color: #E3B71A;"
+                                                               data-toggle="tooltip"
+                                                               data-placement="top" title="Cuộc giao dịch thành công."
+                                                               >
+                                                                <small>Khách hàng đã nhận được sản phẩm</small>
+                                                            </p> 
                                                         </c:if>
                                                     </c:if>
 

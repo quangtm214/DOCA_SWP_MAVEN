@@ -1,7 +1,7 @@
 <%-- 
-    Document   : Product_Saved
-    Created on : Oct 14, 2023, 10:57:46 AM
-    Author     : Admin
+Document   : Product_Saved
+Created on : Oct 14, 2023, 10:57:46 AM
+Author     : Admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -133,7 +133,7 @@
                                                                             </a>
                                                                         </span>
                                                                     </div>
-                                                                    <p>Rất tiếc: Sản phẩm này đã được bán cho người khác</p>
+                                                                    <p style="color: #6330B7;">Rất tiếc: Sản phẩm này đã được bán cho người khác</p>
                                                                 </c:if>
                                                                 <c:if test="${save.statusMatch=='resale'}">
                                                                     <div class="d-flex justify-content-between align-items-center">

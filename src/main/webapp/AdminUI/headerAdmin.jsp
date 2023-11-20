@@ -15,6 +15,14 @@
         right: 18%;
         z-index: 9999;
     }
+    .button {
+        transition: transform 0.3s, filter 0.3s;
+    }
+
+    .button:hover {
+        transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+        filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+    }
 </style>
 <header>
     <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
@@ -29,14 +37,14 @@
                 <div class="container-fluid d-flex justify-content-between navbar-contain mt-5   ">
                     <h1>Trang quản lý </h1>
                     <div>
-                        <a class="btn btn-light border-0 rounded-pill button_in_header" href="#" role="button" onclick="toggleMenuForm()">
+                        <a class="button btn btn-light border-0 rounded-pill button_in_header" href="#" role="button" onclick="toggleMenuForm()">
                             <img src="${Owner.avatar}"
                                  alt="Profile Image"
                                  class="rounded-circle profile-image" 
                                  style="width: 30px; height: 30px;">
                             ${Owner.userName}
                         </a>
-                        <a class="btn btn-light border-0 rounded-pill button_in_header" href="LogOutServlet" role="button" onclick="toggleMenuForm()">
+                        <a class="button btn btn-light border-0 rounded-pill button_in_header" href="LogOutServlet" role="button" onclick="toggleMenuForm()">
                             logout
                         </a>
                     </div>

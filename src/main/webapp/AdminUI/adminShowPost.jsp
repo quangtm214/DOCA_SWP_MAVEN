@@ -48,6 +48,18 @@
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
         <!-- Link JS -->
     </head>
+    
+    <style>
+        .button {
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .button:hover {
+            transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
+            filter: brightness(90%); /* Màu tối đi khi di chuột vào */
+        }
+    </style>
+    
     <body>
         <!--set var-->
         <c:set var="listPost" value="${requestScope.listofPost}"/>
@@ -118,12 +130,12 @@
                                                             <input type="hidden" name="postId" value="${post.postId}" />
                                                             <input type="hidden" name="postDes" value="${post. postContentFormat()}" />
                                                             <input type="hidden" name="userId" value="${post.userId}" />
-                                                            <button class="btn btn-success approval-button" name="status" value="approved"><i class="fa-solid fa-check"></i>Duyệt</button>
+                                                            <button class="button btn btn-success approval-button" name="status" value="approved"><i class="fa-solid fa-check"></i>Duyệt</button>
                                                         </form>
                                                     </div>
                                                     <div class="col-sm-5"></div>
                                                     <div class="col-sm-4">
-                                                        <button class="btn btn-danger rejection-button" onclick="showForm(${post.postId})"><i class="fa-solid fa-xmark"></i>Không duyệt</button>
+                                                        <button class="button btn btn-danger rejection-button" onclick="showForm(${post.postId})"><i class="fa-solid fa-xmark"></i>Không duyệt</button>
                                                     </div>
                                                 </div>
                                             </div>
