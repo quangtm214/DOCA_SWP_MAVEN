@@ -695,4 +695,52 @@ public class userDAO {
 
         return ListOfUser;
     }
+
+    public List<userDTO> getRankUserInForum(String status) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<userDTO> userList = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT TOP 5 [post].[user_id], [users].[username], [users].[avatar], COUNT(*) AS post_count\n"
+                        + "FROM [dbo].[post]\n"
+                        + "JOIN [dbo].[users] ON [post].[user_id] = [users].[user_id]\n"
+                        + "WHERE [post].[status] = ? "
+                        + "      AND MONTH([post].[timePosted]) = MONTH(GETDATE())\n"
+                        + "      AND YEAR([post].[timePosted]) = YEAR(GETDATE())\n"
+                        + "      AND [users].[status] = 1\n"
+                        + "GROUP BY [post].[user_id], [users].[username], [users].[avatar]\n"
+                        + "ORDER BY post_count DESC";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, status); // Use '%' as a wildcard for a partial match
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int user_ID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String avatar = rs.getString("avatar");
+                    int countPost = rs.getInt("post_count");
+                    userDTO dto = new userDTO(user_ID, userName, avatar, countPost);
+                    userList.add(dto);
+                }
+            }
+        } finally {
+            // Close resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return userList;
+    }
 }

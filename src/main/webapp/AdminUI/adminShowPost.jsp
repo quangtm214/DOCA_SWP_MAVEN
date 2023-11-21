@@ -48,7 +48,7 @@
         <link rel="stylesheet" href="assets/css/forum-style-V3.css">
         <!-- Link JS -->
     </head>
-    
+
     <style>
         .button {
             transition: transform 0.3s, filter 0.3s;
@@ -59,7 +59,7 @@
             filter: brightness(90%); /* Màu tối đi khi di chuột vào */
         }
     </style>
-    
+
     <body>
         <!--set var-->
         <c:set var="listPost" value="${requestScope.listofPost}"/>
@@ -104,8 +104,8 @@
             <div class="tab-content ">
                 <div class=" tab-pane fade show active container" id="forum">
                     <div class="row">
-                        <div class="col-sm-2"></div>
-                        <div class="list-group col-sm-8">
+
+                        <div class="list-group col-md-8">
                             <c:forEach items="${listPost}" var="post">
                                 <div class="list-group-item list-group-item-action">
                                     <div class="post my-4 border rounded position-relative">
@@ -165,7 +165,11 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        <div class="col-sm-2"></div>
+                        <div class="col-md-4">
+                            <c:set var="listTop" value="${requestScope.TopUserPost}"/>
+                            <jsp:include page="topUser.jsp" />
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -212,10 +216,12 @@
             <%-- Kiểm tra giá trị của messShift và hiển thị thông báo alert --%>
             <% if (request.getAttribute("messShift") != null) { %>
             <script>
-            alert("<%= request.getAttribute("messShift") %>");
+                alert("<%= request.getAttribute("messShift") %>");
             </script>
             <% } %>
             <!--set var-->
+
+        
 
         </div>
     </body>

@@ -5,6 +5,7 @@
 package com.mycompany.doca_java.Controller.Admin;
 
 import com.mycompany.doca_java.DAO.PostDAO;
+import com.mycompany.doca_java.DAO.userDAO;
 import com.mycompany.doca_java.DTO.PostDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
@@ -29,9 +30,9 @@ import javax.naming.NamingException;
 @WebServlet(name = "AdminManageForumPostServlet", urlPatterns = {"/AdminManageForumPostServlet"})
 public class AdminManageForumPostServlet extends HttpServlet {
 
-    private final String adminShowProduct = "AdminUI/adminShowPost.jsp";
+    private final String adminShowPost = "AdminUI/adminShowPost.jsp";
     private final String status = "pending";
-
+  private final String statusapproved = "approved";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -67,7 +68,10 @@ public class AdminManageForumPostServlet extends HttpServlet {
                 }
                 if (listPost != null) {
                     request.setAttribute("listofPost", listPost);
-                    url = adminShowProduct;
+                    url = adminShowPost;
+                    userDAO udao = new userDAO();
+                    List<userDTO> listUserByRank = udao.getRankUserInForum(statusapproved);
+                    request.setAttribute("TopUserPost", listUserByRank);
                 }
             }
         } catch (SQLException ex) {

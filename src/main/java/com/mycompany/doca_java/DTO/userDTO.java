@@ -22,6 +22,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class userDTO implements Serializable {
+
     private int user_ID;
     private String userName;
     private String password;
@@ -31,6 +32,21 @@ public class userDTO implements Serializable {
     private boolean status;
     private boolean roleID;
     private String avatar;
+
+    private int countPostOfMonth;
+
+    public userDTO(int user_ID, String userName, String password, String gender, String email, String mobileNum, boolean status, boolean roleID, String avatar) {
+        this.user_ID = user_ID;
+        this.userName = userName;
+        this.password = password;
+        this.gender = gender;
+        this.email = email;
+        this.mobileNum = mobileNum;
+        this.status = status;
+        this.roleID = roleID;
+        this.avatar = avatar;
+
+    }
 
     public userDTO(String userName, String password, String gender, String email, String mobileNum, boolean status, boolean roleID, String avatar) {
         this.userName = userName;
@@ -42,7 +58,12 @@ public class userDTO implements Serializable {
         this.roleID = roleID;
         this.avatar = avatar;
     }
-    
-    
-    
+
+    public userDTO(int user_ID, String userName, String avatar, int countPostOfMonth) {
+        this.user_ID = user_ID;
+        this.userName = userName;
+        this.avatar = avatar;
+        this.countPostOfMonth = countPostOfMonth;
+    }
+
 }

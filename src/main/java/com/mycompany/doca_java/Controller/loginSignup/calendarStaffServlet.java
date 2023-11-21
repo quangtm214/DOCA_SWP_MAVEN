@@ -76,14 +76,23 @@ public class calendarStaffServlet extends HttpServlet {
 
                     // Chuyển đổi sang kiểu LocalTime
                     LocalTime localStartTime = startTime.toLocalTime();
-                    LocalTime localEndTime = endTime.toLocalTime();
+                    LocalTime localEndTime = localStartTime.plusHours(8);
+                    // LocalTime localEndTime = endTime.toLocalTime();
                     // So sánh giờ hiện tại với khoảng giờ startTime và endTime
-                    if (currentTime.isAfter(localStartTime) && currentTime.isBefore(localEndTime)) {
+                    LocalTime gio22 = LocalTime.of(22, 0);
+                    if (currentTime.isAfter(gio22)) {
                         request.setAttribute("messShift", "Ca làm việc: " + localStartTime + "-" + localEndTime);
                         url = Admin_page;
                         foundShift = true; // Đặt foundShift thành true nếu tìm thấy ca làm việc
-                        break;
+                    } else {
+                        if (currentTime.isAfter(localStartTime) && currentTime.isBefore(localEndTime)) {
+                            request.setAttribute("messShift", "Ca làm việc: " + localStartTime + "-" + localEndTime);
+                            url = Admin_page;
+                            foundShift = true; // Đặt foundShift thành true nếu tìm thấy ca làm việc
+                            break;
+                        }
                     }
+
                 }
             }
 

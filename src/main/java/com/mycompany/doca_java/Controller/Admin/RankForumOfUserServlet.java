@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.doca_java.Controller.ManageOwner.personal_Product;
+package com.mycompany.doca_java.Controller.Admin;
 
-import com.mycompany.doca_java.DAO.ConversationDAO;
-import com.mycompany.doca_java.DAO.ProductDAO;
-import com.mycompany.doca_java.DAO.saveProductDAO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.doca_java.DAO.userDAO;
+import com.mycompany.doca_java.DTO.userDTO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,23 +16,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "cancelTransaction", urlPatterns = {"/cancelTransaction"})
-public class cancelTransaction extends HttpServlet {
+@WebServlet(name = "RankForumOfUserServlet", urlPatterns = {"/RankForumOfUserServlet"})
+public class RankForumOfUserServlet extends HttpServlet {
 
-    private final String statusSaled = "saled";
-    private final String statusWating = "waiting";
-    private final String statusReject = "reject";
-    private final String statusBanned = "ban";
-    private final String statusUnfollow = "unfollow";
-    private final String statusResale = "resale";
-    private final String statusApprove = "approved";
-    private final String GET_CONVERSATIONLIST = "getConversationServlet";
+    private final String status = "approved";
+    private final String DashBoardPage = "AdminUI/topUser.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,38 +42,26 @@ public class cancelTransaction extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         String url = "";
         try {
-            String productId = request.getParameter("producID");
-            String buyerID = request.getParameter("buyerID");
-            saveProductDAO dao = new saveProductDAO();
-            ConversationDAO cDao = new ConversationDAO();
-            boolean rs = cDao.updateConversationToReject(Integer.parseInt(productId), Integer.parseInt(buyerID));
-            if (rs) {
-                ProductDAO pdao = new ProductDAO();
-                boolean result = false;
-                dao.setStatusSaveProduct(Integer.parseInt(productId), statusReject, statusResale);
-                dao.setStatusSaveProduct(Integer.parseInt(productId), statusUnfollow, statusResale);
-                dao.setStatusSaveProductByUID(Integer.parseInt(buyerID), Integer.parseInt(productId), statusSaled, statusBanned);
-//            dao.setRejectSaveProduct(Integer.parseInt(productId), statusSaled, statusBanned);
-                pdao.setStatusProduct(Integer.parseInt(productId), statusApprove);
+            response.setContentType("text/html;charset=UTF-8");
+            userDAO dao = new userDAO();
+            List<userDTO> listUserByRank = dao.getRankUserInForum(status);
+            request.setAttribute("TopUserPost", listUserByRank);
+//            ObjectMapper mapper = new ObjectMapper();
+//            String json = mapper.writeValueAsString(listUserByRank);
+//            response.getWriter().write(json);
 
-                request.setAttribute("MssCancelSuccess", "Xác nhận hủy giao dịch thành công");
-                url = GET_CONVERSATIONLIST;
-            } else {
-                request.setAttribute("MssCancelSuccess", "Người mua đã xác nhận nhận được hàng");
-                url = GET_CONVERSATIONLIST;
-            }
-
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (NamingException ex) {
-            ex.printStackTrace();
+            url = DashBoardPage;
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RankForumOfUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(RankForumOfUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect(url);
+//            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+//            dispatcher.forward(request, response);
         }
     }
 
