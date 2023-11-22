@@ -523,7 +523,7 @@ public class userDAO {
         return user;
     }
 
-    public List<userDTO> getUsersByRoleIdTrue() throws SQLException, ClassNotFoundException, NamingException {
+    public List<userDTO> getUsersByRoleIdTrue(int index) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -534,9 +534,12 @@ public class userDAO {
             if (con != null) {
                 String sql = "SELECT [user_id], [username], [password], [Gender], [email], [mobile_num], [status], [role_id], [avatar] "
                         + "FROM [DOCA_platform].[dbo].[users] "
-                        + "WHERE [role_id] = 1"; // Assuming 1 represents true for role_id
+                        + "WHERE [role_id] = 1 "
+                        + "ORDER BY [user_id] OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
 
                 stm = con.prepareStatement(sql);
+                stm.setInt(1, (index - 1) * 6);
+
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
@@ -555,6 +558,7 @@ public class userDAO {
                 }
             }
         } finally {
+            // Close resources
             if (rs != null) {
                 rs.close();
             }
@@ -742,5 +746,135 @@ public class userDAO {
         }
 
         return userList;
+    }
+
+    public int countUsersWithRoleIdTrue() throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int userCount = 0;
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT(*) AS userCount FROM [DOCA_platform].[dbo].[users] WHERE role_id = 1";
+                stm = con.prepareStatement(sql);
+
+                rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    userCount = rs.getInt("userCount");
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+
+            if (stm != null) {
+                stm.close();
+            }
+
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return userCount;
+    }
+
+    public int countSearch(String txtSearch) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBconnect.makeConnection();
+
+            if (con != null) {
+                String sql = "SELECT COUNT(*) AS total FROM users WHERE username LIKE ? AND role_id <> 0";
+                stm = con.prepareStatement(sql);
+
+                stm.setString(1, "%" + txtSearch + "%");
+
+                rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } finally {
+            // Close resources (ResultSet, PreparedStatement, and Connection)
+            if (rs != null) {
+                rs.close();
+            }
+
+            if (stm != null) {
+                stm.close();
+            }
+
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return 0;
+    }
+
+    public List<userDTO> searchByUsername(String username, int index) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<userDTO> userList = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [user_id], [username], [password], [Gender], [email], [mobile_num], [status], [role_id], [avatar]\n"
+                        + "FROM [DOCA_platform].[dbo].[users]\n"
+                        + "WHERE [username] LIKE ?\n"
+                        + "ORDER BY [user_id] OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";  // Assuming you want to fetch 6 records per page
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + username + "%"); // Use '%' as a wildcard for a partial match
+                stm.setInt(2, (index - 1) * 6); // Assuming 6 records per page and index starting from 1
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int user_ID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String password = rs.getString("password");
+                    String Gender = rs.getString("Gender");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("mobile_num");
+                    boolean status = rs.getBoolean("status");
+                    boolean roleID = rs.getBoolean("role_id");
+                    String avatar = rs.getString("avatar");
+
+                    userDTO user = new userDTO(user_ID, userName, password, Gender, email, phone, status, roleID, avatar);
+
+                    if (this.ListOfUser == null) {
+                        this.ListOfUser = new ArrayList<>();
+                    }
+
+                    if (user.isRoleID()) {
+                        this.ListOfUser.add(user);
+                    }
+                }
+            }
+        } finally {
+            // Close resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return ListOfUser;
     }
 }

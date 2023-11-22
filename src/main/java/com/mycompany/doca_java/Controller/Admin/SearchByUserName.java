@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -39,15 +40,29 @@ public class SearchByUserName extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         String username = request.getParameter("txtSearch").trim();
-
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int index = Integer.parseInt(indexPage);
         try {
             userDAO userDAO = new userDAO();
-            List<userDTO> userList = userDAO.searchByUsername(username);
+            int count = userDAO.countSearch(username);
+            int endPage = count / 6;
+            if (count % 6 != 0) {
+                endPage++;
+            }
+            request.setAttribute("endPage", endPage);
+            List<userDTO> userList = userDAO.searchByUsername(username, index);
+
             if (userList != null) {
                 // Set the search results as a request attribute
                 request.setAttribute("userList", userList);
-            }else{
+                request.setAttribute("save", username);
+                session.setAttribute("indexStay", index);
+            } else {
                 request.setAttribute("ErroMessage", "Không tìm thấy tài khoản có tên : ");
             }
 

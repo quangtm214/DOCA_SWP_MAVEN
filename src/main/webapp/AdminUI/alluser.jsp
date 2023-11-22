@@ -49,8 +49,8 @@
 
 
     </head>
-    
-        <style>
+
+    <style>
         .button {
             transition: transform 0.3s, filter 0.3s;
         }
@@ -60,7 +60,7 @@
             filter: brightness(90%); /* Màu tối đi khi di chuột vào */
         }
     </style>
-    
+
     <body>
         <jsp:include page="headerAdmin.jsp" />
 
@@ -147,7 +147,17 @@
                     </tbody>
                 </table>
             </div>
+            <nav aria-label="Page navigation ">
+                <ul class="pagination justify-content-center">
+                    <c:forEach begin="1" end="${endPage}" var="a">
+                        <li class="page-item  ${indexStay==a?"active":""}" >
+                            <a class="page-link  ml-2 mt-4" href="SearchByUserName?index=${a}&txtSearch=${save}">${a}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </nav>
         </div>
+
 
         <script>
             function redirectToProductServlet() {

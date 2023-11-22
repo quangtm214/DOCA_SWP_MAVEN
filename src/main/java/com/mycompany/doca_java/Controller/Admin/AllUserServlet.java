@@ -43,14 +43,26 @@ public class AllUserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int index = Integer.parseInt(indexPage);
         try {
             if (!account.isRoleID()) {
                 // Gọi DAO để lấy danh sách người dùng có role_id = true
                 userDAO userDAO = new userDAO();
-                List<userDTO> userList = userDAO.getUsersByRoleIdTrue();
+                int countProduct = userDAO.countUsersWithRoleIdTrue();
+                int endPage = countProduct / 6;
+                if (countProduct % 6 != 0) {
+                    endPage++;
+                }
+                request.setAttribute("endPage", endPage);
+
+                List<userDTO> userList = userDAO.getUsersByRoleIdTrue(index);
                 // Đặt danh sách người dùng vào thuộc tính của request
                 request.setAttribute("userList", userList);
-
+                session.setAttribute("indexStay", index);
                 // Chuyển hướng đến trang JSP để hiển thị thông tin người dùng
             }
         } catch (ClassNotFoundException ex) {
