@@ -76,6 +76,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab"  href="#">Tài khoản</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToCelendar()">Lịch làm việc</a>
+                </li>
             </ul>
             <form action="DispatchServlet" method="POST" class="mb-3">
                 <div class="input-group">
@@ -165,6 +168,9 @@
             }
             function redirectToPostServlet() {
                 window.location.href = "AdminManageForumPostServlet";
+            }
+            function redirectToCelendar() {
+                window.location.href = "manageCalendar";
             }
         </script>
     </body>

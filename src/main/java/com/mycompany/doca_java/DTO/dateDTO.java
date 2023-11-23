@@ -4,36 +4,35 @@
  */
 package com.mycompany.doca_java.DTO;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
-
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ *
+ * @author Admin
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-/**
- *
- * @author Admin
- */
-public class CelanderAdminDTO implements Serializable {
-
-    private int staff_Id;
-    private int shiftId;
+public class dateDTO {
     private LocalDate date;
-    private String shift;
-    private String status;
-    private Time startTime;
-    private Time endTime;
+    private String day;
+    private int dayOfWeek;
+    private int dayOfMonth;
+    private int dayOfYear;
+    private LocalDate previousDay;
+    private LocalDate nextDay;
+    private int weekOfYear;
+    private String month;
+    private int monthOfYear;
+    private int quarterOfYear;
+    private int year;
+    private boolean isWeekend;
+    
 }

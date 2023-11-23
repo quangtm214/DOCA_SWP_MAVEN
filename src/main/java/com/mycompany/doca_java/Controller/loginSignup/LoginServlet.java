@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -46,6 +47,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        ServletContext context = getServletContext();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String url = "";
@@ -63,7 +65,13 @@ public class LoginServlet extends HttpServlet {
 //                response.addCookie(cookies);
                     }
                     if (!account.isRoleID()) {
-                        url = Admin_Calendar;
+                        if (account.getUser_ID() != 1032) {
+                            url = Admin_Calendar;
+                        } else {
+                            url = Admin_page;
+                            context.setAttribute("foundShift", true
+                            );
+                        }
                         HttpSession session = request.getSession(true);
                         session.setAttribute("USER_NAME", account);
                     }

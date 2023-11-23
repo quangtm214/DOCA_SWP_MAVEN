@@ -78,6 +78,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Tài khoản</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToCelendar()">Lịch làm việc</a>
+                </li>
             </ul>
             <form id="filterForm" action="AdminManageProductPostServlet" >
                 <script>
@@ -177,6 +180,9 @@
                                     }
                                     function redirectToUserServlet() {
                                         window.location.href = "AllUserServlet";
+                                    }
+                                    function redirectToCelendar() {
+                                        window.location.href = "manageCalendar";
                                     }
                                 </script>
                                 <!--</form>-->

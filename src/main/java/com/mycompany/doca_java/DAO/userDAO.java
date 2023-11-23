@@ -877,4 +877,57 @@ public class userDAO {
 
         return ListOfUser;
     }
+
+    public List<userDTO> getUsersByRoleID(int roleID) throws SQLException, ClassNotFoundException, NamingException {
+        List<userDTO> userList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                // Create the SQL query string with a parameter for roleID
+                String sql = "SELECT [user_id], [username], [password], [Gender], [email], [mobile_num], [status], [role_id], [avatar]\n"
+                        + "FROM [DOCA_platform].[dbo].[users]\n"
+                        + "WHERE [role_id] = ?";
+
+                // Create the prepared statement and set the roleID parameter
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, roleID);
+
+                // Execute the query
+                rs = stm.executeQuery();
+
+                // Process the results
+                while (rs.next()) {
+                    int user_ID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String password = rs.getString("password");
+                    String gender = rs.getString("Gender").trim();
+                    String email = rs.getString("email");
+                    String phone = rs.getString("mobile_num");
+                    boolean status = rs.getBoolean("status");
+                    boolean role_ID = rs.getBoolean("role_id");
+                    String avatar = rs.getString("avatar");
+
+                    userDTO user = new userDTO(user_ID, userName, password, gender, email, phone, status, role_ID, avatar);
+
+                    // Add the user to the list
+                    userList.add(user);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return userList;
+    }
 }

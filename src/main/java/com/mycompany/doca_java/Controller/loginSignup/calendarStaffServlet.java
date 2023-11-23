@@ -8,6 +8,7 @@ import com.mycompany.doca_java.DAO.CalendarAdminDAO;
 import com.mycompany.doca_java.DTO.CelanderAdminDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -37,6 +38,7 @@ public class calendarStaffServlet extends HttpServlet {
 
     private final String Admin_page = "AdminManageForumPostServlet";
     private final String Erro = "login.jsp";
+    private final String manageCalendar = "manageCalendar";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,6 +52,7 @@ public class calendarStaffServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = "";
+        ServletContext context = getServletContext();
         try {
             response.setContentType("text/html;charset=UTF-8");
 
@@ -80,7 +83,8 @@ public class calendarStaffServlet extends HttpServlet {
                     // LocalTime localEndTime = endTime.toLocalTime();
                     // So sánh giờ hiện tại với khoảng giờ startTime và endTime
                     LocalTime gio22 = LocalTime.of(22, 0);
-                    if (currentTime.isAfter(gio22)) {
+                    LocalTime gio6 = LocalTime.of(06, 0);
+                    if (currentTime.isAfter(gio22)||currentTime.isBefore(gio6)) {
                         request.setAttribute("messShift", "Ca làm việc: " + localStartTime + "-" + localEndTime);
                         url = Admin_page;
                         foundShift = true; // Đặt foundShift thành true nếu tìm thấy ca làm việc
@@ -102,10 +106,11 @@ public class calendarStaffServlet extends HttpServlet {
 //                CelanderAdminDTO shiftNear = dao.getNearShiftAdById(admin.getUser_ID(), dateNow);
                 request.setAttribute("messnotShift",
                         "Chưa đến ca làm của bạn.");
-                //+ "Ca làm việc của bạn sẽ bắt đầu lúc : " + shiftNear.getStartTime() + "-" + shiftNear.getEndTime() + " /Ngày: " + shiftNear.getDate()
-                url = Erro;
-            }
 
+                //+ "Ca làm việc của bạn sẽ bắt đầu lúc : " + shiftNear.getStartTime() + "-" + shiftNear.getEndTime() + " /Ngày: " + shiftNear.getDate()
+                url = manageCalendar;
+            }
+            context.setAttribute("foundShift", foundShift);
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
