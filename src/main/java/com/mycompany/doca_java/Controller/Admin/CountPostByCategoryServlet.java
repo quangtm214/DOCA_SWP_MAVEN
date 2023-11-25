@@ -4,9 +4,8 @@
  */
 package com.mycompany.doca_java.Controller.Admin;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.doca_java.DAO.userDAO;
-import com.mycompany.doca_java.DTO.userDTO;
+import com.mycompany.doca_java.DAO.categoryDAO;
+import com.mycompany.doca_java.DTO.categoryDTO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,11 +24,10 @@ import javax.naming.NamingException;
  *
  * @author Admin
  */
-@WebServlet(name = "RankForumOfUserServlet", urlPatterns = {"/RankForumOfUserServlet"})
-public class RankForumOfUserServlet extends HttpServlet {
+@WebServlet(name = "CountPostByCategoryServlet", urlPatterns = {"/CountPostByCategoryServlet"})
+public class CountPostByCategoryServlet extends HttpServlet {
 
-    private final String status = "approved";
-    private final String DashBoardPage = "AdminUI/topUser.jsp";
+    private final String CircleChartPage = "AdminUI/circleChart.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,23 +43,21 @@ public class RankForumOfUserServlet extends HttpServlet {
         String url = "";
         try {
             response.setContentType("text/html;charset=UTF-8");
-            userDAO dao = new userDAO();
-            List<userDTO> listUserByRank = dao.getRankUserInForum(status);
-            request.setAttribute("TopUserPost", listUserByRank);
-//            ObjectMapper mapper = new ObjectMapper();
-//            String json = mapper.writeValueAsString(listUserByRank);
-//            response.getWriter().write(json);
-
-            url = DashBoardPage;
+            categoryDAO dao = new categoryDAO();
+            List<categoryDTO> list = dao.getCountPostByCategory();
+            if (list != null) {
+                request.setAttribute("ListPercentagePostByCategory", list);
+                url = CircleChartPage;
+            }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(CountPostByCategoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RankForumOfUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CountPostByCategoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
-            Logger.getLogger(RankForumOfUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CountPostByCategoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-//            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//            dispatcher.forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 

@@ -64,11 +64,16 @@ public class calendarStaffServlet extends HttpServlet {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = currentDate.format(formatter);
             Date dateNow = Date.valueOf(formattedDate);
-
+            LocalTime gio6 = LocalTime.of(06, 0);
+            LocalTime currentTime = LocalTime.now();
+            if (currentTime.isBefore(gio6)) {
+                LocalDate localDateNow = dateNow.toLocalDate();
+                LocalDate subtractedDate = localDateNow.minusDays(1);
+                dateNow = java.sql.Date.valueOf(subtractedDate);
+            }
             CalendarAdminDAO dao = new CalendarAdminDAO();
             List<CelanderAdminDTO> listCale = dao.getAllCalendarAdById(admin.getUser_ID(), dateNow);
             // Giờ hiện tại
-            LocalTime currentTime = LocalTime.now();
 
             boolean foundShift = false; // Thêm biến foundShift
 
@@ -83,8 +88,8 @@ public class calendarStaffServlet extends HttpServlet {
                     // LocalTime localEndTime = endTime.toLocalTime();
                     // So sánh giờ hiện tại với khoảng giờ startTime và endTime
                     LocalTime gio22 = LocalTime.of(22, 0);
-                    LocalTime gio6 = LocalTime.of(06, 0);
-                    if (currentTime.isAfter(gio22)||currentTime.isBefore(gio6)) {
+
+                    if (currentTime.isAfter(gio22) || currentTime.isBefore(gio6)) {
                         request.setAttribute("messShift", "Ca làm việc: " + localStartTime + "-" + localEndTime);
                         url = Admin_page;
                         foundShift = true; // Đặt foundShift thành true nếu tìm thấy ca làm việc

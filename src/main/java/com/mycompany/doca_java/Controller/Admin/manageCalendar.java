@@ -48,16 +48,17 @@ public class manageCalendar extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         ServletContext context = getServletContext();
-        String url="";
+        String url = "";
         try {
             weekDAO wDao = new weekDAO();
             LocalDate currentDate = java.time.LocalDate.now();
             wDao.getAllTheWeek();
             List<weekDTO> ListOfWeek = wDao.getListOfWeek();
             for (weekDTO week : ListOfWeek) {
-                if (currentDate.isAfter(week.getStartDate()) && currentDate.isBefore(week.getEndDate())) {
-                    String selectedWeek= week.getStartDate()+"/"+week.getEndDate();
-                    url="MangeDateInWeek?selectedWeek="+selectedWeek;
+                if (currentDate.isEqual(week.getStartDate()) || currentDate.isEqual(week.getEndDate())
+                        || (currentDate.isAfter(week.getStartDate()) && currentDate.isBefore(week.getEndDate()))) {
+                    String selectedWeek = week.getStartDate() + "/" + week.getEndDate();
+                    url = "MangeDateInWeek?selectedWeek=" + selectedWeek;
 //                    LocalDate inWeek = week.getStartDate();
 //                    dateDAO dDao = new dateDAO();
 //                    List<dateDTO> listDateInWeek = dDao.getWeeksInRange(week.getStartDate(), week.getEndDate());

@@ -21,6 +21,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class categoryDTO implements Serializable {
+
     private int categoryID;
-    private String categoryName;  
+    private String categoryName;
+    private int count;
+
+    public categoryDTO(int categoryID, String categoryName) {
+        this.categoryID = categoryID;
+        this.categoryName = categoryName;
+    }
+
 }

@@ -103,8 +103,8 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active container" id="product">
                     <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="list-group col-sm-10">
+<!--                        <div class="col-sm-1"></div>-->
+                        <div class="list-group col-md-8">
                             <c:forEach items="${Products}" var="product">
                                 <!--<form action="ManagePostProductServlet">-->
                                 <div class="list-group-item list-group-item-action p-0">
@@ -220,7 +220,9 @@
                                 </script>
                             </c:forEach>
                         </div>
-                        <div class="col-sm-1"></div>
+                        <div class="col-md-4">
+                            <jsp:include page="circleChartProduct.jsp" />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -23,15 +23,24 @@
         transform: scale(1.05); /* Hiệu ứng nổi lên khi di chuột vào */
         filter: brightness(90%); /* Màu tối đi khi di chuột vào */
     }
+    a.button.btn.btn-light.border-0.rounded-pill.button_in_header {
+        background-color: black;
+        color: white;
+    }
+    .container-fluid.d-flex.justify-content-center {
+        background-color: #24202c;
+        color: white;
+    }
 </style>
 <header>
+    <title>ADMIN | DOCA</title>
     <c:set var="Owner" value="${sessionScope.USER_NAME}"/>
     <form action="DispatchServlet" method="post">
         <nav class="navbar navbar-dark navbar-expand-sm fixed-top navbar-color p-0 header">
             <div class="container-fluid d-flex justify-content-center">
                 <nav class="navbar navbar-light">
                     <a class="navbar-brand" href="#">
-                        <img src="assets/images/logoDoca.png" class="rounded-circle" width="100px" height="100px" alt="">
+                        <img src="assets/images/logo.png" class="rounded-circle" width="100px" height="100px" alt="">
                     </a>
                 </nav>
                 <div class="container-fluid d-flex justify-content-between navbar-contain mt-5   ">

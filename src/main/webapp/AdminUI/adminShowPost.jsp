@@ -78,7 +78,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToUserServlet()">Tài khoản</a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab"  onclick="redirectToCelendar()">Lịch làm việc</a>
                 </li>
             </ul>
@@ -171,6 +171,7 @@
                         <div class="col-md-4">
                             <c:set var="listTop" value="${requestScope.TopUserPost}"/>
                             <jsp:include page="topUser.jsp" />
+                            <jsp:include page="circleChart.jsp" />
                         </div>
 
                     </div>

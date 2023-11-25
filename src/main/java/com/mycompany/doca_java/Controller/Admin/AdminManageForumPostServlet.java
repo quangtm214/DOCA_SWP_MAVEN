@@ -5,8 +5,10 @@
 package com.mycompany.doca_java.Controller.Admin;
 
 import com.mycompany.doca_java.DAO.PostDAO;
+import com.mycompany.doca_java.DAO.categoryDAO;
 import com.mycompany.doca_java.DAO.userDAO;
 import com.mycompany.doca_java.DTO.PostDTO;
+import com.mycompany.doca_java.DTO.categoryDTO;
 import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -32,7 +34,8 @@ public class AdminManageForumPostServlet extends HttpServlet {
 
     private final String adminShowPost = "AdminUI/adminShowPost.jsp";
     private final String status = "pending";
-  private final String statusapproved = "approved";
+    private final String statusapproved = "approved";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,6 +75,11 @@ public class AdminManageForumPostServlet extends HttpServlet {
                     userDAO udao = new userDAO();
                     List<userDTO> listUserByRank = udao.getRankUserInForum(statusapproved);
                     request.setAttribute("TopUserPost", listUserByRank);
+                    categoryDAO cdao = new categoryDAO();
+                    List<categoryDTO> list = cdao.getCountPostByCategory();
+                    if (list != null) {
+                        request.setAttribute("ListPercentagePostByCategory", list); 
+                    }
                 }
             }
         } catch (SQLException ex) {
