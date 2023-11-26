@@ -18,7 +18,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 
-        <title>Forum</title>
+        <title>DOCA</title>
         <!-- Link Iconn  -->
         <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/fontawesome.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -177,7 +177,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="align-middle">Ca 3 (22:00 - 14:00)</td>
+                                        <td class="align-middle">Ca 3 (22:00 - 06:00)</td>
                                         <c:forEach items="${listDateInWeek}" var="date">
                                             <c:set var="AdminInSlot3" value=""/>
                                             <c:forEach items="${listCelanderAdmin}" var="celanderAdmin">
@@ -262,7 +262,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="align-middle">Ca 3 (22:00 - 14:00)</td>
+                                        <td class="align-middle">Ca 3 (22:00 - 06:00)</td>
                                         <c:forEach items="${listDateInWeek}" var="date">
                                             <c:set var="AdminInSlot3" value=""/>
                                             <c:forEach items="${listCelanderAdmin}" var="celanderAdmin">

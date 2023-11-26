@@ -16,7 +16,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 
 
-        <title>Forum</title>
+        <title>DOCA</title>
         <!-- Link Iconn  -->
         <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/fontawesome.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -107,17 +107,21 @@
 
                                 </div>
                                 <div class="row product ">
+                                    <c:set var="countProduct" value="0"/>
                                     <c:forEach items="${listProduct}" var="product">
-                                        <c:if test="${product.productId == feedbackWBuyer.getFeedback().getProduct_id()}">
-                                            <a href="productDetailServlet?productId=${product.productId}" class="row m-0" style="width: 100%" >
-                                                <img src="${product.productImage}"
-                                                     class="col-sm-4 p-0"
-                                                     alt="product Image"
-                                                     style=" object-fit: cover;
-                                                     border-radius: 10%;  max-width: 56px;
-                                                     max-height: 56px;">
-                                                <p class="col-sm-8">${product.title}</p>
-                                            </a>
+                                        <c:if test="${countProduct==0}">
+                                            <c:if test="${product.productId == feedbackWBuyer.getFeedback().getProduct_id()}">
+                                                <c:set var="countProduct" value="${countProduct + 1}"/>
+                                                <a href="productDetailServlet?productId=${product.productId}" class="row m-0" style="width: 100%" >
+                                                    <img src="${product.productImage}"
+                                                         class="col-sm-4 p-0"
+                                                         alt="product Image"
+                                                         style=" object-fit: cover;
+                                                         border-radius: 10%;  max-width: 56px;
+                                                         max-height: 56px;">
+                                                    <p class="col-sm-8">${product.title}</p>
+                                                </a>
+                                            </c:if>
                                         </c:if>
                                     </c:forEach>
                                 </div>
@@ -128,7 +132,7 @@
                 </div>
             </div>
         </div>
-                                 
+
     </body>
 </html>
 

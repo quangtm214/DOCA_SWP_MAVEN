@@ -18,7 +18,7 @@ Author     : Admin
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 
-        <title>Forum</title>
+        <title>DOCA</title>
         <!-- Link Iconn  -->
         <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/fontawesome.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -62,6 +62,10 @@ Author     : Admin
             .font a{
                 text-decoration: none;
             }
+            .image{
+                width:203px;
+                height: 203px;
+            }
         </style>
 
     </head>
@@ -96,7 +100,7 @@ Author     : Admin
 
                                     <c:forEach items="${listOfProduct}" var="porduct">
                                         <div class=" card  col-3 justify-content-center saved">
-                                            <img class="image" src="${porduct.productImage}" alt="Hình ảnh">
+                                            <img class="image " src="${porduct.productImage}" alt="Hình ảnh">
                                             <div class="card-body">
                                                 <div class="font">
                                                     <a href="productDetailServlet?productId=${porduct.productId}">

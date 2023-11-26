@@ -13,7 +13,7 @@
         <!-- Bootstrap CSS -->
 
 
-        <title>Forum</title>
+        <title>DOCA</title>
         <!-- Link Iconn  -->
         <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/fontawesome.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

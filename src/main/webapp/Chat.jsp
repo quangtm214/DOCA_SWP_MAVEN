@@ -18,7 +18,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 
-        <title>Forum</title>
+        <title>DOCA</title>
         <!-- Link Iconn  -->
         <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/fontawesome.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -199,10 +199,9 @@
                                                                     Bạn không thể theo dõi sản phẩm này nữa
                                                                 </small>
                                                             </p>
-
                                                         </c:if>
                                                         <c:if test="${Product.status=='saled'}">
-                                                            <c:if test="${conversation.status !='approve' && conversation.status !='complete' }">
+                                                            <c:if test="${conversation.status !='approve' && conversation.status !='complete' && conversation.status != 'reject' }">
                                                                 <p><small style="color: #6330B7;">Rất tiếc: Sản phẩm đã bán cho người khác</small></p>
                                                             </c:if>
                                                         </c:if> 
