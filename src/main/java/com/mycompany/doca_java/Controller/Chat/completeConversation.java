@@ -50,8 +50,7 @@ public class completeConversation extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

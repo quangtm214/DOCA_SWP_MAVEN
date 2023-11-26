@@ -41,30 +41,29 @@ public class createMessage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
-        
-        try  {
+
+        try {
             String message = request.getParameter("message");
             int conversationID = Integer.parseInt(request.getParameter("conversationID"));
             // Lấy ngày và giờ hiện tại
             LocalDateTime currentDateTime = LocalDateTime.now();
             // Chuyển đổi thành kiểu dữ liệu Timestamp
             Timestamp timePosted = Timestamp.valueOf(currentDateTime);
-            MessageDTO messageDTO= new MessageDTO(conversationID,account.getUser_ID(), message, timePosted);
-             MessageDAO dao = new MessageDAO();
+            MessageDTO messageDTO = new MessageDTO(conversationID, account.getUser_ID(), message, timePosted);
+            MessageDAO dao = new MessageDAO();
             dao.createMessage(messageDTO);
-        }catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } catch (NamingException ex) {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally{
-            
+        } finally {
+
         }
     }
 
@@ -95,7 +94,7 @@ public class createMessage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
+
     }
 
     /**

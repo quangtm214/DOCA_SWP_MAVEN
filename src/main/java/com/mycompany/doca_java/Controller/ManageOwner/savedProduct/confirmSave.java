@@ -10,6 +10,7 @@ import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.saveProductDAO;
 import com.mycompany.doca_java.DTO.ProductDTO;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -48,6 +49,7 @@ public class confirmSave extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        ServletContext context = getServletContext();
         String url = "";
 //         LocalDateTime currentDateTime = LocalDateTime.now();
 //        Timestamp timeNotification = Timestamp.valueOf(currentDateTime);
@@ -82,7 +84,7 @@ public class confirmSave extends HttpServlet {
 //                        notiDao.insertNotification(userID, noDes, timeNotification);
 //                    }
 //                }
-                request.setAttribute("MssSaledSuccess", "Xác nhận giao dịch thành công");
+//                context.setAttribute("MssSaledSuccess", "Xác nhận giao dịch thành công");
                 url = GET_CONVERSATIONLIST;
             }
 
@@ -93,8 +95,7 @@ public class confirmSave extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

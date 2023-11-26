@@ -748,6 +748,98 @@ public class userDAO {
         return userList;
     }
 
+    public List<userDTO> getRankUserBySales() throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<userDTO> userList = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT TOP 5 [users].[user_id], [users].[username], [users].[avatar], COUNT(*) AS sales_count\n"
+                        + "FROM [dbo].[conversation]\n"
+                        + "JOIN [dbo].[users] ON [conversation].[seller_id] = [users].[user_id]\n"
+                        + "WHERE [conversation].[status] = 'complete'\n"
+                        + "GROUP BY [users].[user_id], [users].[username], [users].[avatar]\n"
+                        + "ORDER BY sales_count DESC";
+                stm = con.prepareStatement(sql);
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int userID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String avatar = rs.getString("avatar");
+                    int salesCount = rs.getInt("sales_count");
+                    userDTO dto = new userDTO(userID, userName, avatar, salesCount);
+                    userList.add(dto);
+                }
+            }
+        } finally {
+            // Close resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return userList;
+    }
+
+    public List<userDTO> getRankUserByTotalLikes() throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<userDTO> userList = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT TOP 5 [post].[user_id], [users].[username], [users].[avatar], SUM([like].[like_count]) AS total_likes\n"
+                        + "FROM [dbo].[post]\n"
+                        + "JOIN [dbo].[users] ON [post].[user_id] = [users].[user_id]\n"
+                        + "LEFT JOIN (\n"
+                        + "    SELECT [post_id], COUNT(*) AS like_count\n"
+                        + "    FROM [dbo].[like]\n"
+                        + "    GROUP BY [post_id]\n"
+                        + ") AS [like] ON [post].[post_id] = [like].[post_id]\n"
+                        + "GROUP BY [post].[user_id], [users].[username], [users].[avatar]\n"
+                        + "ORDER BY total_likes DESC";
+                stm = con.prepareStatement(sql);
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int userID = rs.getInt("user_id");
+                    String userName = rs.getString("username");
+                    String avatar = rs.getString("avatar");
+                    int totalLikes = rs.getInt("total_likes");
+                    userDTO dto = new userDTO(userID, userName, avatar, totalLikes);
+                    userList.add(dto);
+                }
+            }
+        } finally {
+            // Close resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return userList;
+    }
+
     public int countUsersWithRoleIdTrue() throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;

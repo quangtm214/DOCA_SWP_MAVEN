@@ -23,7 +23,9 @@ import javax.naming.NamingException;
  */
 @WebServlet(name = "SetIsPublic", urlPatterns = {"/SetIsPublic"})
 public class SetIsPublic extends HttpServlet {
- public static final String PERSONAL_PRODUCT_PAGE = "getPersonalProduct";
+
+    public static final String PERSONAL_PRODUCT_PAGE = "getPersonalProduct";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,21 +38,21 @@ public class SetIsPublic extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-          int ProductID = Integer.parseInt(request.getParameter("ProductID"));
-          boolean isPublic= Boolean.parseBoolean(request.getParameter("isPublic"));
+        int ProductID = Integer.parseInt(request.getParameter("ProductID"));
+        boolean isPublic = Boolean.parseBoolean(request.getParameter("isPublic"));
         HttpSession session = request.getSession();
         userDTO account = (userDTO) session.getAttribute("USER_NAME");
-        String IN=request.getParameter("IN");
-         String url = "";
-        try  {
-           if(isPublic==true){
-               isPublic=false;
-           }else{
-               isPublic=true;
-           }
-            ProductDAO dao= new ProductDAO();
-            boolean result=dao.updateIsPublic(ProductID, isPublic);
-            if(result){
+        String IN = request.getParameter("IN");
+        String url = "";
+        try {
+            if (isPublic == true) {
+                isPublic = false;
+            } else {
+                isPublic = true;
+            }
+            ProductDAO dao = new ProductDAO();
+            boolean result = dao.updateIsPublic(ProductID, isPublic);
+            if (result) {
                 session.setAttribute("IN", IN);
                 url = PERSONAL_PRODUCT_PAGE;
             }
@@ -60,8 +62,7 @@ public class SetIsPublic extends HttpServlet {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
-            finally{
+        } finally {
             response.sendRedirect(url);
         }
     }

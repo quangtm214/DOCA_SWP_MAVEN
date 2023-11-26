@@ -75,10 +75,12 @@ public class AdminManageForumPostServlet extends HttpServlet {
                     userDAO udao = new userDAO();
                     List<userDTO> listUserByRank = udao.getRankUserInForum(statusapproved);
                     request.setAttribute("TopUserPost", listUserByRank);
+                    List<userDTO> listUserHaveLikeByRank = udao.getRankUserByTotalLikes();
+                    request.setAttribute("listUserHaveLikeByRank", listUserHaveLikeByRank);
                     categoryDAO cdao = new categoryDAO();
                     List<categoryDTO> list = cdao.getCountPostByCategory();
                     if (list != null) {
-                        request.setAttribute("ListPercentagePostByCategory", list); 
+                        request.setAttribute("ListPercentagePostByCategory", list);
                     }
                 }
             }

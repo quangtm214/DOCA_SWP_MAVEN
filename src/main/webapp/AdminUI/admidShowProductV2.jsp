@@ -221,6 +221,7 @@
                             </c:forEach>
                         </div>
                         <div class="col-md-4">
+                            <jsp:include page="topSeled.jsp" />
                             <jsp:include page="circleChartProduct.jsp" />
                         </div>
                     </div>

@@ -6,8 +6,10 @@ package com.mycompany.doca_java.Controller.Admin;
 
 import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.categoryDAO;
+import com.mycompany.doca_java.DAO.userDAO;
 import com.mycompany.doca_java.DTO.ProductDTO;
 import com.mycompany.doca_java.DTO.categoryDTO;
+import com.mycompany.doca_java.DTO.userDTO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,6 +72,11 @@ public class AdminManageProductPostServlet extends HttpServlet {
             List<categoryDTO> list = cdao.getCountProductByCategory();
             if (list != null) {
                 request.setAttribute("listCount", list);
+            }
+            userDAO udao = new userDAO();
+            List<userDTO> listUserByRank = udao.getRankUserBySales();
+            if (listUserByRank != null) {
+                request.setAttribute("listUserByRank", listUserByRank);
             }
             url = adminShowProduct;
         } catch (SQLException ex) {

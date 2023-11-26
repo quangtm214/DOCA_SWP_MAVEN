@@ -73,7 +73,7 @@ public class getConversationServlet extends HttpServlet {
                         }
                     }
 
-                    if (ListOfPartner != null) {
+                    if (ListOfProductInConversation != null) {
                         session.setAttribute("ListOfProductInConversation", ListOfProductInConversation);
                     }
                     if (ListOfPartner != null) {

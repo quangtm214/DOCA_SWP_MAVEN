@@ -116,6 +116,7 @@
     <body>
         <jsp:include page="header.jsp" />
         <c:set var="listProductOfPersonal" value="${requestScope.listProductOfPersonal}"/>
+        <c:set var="listConverApprove" value="${requestScope.listConverApprove}"/>
         <c:set var="message" value="${requestScope.Message}"/>
         <c:set var="IN" value="${sessionScope.IN}"/>
 
@@ -188,20 +189,37 @@
                                                     </c:if>
                                                 </c:forEach>
                                             </div>
-
-                                            <a class="btn btn-primary update" href="goUpdateProduct?ProductID=${product.productId}&IN=display" >sửa sản phẩm</a>
+                                            <div >
+                                                <div class="d-flex justify-content-end mb-1">
+                                                    <a class="btn btn-primary update" href="goUpdateProduct?ProductID=${product.productId}&IN=display" >Sửa sản phẩm</a>
+                                                </div>
+                                                <div class="d-flex justify-content-end mb-1">
+                                                    <c:set var="countSeling" value="0"/>
+                                                    <c:forEach items="${listConverApprove}" var="conver">
+                                                        <c:if test="${conver.product_id==product.productId}">
+                                                            <c:set var="countSeling" value="${countSeling + 1}"/>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${countSeling == 0}">
+                                                        <a class="btn btn-secondary" href="SetIsPublic?ProductID=${product.productId}&isPublic=${product.isPublic()}&IN=display">
+                                                            <c:choose>
+                                                                <c:when test="${product.isPublic()}">
+                                                                    Ẩn sản phẩm <i class="fa fa-eye-slash"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    Hiện sản phẩm <i class="fa fa-eye"></i>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </a>
+                                                    </c:if>
+                                                    <c:if test="${countSeling != 0}">
+                                                        <p  style="color: #AD8DBA ">
+                                                            Sản phẩm đang có giao dịch
+                                                        </p>
+                                                    </c:if>
+                                                </div> 
+                                            </div>
                                         </div>
-<!--                                        <a class="btn btn-secondary" href="SetIsPublic?ProductID=${product.productId}&isPublic=${product.isPublic()}&IN=display">
-
-                                        <c:choose>
-                                            <c:when test="${product.isPublic()}">
-                                                Ẩn sản phẩm <i class="fa fa-eye-slash"></i>
-                                            </c:when>
-                                            <c:otherwise>
-                                                Hiện sản phẩm <i class="fa fa-eye"></i>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </a>-->
                                         <hr>
                                     </c:if>
                                 </c:forEach>

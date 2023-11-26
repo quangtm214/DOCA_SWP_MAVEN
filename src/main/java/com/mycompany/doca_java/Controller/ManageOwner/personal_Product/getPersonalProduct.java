@@ -4,8 +4,10 @@
  */
 package com.mycompany.doca_java.Controller.ManageOwner.personal_Product;
 
+import com.mycompany.doca_java.DAO.ConversationDAO;
 import com.mycompany.doca_java.DAO.ProductDAO;
 import com.mycompany.doca_java.DAO.saveProductDAO;
+import com.mycompany.doca_java.DTO.ConversationDTO;
 import com.mycompany.doca_java.DTO.ProductDTO;
 import com.mycompany.doca_java.DTO.saveProductDTO;
 import com.mycompany.doca_java.DTO.userDTO;
@@ -60,6 +62,12 @@ public class getPersonalProduct extends HttpServlet {
 
                 if (listOfProduct != null) {
                     List<saveProductDTO> listOfSaveproduct = new ArrayList<>();
+                    List<ConversationDTO> listConverApprove = new ArrayList<>();
+                    ConversationDAO cdao = new ConversationDAO();
+                    listConverApprove = cdao.getListTheConversationBySellerID(account.getUser_ID());
+                    if (listConverApprove != null) {
+                        request.setAttribute("listConverApprove", listConverApprove);
+                    }
                     saveProductDAO sdao = new saveProductDAO();
                     for (ProductDTO productDTO : listOfProduct) {
                         int count = sdao.getCountOfSave(productDTO.getProductId());

@@ -502,13 +502,5 @@
                 input.value = '';
             }
         </script>
-        <script>
-            window.addEventListener('DOMContentLoaded', (event) => {
-                var successMessage = "<c:out value='${MssSaledSuccess}' />";
-                if (successMessage) {
-                    alert(successMessage);
-                }
-            });
-        </script>
     </body>
 </html>

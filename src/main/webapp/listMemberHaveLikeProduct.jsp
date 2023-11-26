@@ -96,11 +96,15 @@
 
                                                     <c:set var="count" value="0" />
                                                     <c:set var="countApprove" value="0" />
+                                                    <c:set var="countComplete" value="0" />
                                                     <c:forEach items="${listConverOfProduct}" var="conversation">
                                                         <c:if test="${conversation.buyer_id == user.user_ID}">
                                                             <c:set var="count" value="${count + 1}" />
                                                             <c:if test="${conversation.status=='approve'}">
                                                                 <c:set var="countApprove" value="${countApprove +1 }" />
+                                                            </c:if>
+                                                            <c:if test="${conversation.status=='complete'}">
+                                                                <c:set var="countComplete" value="${countComplete +1 }" />
                                                             </c:if>
                                                         </c:if>
                                                     </c:forEach>
@@ -117,31 +121,47 @@
                                                             </td>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <c:if test="${countApprove==0}">
-                                                                <td>
-                                                                    <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                                        <button class="rounded-pill" style="background-color: #76D7C4"
-                                                                                data-toggle="tooltip" data-placement="top" title="Đi tới cuộc trò chuyện với ${user.userName}"
-                                                                                >Đang trò chuyện
-                                                                            <i class="fa-regular fa-comments" style="color: black;" ></i>
+                                                            <c:if test="${countApprove == 0}">
+                                                                <c:if test="${countComplete!=0}">
+                                                                    <td>
+                                                                        <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                                            <button class="rounded-pill" style="background-color: #F9E79F "
+                                                                                    data-toggle="tooltip" data-placement="top" title="Bạn đã bán sản phẩm cho ${user.userName}"
+                                                                                    >Đã giao dịch   
+                                                                                <i class="fa-regular fa-handshake" style="color: black;" ></i>
 
-                                                                        </button>
-                                                                    </a>
-                                                                </td>
+                                                                            </button>
+
+                                                                        </a>
+                                                                    </td>
+                                                                </c:if>
+                                                                <c:if test="${countComplete==0}">
+                                                                    <td>
+                                                                        <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
+                                                                            <button class="rounded-pill" style="background-color: #76D7C4"
+                                                                                    data-toggle="tooltip" data-placement="top" title="Đi tới cuộc trò chuyện với ${user.userName}"
+                                                                                    >Đang trò chuyện
+                                                                                <i class="fa-regular fa-comments" style="color: black;" ></i>
+
+                                                                            </button>
+                                                                        </a>
+                                                                    </td>
+                                                                </c:if>
                                                             </c:if>
                                                             <c:if test="${countApprove!=0}">
                                                                 <td>
                                                                     <a href="CreateConversation?ProductID=${productID}&buyerID=${user.user_ID}">
-                                                                        <button class="rounded-pill" style="background-color: #F9E79F "
-                                                                                data-toggle="tooltip" data-placement="top" title="Bạn đã bán sản phẩm cho ${user.userName}"
-                                                                                >Đã giao dịch   
-                                                                            <i class="fa-regular fa-handshake" style="color: black;" ></i>
-
+                                                                        <button class="rounded-pill" style="background-color: #C39BD3 "
+                                                                                data-toggle="tooltip" data-placement="top" title="Bạn đang giao dịch với ${user.userName}"
+                                                                                >Đang giao dịch   
+                                                                            <i class="fa-solid fa-people-carry-box" style="color: black;" ></i>
+                                                                           
                                                                         </button>
 
                                                                     </a>
                                                                 </td>
                                                             </c:if>
+
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </tr>

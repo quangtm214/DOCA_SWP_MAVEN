@@ -74,6 +74,48 @@ public class ConversationDAO {
         }
     }
 
+    public List<ConversationDTO> getListTheConversationBySellerID(int seller_id) throws SQLException, ClassNotFoundException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ConversationDTO> listOfConversation = new ArrayList<>();
+
+        try {
+            con = DBconnect.makeConnection();
+            if (con != null) {
+                String sql = "SELECT [conversation_id], [product_id], [buyer_id], [seller_id], [status]\n"
+                        + "FROM [dbo].[conversation]\n"
+                        + "WHERE [seller_id] = ? AND [status] = 'approve'\n"
+                        + "ORDER BY [conversation_id] DESC";
+
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, seller_id);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int conversation_id = rs.getInt("conversation_id");
+                    int product_id = rs.getInt("product_id");
+                    int buyer_id = rs.getInt("buyer_id");
+                    String status = rs.getString("status");
+                    ConversationDTO conversation = new ConversationDTO(conversation_id, product_id, buyer_id, seller_id, status);
+                    listOfConversation.add(conversation);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return listOfConversation;
+    }
+
     public boolean insertConversation(ConversationDTO conversationDTO) throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
